@@ -42,7 +42,7 @@ vec <- c(1, 3, 9, 27, 81, 243, 729)
 mean(vec)
 #> [1] 156.1429
 
-gm_mean(vec)
+geomean(vec)
 #> [1] 27
 
 }

@@ -90,7 +90,7 @@ Mode <- function(x, na.rm = FALSE, mean = FALSE) {
 #' mean(vec)
 #' #> [1] 156.1429
 #'
-#' gm_mean(vec)
+#' geomean(vec)
 #' #> [1] 27
 #'
 #' @section Authors:
