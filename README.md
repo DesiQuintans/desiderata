@@ -22,13 +22,40 @@ library(desiderata)
 
 ------------------------------------------------------------------------------------------
 
+## Functions included
+
+- **Dataframe functions**
+    - Find and mark the longest run of TRUEs in a boolean vector
+    - Mark the location of the last maximum value (peak) in a vector
+    
+- **File system functions**
+    - Load an RDS file and announce when it was created
+    - Create a folder path
+    
+- **Number functions**
+    - Find the mode(s) of a numeric/character/factor vector
+    - Geometric mean of a vector
+    - Round a number to a fixed decimal place length
+    - Round numbers to the nearest "pretty" value
+    - Seed the random number generator with a character string
+    - Calculate degree-days
+    - Normalise a matrix column-wise between 0 and 1
+    - Normalise a whole matrix between 0 and 1
+    - Concatenate numbers together
+    
+- **Plotting functions**
+    - Desi's `ggplot2` minimal base theme
+    - A palette of 1,022 visually-distinct colours
+
+------------------------------------------------------------------------------------------
+
 ## Dataframe functions
 
 ### Find and mark the longest run of TRUEs in a boolean vector
 
 ``` r
-input <- c(T, T, F, F, F, F, F, T, T, T, T, T, T, F)
-mark_longest_run(input)
+x <- c(T,    T,    F,    F,    F,    F,    F,     T,    T,    T,    T,    T,    T,   F)
+mark_longest_run(x)
 
 #> [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE
 ```
@@ -48,7 +75,7 @@ mark_last_peak(input, threshold = 4)
 
 ## File system functions
 
-### Load an RDS file verbosely
+### Load an RDS file and announce when it was created
 
 ``` r
 data <- loadRDS("path", "to", "data.rds")
@@ -101,7 +128,7 @@ vec <- c(1, 3, 9, 27, 81, 243, 729)
 mean(vec)
 #> [1] 156.1429
 
-gm_mean(vec)
+geomean(vec)
 #> [1] 27
 ```
 ### Round a number to a fixed decimal place length
@@ -192,14 +219,21 @@ ggplot(iris, aes(x = Petal.Length, y = Sepal.Length)) + geom_point() + theme_des
 
 ![](images/theme_desi_base.png)
 
-### 1,022 visually-distinct colours
+### A palette of 1,022 visually-distinct colours
 
 ``` r
-# To get 4 colours:
+# To see all of the colours (ordered left-to-right and top-to-bottom):
+image(apply(matrix(1022:1, ncol = 73, nrow = 14, byrow = TRUE), 1, rev), col = palette_distinct())
+
+# To get the first 4 colours:
 palette_distinct(4)
 
-# To see the colours (ordered left-to-right and top-to-bottom):
-image(apply(matrix(1022:1, ncol = 73, nrow = 14, byrow = TRUE), 1, rev), col = palette_distinct())
+#> [1] "#000000" "#FFFF00" "#1CE6FF" "#FF34FF"
+
+# To pick 4 colours randomly:
+palette_distinct(4, random = TRUE)
+
+#> [1] "#2F2E2C" "#DFE3E6" "#5C424D" "#FFE47D"
 ```
 
 ![](images/palette_distinct.png)
