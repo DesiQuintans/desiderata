@@ -2,7 +2,7 @@
 % Please edit documentation in R/number_tools.R
 \name{normalize_colwise}
 \alias{normalize_colwise}
-\title{Normalise a matrix column-wise between 0 and 1.}
+\title{Normalise a matrix column-wise between 0 and 1}
 \usage{
 normalize_colwise(mat)
 }
@@ -14,7 +14,7 @@ A numeric matrix. The largest value in the column will be \code{1}, and the othe
 values will be proportions compared to that.
 }
 \description{
-Normalise a matrix column-wise between 0 and 1.
+Normalise a matrix column-wise between 0 and 1
 }
 \section{Authors}{
 

@@ -2,7 +2,7 @@
 
 
 
-#' Load an RDS file verbosely
+#' Load an RDS file and announce when it was created
 #'
 #' When you load a RDS file (serialised R objects e.g. a saved dataframe), this function
 #' announces when the file was created so that you can see whether you are using an

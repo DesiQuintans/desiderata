@@ -2,7 +2,7 @@
 % Please edit documentation in R/dataframe_tools.R
 \name{mark_last_peak}
 \alias{mark_last_peak}
-\title{Mark the location of the last maximum value in a vector.}
+\title{Mark the location of the last maximum value in a vector}
 \usage{
 mark_last_peak(vec, threshold = NULL)
 }
@@ -17,7 +17,7 @@ A bool vector of the same length as \code{vec}, with the last maximum marked wit
 a TRUE.
 }
 \description{
-Mark the location of the last maximum value in a vector.
+Mark the location of the last maximum value in a vector
 }
 \section{Authors}{
 

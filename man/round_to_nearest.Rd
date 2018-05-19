@@ -2,7 +2,7 @@
 % Please edit documentation in R/number_tools.R
 \name{round_to_nearest}
 \alias{round_to_nearest}
-\title{Round numbers to a nearest "pretty" value.}
+\title{Round numbers to a nearest "pretty" value}
 \usage{
 round_to_nearest(num, to, dir = NULL)
 }

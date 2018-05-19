@@ -2,7 +2,7 @@
 % Please edit documentation in R/number_tools.R
 \name{round_to_places}
 \alias{round_to_places}
-\title{Round a number to a fixed decimal place length.}
+\title{Round a number to a fixed decimal place length}
 \usage{
 round_to_places(num, places = 2)
 }

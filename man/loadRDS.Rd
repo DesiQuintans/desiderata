@@ -2,7 +2,7 @@
 % Please edit documentation in R/file_tools.R
 \name{loadRDS}
 \alias{loadRDS}
-\title{Load an RDS file verbosely}
+\title{Load an RDS file and announce when it was created}
 \usage{
 loadRDS(...)
 }

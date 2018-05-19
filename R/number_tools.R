@@ -140,7 +140,7 @@ round_to_places <- function(num, places = 2) {
 
 
 
-#' Round numbers to a nearest "pretty" value.
+#' Round numbers to a nearest "pretty" value
 #'
 #' It's sometimes useful to round numbers to a predictable range, e.g. when preparing
 #' graph axes or perhaps for filtering or presenting data. This function can round numbers
@@ -283,7 +283,7 @@ degreedays <- function(min, max, base, method = "modavg") {
 }
 
 
-#' Normalise a matrix column-wise between 0 and 1.
+#' Normalise a matrix column-wise between 0 and 1
 #'
 #' @param mat (Numeric) A numeric matrix.
 #'
@@ -313,7 +313,7 @@ normalize_colwise <- function(mat) {
 }
 
 
-#' Normalise a whole matrix between 0 and 1.
+#' Normalise a whole matrix between 0 and 1
 #'
 #' @param mat (Numeric) A matrix.
 #' @param from_zero (Logical, default `FALSE`) If `FALSE`, the smallest value in the

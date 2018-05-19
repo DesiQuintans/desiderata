@@ -28,7 +28,7 @@ theme_desi_base <- function() {
 
 # Colour palettes -------------------------------------------------------------------
 
-#' 1,022 visually-distinct colours
+#' A palette of 1,022 visually-distinct colours
 #'
 #' There's so many colours, man. Many of these are not colourblind-safe! Many also have
 #' poor contrast against each other, but they can still be differentiated as different
@@ -37,22 +37,29 @@ theme_desi_base <- function() {
 #' many dimensions.
 #'
 #' Code to plot all the colours can be found in the Examples section. You can even use a
-#' colour picker to choose some and be assured that the colours can be differentiated.
+#' colour picker to choose colours from the resulting plot and be assured that they can
+#' be differentiated.
 #'
-#' @param n (Numeric) The number of colours to deliver. These are chosen sequentially from
-#'    the list.
+#' @param n (Numeric) The number of colours to deliver.
+#' @param random (Logical) If `FALSE` (default), you will get `n` colours in the order
+#'    they appear in the list. If `TRUE`, you will get `n` colours chosen randomly.
 #'
 #' @return A character vector of hex colours.
 #' @export
 #'
 #' @examples
-#' # To see the colours (ordered left-to-right and top-to-bottom):
+#' # To see all of the colours (ordered left-to-right and top-to-bottom):
 #' image(apply(matrix(1022:1, ncol = 73, nrow = 14, byrow = TRUE), 1, rev), col = palette_distinct())
 #'
-#' # To get 4 colours:
+#' # To get the first 4 colours:
 #' palette_distinct(4)
 #'
 #' #> [1] "#000000" "#FFFF00" "#1CE6FF" "#FF34FF"
+#'
+#' # To pick 4 colours randomly:
+#' palette_distinct(4, random = TRUE)
+#'
+#' #> [1] "#2F2E2C" "#DFE3E6" "#5C424D" "#FFE47D"
 #'
 #' @section Authors:
 #' - Tatarize (<https://stackoverflow.com/users/631911/tatarize>)
@@ -62,7 +69,7 @@ theme_desi_base <- function() {
 #' <https://stackoverflow.com/a/12224359/5578429>
 #'
 #' @md
-palette_distinct <- function(n = 1022) {
+palette_distinct <- function(n = 1022, random = FALSE) {
     distinct_colours <- c(
         "#000000", "#FFFF00", "#1CE6FF", "#FF34FF", "#FF4A46", "#008941", "#006FA6", "#A30059",
         "#FFDBE5", "#7A4900", "#0000A6", "#63FFAC", "#B79762", "#004D43", "#8FB0FF", "#997D87",
@@ -194,6 +201,10 @@ palette_distinct <- function(n = 1022) {
         "#3D7397", "#CAE8CE", "#D60034", "#AA6746", "#9E5585", "#BA6200"
     )
 
-    return(distinct_colours[1:n])
+    if (random == TRUE) {
+        return(sample(distinct_colours, 4, replace = FALSE))
+    } else {
+        return(distinct_colours[1:n])
+    }
 }
 

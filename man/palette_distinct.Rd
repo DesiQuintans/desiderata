@@ -2,13 +2,15 @@
 % Please edit documentation in R/plot_tools.R
 \name{palette_distinct}
 \alias{palette_distinct}
-\title{1,022 visually-distinct colours}
+\title{A palette of 1,022 visually-distinct colours}
 \usage{
-palette_distinct(n = 1022)
+palette_distinct(n = 1022, random = FALSE)
 }
 \arguments{
-\item{n}{(Numeric) The number of colours to deliver. These are chosen sequentially from
-the list.}
+\item{n}{(Numeric) The number of colours to deliver.}
+
+\item{random}{(Logical) If \code{FALSE} (default), you will get \code{n} colours in the order
+they appear in the list. If \code{TRUE}, you will get \code{n} colours chosen randomly.}
 }
 \value{
 A character vector of hex colours.
@@ -22,7 +24,8 @@ many dimensions.
 }
 \details{
 Code to plot all the colours can be found in the Examples section. You can even use a
-colour picker to choose some and be assured that the colours can be differentiated.
+colour picker to choose colours from the resulting plot and be assured that they can
+be differentiated.
 }
 \section{Authors}{
 
@@ -38,12 +41,17 @@ colour picker to choose some and be assured that the colours can be differentiat
 }
 
 \examples{
-# To see the colours (ordered left-to-right and top-to-bottom):
+# To see all of the colours (ordered left-to-right and top-to-bottom):
 image(apply(matrix(1022:1, ncol = 73, nrow = 14, byrow = TRUE), 1, rev), col = palette_distinct())
 
-# To get 4 colours:
+# To get the first 4 colours:
 palette_distinct(4)
 
 #> [1] "#000000" "#FFFF00" "#1CE6FF" "#FF34FF"
+
+# To pick 4 colours randomly:
+palette_distinct(4, random = TRUE)
+
+#> [1] "#2F2E2C" "#DFE3E6" "#5C424D" "#FFE47D"
 
 }

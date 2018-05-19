@@ -2,7 +2,7 @@
 % Please edit documentation in R/number_tools.R
 \name{normalize_whole}
 \alias{normalize_whole}
-\title{Normalise a whole matrix between 0 and 1.}
+\title{Normalise a whole matrix between 0 and 1}
 \usage{
 normalize_whole(mat, from_zero = FALSE)
 }
@@ -17,7 +17,7 @@ somewhere between 0 and 1.}
 A matrix.
 }
 \description{
-Normalise a whole matrix between 0 and 1.
+Normalise a whole matrix between 0 and 1
 }
 \section{Authors}{
 
@@ -27,13 +27,19 @@ Normalise a whole matrix between 0 and 1.
 }
 
 \examples{
-normalize_whole(matrix(1:4, ncol = 2), from_zero = TRUE)
+mat <- matrix(1:4, ncol = 2)
+
+#>      [,1] [,2]
+#> [1,]    1    3
+#> [2,]    2    4
+
+normalize_whole(mat, from_zero = TRUE)
 
 #>      [,1] [,2]
 #> [1,] 0.25 0.75
 #> [2,] 0.50 1.00
 
-normalize_whole(matrix(1:4, ncol = 2), from_zero = FALSE)
+normalize_whole(mat, from_zero = FALSE)
 
 #>           [,1]      [,2]
 #> [1,] 0.0000000 0.6666667
