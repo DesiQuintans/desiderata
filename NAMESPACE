@@ -2,6 +2,7 @@
 
 export(Mode)
 export(concat_nums)
+export(consecutive_month)
 export(degreedays)
 export(geomean)
 export(loadRDS)
