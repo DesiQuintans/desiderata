@@ -46,6 +46,9 @@ library(desiderata)
 - **Plotting functions**
     - Desi's `ggplot2` minimal base theme
     - A palette of 1,022 visually-distinct colours
+    
+- **Datetime tools**
+    - Find the current month number relative to a starting date
 
 ------------------------------------------------------------------------------------------
 
@@ -237,3 +240,18 @@ palette_distinct(4, random = TRUE)
 ```
 
 ![](images/palette_distinct.png)
+
+## Datetime tools
+
+### Find the current month number relative to a starting date
+
+``` r
+# These are the same thing.
+
+consecutive_month(2015, "2016-02-04")
+consecutive_month("2015-01-01", "2016-02-04")
+#> [1] 14
+
+consecutive_month("2015-02-01", "2016-02-04")
+#> [1] 13
+```
