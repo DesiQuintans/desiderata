@@ -32,9 +32,3 @@ consecutive_month <- function(from, to) {
     month_offset <- (lubridate::year(to) - lubridate::year(startdate)) * 12
     return(month_offset + lubridate::month(to) - (lubridate::month(startdate) - 1))
 }
-<<<<<<< HEAD
-=======
-
-
-con
->>>>>>> c1bcf2863fcf7d93c2fb4ab2235ae7d9e5a6b1e5
