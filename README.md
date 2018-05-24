@@ -8,7 +8,8 @@ Please note that this project is released with a [Contributor Code of Conduct](C
 
 ## What is `desiderata`?
 
-Desiderata is an assorted bunch o' functions that I (Desi) have collected or written as I needed them. 
+Desiderata is an assorted bunch o' functions that I (Desi) have collected or written as I 
+needed them.
 
 ## Installation
 
@@ -30,7 +31,7 @@ library(desiderata)
     
 - **File system functions**
     - Load an RDS file and announce when it was created
-    - Create a folder path
+    - Build a path, creating subfolders if needed
     
 - **Number functions**
     - Find the mode(s) of a numeric/character/factor vector
@@ -87,14 +88,18 @@ data <- loadRDS("path", "to", "data.rds")
 #> It was compiled on 2018-05-16 11:36:05.
 ```
 
-### Create a folder path
+### Build a path, creating subfolders if needed
 
 ``` r
-make_path("path", "subfolder")
+make_path("path", "to", "subfolder")
 
-#> [1] "path/subfolder"
+#> [1] "path/to/subfolder"
 
-# And the path/subfolder/ folders were also created in the working directory.
+# And the path/to/subfolder/ folders were also created in the working directory.
+
+saveRDS(iris, make_path("subfolders/to/compiled/data/iris.rds"))
+
+# Creates all of the subfolders required for writing iris.rds.
 ```
 
 ## Number functions

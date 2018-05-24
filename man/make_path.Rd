@@ -2,7 +2,7 @@
 % Please edit documentation in R/file_tools.R
 \name{make_path}
 \alias{make_path}
-\title{Create a folder path}
+\title{Build a path, creating subfolders if needed}
 \usage{
 make_path(...)
 }
@@ -14,8 +14,8 @@ path as a single string, or incrementally build a path with many strings.}
 (Character) A file path. Automatically adds trailing slashes if required.
 }
 \description{
-Allows you to build a file path using \code{file.path()}, and then makes sure that it
-actually exists by creating the folders in the path if needed.
+Whereas \code{base::file.path()} only concatenates strings to build a path, \code{make_path()}
+\emph{also} makes sure those folders exist.
 }
 \section{Authors}{
 
@@ -25,10 +25,13 @@ actually exists by creating the folders in the path if needed.
 }
 
 \examples{
-make_path("path", "subfolder")
+make_path("path", "to", "subfolder")
 
-#> [1] "path/subfolder"
+#> [1] "path/to/subfolder"
+# And the path/to/subfolder/ folders were also created in the working directory.
 
-# And the path/subfolder/ folders were also created in the working directory.
+saveRDS(iris, make_path("subfolders/to/compiled/data/iris.rds"))
+
+# Creates all of the subfolders required for writing iris.rds.
 
 }
