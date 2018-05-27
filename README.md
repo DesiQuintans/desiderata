@@ -50,6 +50,9 @@ library(desiderata)
     
 - **Datetime tools**
     - Find the current month number relative to a starting date
+    
+- **R tools**
+    - Suppress all console printing (`cat`, `print`, `warning`, `message`)
 
 ------------------------------------------------------------------------------------------
 
@@ -259,4 +262,36 @@ consecutive_month("2015-01-01", "2016-02-04")
 
 consecutive_month("2015-02-01", "2016-02-04")
 #> [1] 13
+```
+
+## R tools
+
+### Suppress all console printing (`cat`, `print`, `warning`, `message`)
+
+``` r
+loud_mean <- function(x) {
+    print("This is from print().")
+    cat("This is from cat().\n")
+    message("This is from message().")
+    warning("This is from warning().")
+    mean(x)
+}
+
+loud_mean(1:100)
+
+#> [1] "This is from print()."
+#> This is from cat().
+#> This is from message().
+#> [1] 50.5
+#> Warning message:
+#>     In loud_mean(1:100) : This is from warning().
+
+shush(loud_mean(1:100))
+
+#> [1] 50.5
+
+# Any expression will work.
+shush(loud_mean(1:100) %>% sqrt())
+
+#> [1] 7.106335
 ```
