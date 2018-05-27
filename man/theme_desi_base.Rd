@@ -20,6 +20,8 @@ theme_desi_base()
 }
 
 \examples{
-ggplot(iris, aes(x = Petal.Length, y = Sepal.Length)) + geom_point() + theme_desi_base()
+# ggplot(iris, aes(x = Petal.Length, y = Sepal.Length)) +
+#     geom_point() +
+#     theme_desi_base()
 
 }

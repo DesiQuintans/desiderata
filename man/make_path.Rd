@@ -25,12 +25,12 @@ Whereas \code{base::file.path()} only concatenates strings to build a path, \cod
 }
 
 \examples{
-make_path("path", "to", "subfolder")
+# make_path("path", "to", "subfolder")
 
 #> [1] "path/to/subfolder"
 # And the path/to/subfolder/ folders were also created in the working directory.
 
-saveRDS(iris, make_path("subfolders/to/compiled/data/iris.rds"))
+# saveRDS(iris, make_path("subfolders/to/compiled/data/iris.rds"))
 
 # Creates all of the subfolders required for writing iris.rds.
 

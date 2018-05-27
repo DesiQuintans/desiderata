@@ -205,7 +205,7 @@ round_to_nearest <- function(num, to, dir = NULL) {
 #' @md
 set.seed.any <- function(seed) {
     hexval <- paste0("0x", digest::digest(seed, "crc32"))
-    intval <- type.convert(hexval) %% .Machine$integer.max
+    intval <- utils::type.convert(hexval) %% .Machine$integer.max
     set.seed(intval)
 }
 

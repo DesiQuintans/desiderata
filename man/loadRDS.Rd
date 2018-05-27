@@ -26,7 +26,7 @@ up-to-date version. Often used in Rmarkdown documents.
 }
 
 \examples{
-data <- loadRDS("path", "to", "data.rds")
+# data <- loadRDS("path", "to", "data.rds")
 
 #> Loading data.rds
 #> It was compiled on 2018-05-16 11:36:05.

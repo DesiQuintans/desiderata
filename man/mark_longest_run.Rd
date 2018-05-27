@@ -30,7 +30,7 @@ Find and mark the longest run of TRUEs in a boolean vector
 }
 
 \examples{
-input <- c(T, T, F, F, F, F, F, T, T, T, T, T, T, F)
+input <- c(TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE)
 mark_longest_run(input)
 
 #> [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE

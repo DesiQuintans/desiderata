@@ -8,7 +8,9 @@
 #' @export
 #'
 #' @examples
-#' ggplot(iris, aes(x = Petal.Length, y = Sepal.Length)) + geom_point() + theme_desi_base()
+#' # ggplot(iris, aes(x = Petal.Length, y = Sepal.Length)) +
+#' #     geom_point() +
+#' #     theme_desi_base()
 #'
 #' @section Authors:
 #' - Desi Quintans (<http://www.desiquintans.com>)
@@ -17,8 +19,8 @@
 theme_desi_base <- function() {
     return(
         ggplot2::theme_bw() +
-        ggplot2::theme(panel.grid = element_blank(),
-                       panel.border = element_blank())
+        ggplot2::theme(panel.grid = ggplot2::element_blank(),
+                       panel.border = ggplot2::element_blank())
     )
 }
 
