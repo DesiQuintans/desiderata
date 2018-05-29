@@ -1,3 +1,7 @@
+# desiderata 0.4.0
+
+- ADD - `overwrite_df()`, which lets you use regex to match and replace across all cells in a dataframe. This is incredibly convenient as the final step before printing a table in your Rmarkdown document, because you can blank out NAs and other irrelevant values to avoid distracting the reader. Not intended for use with actual data tidying ;use `dplyr::recode()` or similar for that.
+
 # desiderata 0.3.0
 
 - ADD - `NEWS.md` file to track changes to the package.

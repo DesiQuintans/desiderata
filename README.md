@@ -28,6 +28,7 @@ library(desiderata)
 - **Dataframe functions**
     - Find and mark the longest run of TRUEs in a boolean vector
     - Mark the location of the last maximum value (peak) in a vector
+    - Replace all matching values in a dataframe with something else
     
 - **File system functions**
     - Load an RDS file and announce when it was created
@@ -78,6 +79,48 @@ mark_last_peak(input, threshold = NULL)
 mark_last_peak(input, threshold = 4)
 
 #> [1] FALSE FALSE FALSE FALSE FALSE
+```
+
+### Replace all matching values in a dataframe with something else
+
+``` r
+test_df <-
+    data.frame(stringsAsFactors = FALSE,
+               name = c("insect1", "insect2", "insect3", "insect4", "insect5",
+                        "insect6", "insect7", "insect8", "insect9", "insect10"),
+               family = c("Belidae", "Belidae", " ", "Coccinelidae", NA, "Coccinelidae",
+                          "Braconidae", "_", "-", "Curculionidae"),
+               is_cool = c("TRUE", "TRUE", NA, "TRUE", "", "TRUE", "TRUE", "-", "_",
+                           "TRUE")
+    )
+
+test_df
+
+#>        name        family is_cool
+#> 1   insect1       Belidae    TRUE
+#> 2   insect2       Belidae    TRUE
+#> 3   insect3                  <NA>
+#> 4   insect4  Coccinelidae    TRUE
+#> 5   insect5          <NA>        
+#> 6   insect6  Coccinelidae    TRUE
+#> 7   insect7    Braconidae    TRUE
+#> 8   insect8             _       -
+#> 9   insect9             -       _
+#> 10 insect10 Curculionidae    TRUE
+
+overwrite_df(test_df)
+
+#>        name        family is_cool
+#> 1   insect1       Belidae    TRUE
+#> 2   insect2       Belidae    TRUE
+#> 3   insect3                      
+#> 4   insect4  Coccinelidae    TRUE
+#> 5   insect5                      
+#> 6   insect6  Coccinelidae    TRUE
+#> 7   insect7    Braconidae    TRUE
+#> 8   insect8                      
+#> 9   insect9                      
+#> 10 insect10 Curculionidae    TRUE
 ```
 
 ## File system functions

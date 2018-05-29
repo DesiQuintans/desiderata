@@ -77,3 +77,49 @@ mark_last_peak <- function(vec, threshold = NULL) {
 
     return(boolVec)
 }
+
+
+
+#' Replace all matching values in a dataframe with something else
+#'
+#' Uses regex to match and replace cell values. This function is intended to be used just
+#' before printing a table to a Rmarkdown document; it's often useful to blank out NAs or
+#' other values to minimise visual clutter. For actual data-tidying applications, it's
+#' safer to use `dplyr::recode()` or `dplyr::recode_factor()`.
+#'
+#' By default, this function will replace cells consisting of NAs, spaces, empty strings,
+#' dashes, and underscores with an empty string.
+#'
+#' @param df (Dataframe) A dataframe.
+#' @param find (Character) A regex search pattern.
+#' @param replace (Character) The string used to overwrite the matching cells.
+#' @param replace_na (Logical) If `TRUE`, also overwrite R's built-in `NA` values.
+#'
+#' @return A dataframe.
+#' @export
+#'
+#' @examples
+#' test_df <-
+#'     data.frame(stringsAsFactors = FALSE,
+#'                name = c("insect1", "insect2", "insect3", "insect4", "insect5",
+#'                         "insect6", "insect7", "insect8", "insect9", "insect10"),
+#'                family = c("Belidae", "Belidae", " ", "Coccinelidae", NA, "Coccinelidae",
+#'                           "Braconidae", "_", "-", "Curculionidae"),
+#'                is_cool = c("TRUE", "TRUE", NA, "TRUE", "", "TRUE", "TRUE", "-", "_",
+#'                            "TRUE")
+#'     )
+#'
+#' test_df
+#' overwrite_df(test_df)
+#' @md
+overwrite_df <- function(df, find = "^(NA||\\s+|0|-+|_+)$", replace = "", replace_na = TRUE) {
+    df_l <- df
+
+    if (replace_na == TRUE) {
+        df_l[is.na(df_l)] <- replace  # gsub can't look for R's NA values, so replace them.
+    }
+
+    out <- data.frame(lapply(df_l, function(x) { gsub(find, replace, as.character(x)) }))
+
+    return(out)
+}
