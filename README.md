@@ -83,6 +83,8 @@ mark_last_peak(input, threshold = 4)
 
 ### Replace all matching values in a dataframe with something else
 
+By default, it will replace "empty" cells (cells with only `NA`, empty strings, spaces, or dashes) with an empty string. This is great for blanking out unwanted values for display in an Rmarkdown document.
+
 ``` r
 test_df <-
     data.frame(stringsAsFactors = FALSE,
@@ -145,7 +147,7 @@ make_path("path", "to", "subfolder")
 
 saveRDS(iris, make_path("subfolders/to/compiled/data/iris.rds"))
 
-# Creates all of the subfolders required for writing iris.rds.
+# Writes iris.rds, creating the folders leading to it if they don't already exist.
 ```
 
 ## Number functions
@@ -299,8 +301,8 @@ palette_distinct(4, random = TRUE)
 ``` r
 # These are the same thing.
 
-consecutive_month(2015, "2016-02-04")
 consecutive_month("2015-01-01", "2016-02-04")
+consecutive_month(2015,         "2016-02-04")
 #> [1] 14
 
 consecutive_month("2015-02-01", "2016-02-04")
@@ -310,6 +312,8 @@ consecutive_month("2015-02-01", "2016-02-04")
 ## R tools
 
 ### Suppress all console printing (`cat`, `print`, `warning`, `message`)
+
+Ideal for use in Rmarkdown documents if, for example, the functions in a package print unwanted debug messages using `cat()` or `print()`, which can't be suppressed with `suppressWarnings()` or `suppressMessages()`.
 
 ``` r
 loud_mean <- function(x) {
