@@ -141,7 +141,7 @@ apply_to_files <- function(path, pattern, func, ..., recursive = FALSE, ignoreca
                             recursive = recursive,  # Search into subfolders.
                             ignore.case = ignorecase)
 
-    df_list <- lapply(file_list, func, col_types = "Tiic")
+    df_list <- lapply(file_list, func, ...)
 
     names(df_list) <- basename(file_list)
     out <- dplyr::bind_rows(df_list, .id = "orig_source_file")

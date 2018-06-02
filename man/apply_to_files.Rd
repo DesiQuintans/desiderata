@@ -2,7 +2,7 @@
 % Please edit documentation in R/file_tools.R
 \name{apply_to_files}
 \alias{apply_to_files}
-\title{Run a function on every file in a folder that matches a regex pattern}
+\title{Apply a function to every file in a folder that matches a regex pattern}
 \usage{
 apply_to_files(path, pattern, func, ..., recursive = FALSE,
   ignorecase = TRUE)
