@@ -91,3 +91,60 @@ make_path <- function(...) {
 
     return(path)
 }
+
+#' Apply a function to every file in a folder that matches a regex pattern
+#'
+#' Create a list of files that match a regex search pattern, and then apply a function to
+#' each file. For example, run `read_csv` on every .csv file in a folder.
+#'
+#' @param path (Character) The path to the folder.
+#' @param pattern (Character) A regular expression search pattern.
+#' @param func (Name) The bare name of a function to execute on each file.
+#' @param ...  (...) Optional arguments that will be passed to `func`.
+#' @param recursive (Logical) If `TRUE`, also search inside the subfolders of `path`.
+#' @param ignorecase (Logical) If `TRUE`, `pattern` is case-insensitive.
+#'
+#' @return Invisibly returns a single dataframe with all of the input files row-binded
+#'    together. A new column, `orig_source_file`, contains the source file's name.
+#' @export
+#'
+#' @examples
+#'
+#' # rain <- apply_to_files(path = "Raw data/Rainfall", pattern = "csv",
+#'                          func = readr::read_csv, col_types = "Tiic",
+#'                          recursive = FALSE, ignorecase = TRUE)
+#'
+#' # dplyr::sample_n(rain, 5)
+#'
+#' #> # A tibble: 5 x 5
+#' #>
+#' #>   orig_source_file       Time                 Tips    mV Event
+#' #>   <chr>                  <dttm>              <int> <int> <chr>
+#' #> 1 BOW-BM-2016-01-15.csv  2015-12-17 03:58:00     0  4047 Normal
+#' #> 2 BOW-BM-2016-01-15.csv  2016-01-03 00:27:00     2  3962 Normal
+#' #> 3 BOW-BM-2016-01-15.csv  2015-11-27 12:06:00     0  4262 Normal
+#' #> 4 BIL-BPA-2018-01-24.csv 2015-11-15 10:00:00     0  4378 Normal
+#' #> 5 BOW-BM-2016-08-05.csv  2016-04-13 19:00:00     0  4447 Normal
+#'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#' - Gregor (<https://stackoverflow.com/users/903061/gregor>)
+#'
+#' @section Source:
+#' <http://stackoverflow.com/a/24376207>
+#'
+#' @md
+apply_to_files <- function(path, pattern, func, ..., recursive = FALSE, ignorecase = TRUE) {
+    file_list <- list.files(path = path,
+                            pattern = pattern,
+                            full.names = TRUE,  # Return full relative path.
+                            recursive = recursive,  # Search into subfolders.
+                            ignore.case = ignorecase)
+
+    df_list <- lapply(file_list, func, col_types = "Tiic")
+
+    names(df_list) <- basename(file_list)
+    out <- dplyr::bind_rows(df_list, .id = "orig_source_file")
+
+    return(invisible(out))
+}

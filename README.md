@@ -33,6 +33,7 @@ library(desiderata)
 - **File system functions**
     - Load an RDS file and announce when it was created
     - Build a path, creating subfolders if needed
+    - Apply a function to every file in a folder that matches a regex pattern
     
 - **Number functions**
     - Find the mode(s) of a numeric/character/factor vector
@@ -148,6 +149,26 @@ make_path("path", "to", "subfolder")
 saveRDS(iris, make_path("subfolders/to/compiled/data/iris.rds"))
 
 # Writes iris.rds, creating the folders leading to it if they don't already exist.
+```
+
+### Apply a function to every file in a folder that matches a regex pattern
+
+``` r
+rain <- apply_to_files(path = "Raw data/Rainfall", pattern = "csv", 
+                       func = readr::read_csv, col_types = "Tiic", 
+                       recursive = FALSE, ignorecase = TRUE)
+
+dplyr::sample_n(rain, 5)
+
+#> # A tibble: 5 x 5
+#> 
+#>   orig_source_file       Time                 Tips    mV Event 
+#>   <chr>                  <dttm>              <int> <int> <chr> 
+#> 1 BOW-BM-2016-01-15.csv  2015-12-17 03:58:00     0  4047 Normal
+#> 2 BOW-BM-2016-01-15.csv  2016-01-03 00:27:00     2  3962 Normal
+#> 3 BOW-BM-2016-01-15.csv  2015-11-27 12:06:00     0  4262 Normal
+#> 4 BIL-BPA-2018-01-24.csv 2015-11-15 10:00:00     0  4378 Normal
+#> 5 BOW-BM-2016-08-05.csv  2016-04-13 19:00:00     0  4447 Normal
 ```
 
 ## Number functions
