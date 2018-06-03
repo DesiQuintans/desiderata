@@ -1,3 +1,8 @@
+# desiderata 0.6.0
+
+- ADD - `%notin%` which is just `!(x %in% y)` in a more readable form.
+- ADD - `%pctin%` which returns the percent of `x` that appears in `y`.
+
 # desiderata 0.5.0
 
 - ADD - `apply_to_files()`, which applies a function to a list of files that matched a regex search pattern. Use it to import all spreadsheets in a folder, for example. Includes recursive searching.

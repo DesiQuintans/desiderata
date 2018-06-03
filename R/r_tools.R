@@ -54,3 +54,67 @@ shush <- function(x) {
 
     return(out)
 }
+
+
+#' Inverse match
+#'
+#' Flags the elements of x that are not in y.
+#'
+#' @name notin
+#' @usage x \%notin\% y
+#'
+#' @param x (Vector) The values to be matched. Long vectors (2^31 elements) are supported.
+#' @param y (Vector) The values to be matched against. Long vectors are not supported.
+#'
+#' @return A logical vector of the same length as `x`, with `TRUE` if the element was
+#'    found in `y`, and `FALSE` if it was not.
+#' @export
+#'
+#' @examples
+#' c(1, 4, 21, 7, -3) %in% 0:10
+#' #> [1]  TRUE  TRUE FALSE  TRUE FALSE
+#'
+#' c(1, 4, 21, 7, -3) %notin% 0:10
+#' #> [1] FALSE FALSE  TRUE FALSE  TRUE
+#'
+#' @section Authors:
+#' - R Core Team (<https://www.r-project.org/contributors.html>)
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#'
+#' @md
+"%notin%" <- function(x, y) {
+    !(match(x, y, nomatch = 0) > 0)
+}
+
+
+
+#' Percentage of matching elements between two vectors
+#'
+#' Find the percentage of elements in x that are present in y.
+#'
+#' @name pctin
+#' @usage x \%pctin\% y
+#'
+#' @param x (Vector) The values to be matched.
+#' @param y (Vector) The values to be matched against.
+#'
+#' @return The percentage of elements in x that are present in y.
+#' @export
+#'
+#' @examples
+#' c(1, 4, 21, 7, -3) %in% 0:10
+#' #> [1]  TRUE  TRUE FALSE  TRUE FALSE
+#'
+#' c(1, 4, 21, 7, -3) %pctin% 0:10
+#' #> [1] 0.6
+#'
+#' @section Authors:
+#' - GSee (<https://stackoverflow.com/users/967840/gsee>)
+#'
+#' @section Source:
+#' <https://stackoverflow.com/a/13830068/5578429>
+#'
+#' @md
+"%pctin%" <- function(x, y) {
+    length(x[x %in% y])/length(x)
+}

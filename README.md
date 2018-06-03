@@ -26,35 +26,37 @@ library(desiderata)
 ## Functions included
 
 - **Dataframe functions**
-    - Find and mark the longest run of TRUEs in a boolean vector
-    - Mark the location of the last maximum value (peak) in a vector
-    - Replace all matching values in a dataframe with something else
+    - Find and mark the longest run of TRUEs in a boolean vector (`mark_longest_run()`)
+    - Mark the location of the last maximum value (peak) in a vector (`mark_last_peak()`)
+    - Replace all matching values in a dataframe with something else (`overwrite_df()`)
     
 - **File system functions**
-    - Load an RDS file and announce when it was created
-    - Build a path, creating subfolders if needed
-    - Apply a function to every file in a folder that matches a regex pattern
+    - Load an RDS file and announce when it was created (`loadRDS()`)
+    - Build a path, creating subfolders if needed (`make_path()`)
+    - Apply a function to every file in a folder that matches a regex pattern (`apply_to_files()`)
     
 - **Number functions**
-    - Find the mode(s) of a numeric/character/factor vector
-    - Geometric mean of a vector
-    - Round a number to a fixed decimal place length
-    - Round numbers to the nearest "pretty" value
-    - Seed the random number generator with a character string
-    - Calculate degree-days
-    - Normalise a matrix column-wise between 0 and 1
-    - Normalise a whole matrix between 0 and 1
-    - Concatenate numbers together
+    - Find the mode(s) of a numeric/character/factor vector (`Mode()`)
+    - Geometric mean of a vector (`geomean()`)
+    - Round a number to a fixed decimal place length (`round_to_places()`)
+    - Round numbers to the nearest "pretty" value (`round_to_nearest()`)
+    - Seed the random number generator with a character string (`set.seed.any()`)
+    - Calculate degree-days (`degreedays()`)
+    - Normalise a matrix column-wise between 0 and 1 (`normalize_colwise()`)
+    - Normalise a whole matrix between 0 and 1 (`normalize_whole()`)
+    - Concatenate numbers together (`concat_nums()`)
     
 - **Plotting functions**
-    - Desi's `ggplot2` minimal base theme
-    - A palette of 1,022 visually-distinct colours
+    - Desi's `ggplot2` minimal base theme (`theme_desi_base()`)
+    - A palette of 1,022 visually-distinct colours (`palette_distinct()`)
     
 - **Datetime tools**
-    - Find the current month number relative to a starting date
+    - Find the current month number relative to a starting date (`consecutive_month()`)
     
 - **R tools**
-    - Suppress all console printing (`cat`, `print`, `warning`, `message`)
+    - Suppress all console printing (`cat`, `print`, `warning`, `message`) (`shush()`)
+    - Flag vector elements that are not in another vector, the inverse of `%in%` (`%notin%`)
+    - Percentage of matching elements between two vectors (`%pctin%`)
 
 ------------------------------------------------------------------------------------------
 
@@ -362,4 +364,27 @@ shush(loud_mean(1:100))
 shush(loud_mean(1:100) %>% sqrt())
 
 #> [1] 7.106335
+```
+
+### Flag vector elements that are not in another vector (inverse of `%in%`)
+
+In base R, you find the opposite of `%in%` by negating it like `!(x %in% y)`. `%notin%` is simply `!(x %in% y)` in a more readable form.
+
+``` r
+c(1, 4, 21, 7, -3) %in% 0:10
+#> [1]  TRUE  TRUE FALSE  TRUE FALSE
+
+c(1, 4, 21, 7, -3) %notin% 0:10
+#> [1] FALSE FALSE  TRUE FALSE  TRUE
+```
+
+
+### Percentage of matching elements between two vectors
+
+``` r
+c(1, 4, 21, 7, -3) %in% 0:10
+#> [1]  TRUE  TRUE FALSE  TRUE FALSE
+
+c(1, 4, 21, 7, -3) %pctin% 0:10
+#> [1] 0.6
 ```

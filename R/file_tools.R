@@ -111,8 +111,8 @@ make_path <- function(...) {
 #' @examples
 #'
 #' # rain <- apply_to_files(path = "Raw data/Rainfall", pattern = "csv",
-#'                          func = readr::read_csv, col_types = "Tiic",
-#'                          recursive = FALSE, ignorecase = TRUE)
+#' #                        func = readr::read_csv, col_types = "Tiic",
+#' #                        recursive = FALSE, ignorecase = TRUE)
 #'
 #' # dplyr::sample_n(rain, 5)
 #'
