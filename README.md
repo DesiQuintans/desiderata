@@ -49,6 +49,7 @@ library(desiderata)
 - **Plotting functions**
     - Desi's `ggplot2` minimal base theme (`theme_desi_base()`)
     - A palette of 1,022 visually-distinct colours (`palette_distinct()`)
+    - Rotate and align ggplot2 axis tick labels (`rotate_x_text()` and `rotate_y_text()`)
     
 - **Datetime tools**
     - Find the current month number relative to a starting date (`consecutive_month()`)
@@ -316,6 +317,18 @@ palette_distinct(4, random = TRUE)
 ```
 
 ![](images/palette_distinct.png)
+
+### Rotate and align ggplot2 axis tick labels
+
+``` r 
+library(ggplot2)
+
+ggplot(mpg, aes(manufacturer, cty)) + 
+    geom_boxplot() +
+    rotate_x_text() +
+    rotate_y_text()
+```
+![](images/rotate_axis_labels.png)
 
 ## Datetime tools
 

@@ -1,3 +1,8 @@
+# desiderata 0.7.0
+
+- MOD - Some changes to `theme_desi_base()`.
+- ADD - `rotate_x_text()` and `rotate_y_text()` for rotating the tick labels of ggplot2 plots. Comes with sane default settings.
+
 # desiderata 0.6.0
 
 - ADD - `%notin%` which is just `!(x %in% y)` in a more readable form.

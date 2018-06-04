@@ -19,8 +19,13 @@
 theme_desi_base <- function() {
     return(
         ggplot2::theme_bw() +
-        ggplot2::theme(panel.grid = ggplot2::element_blank(),
-                       panel.border = ggplot2::element_blank())
+        ggplot2::theme(panel.grid      = ggplot2::element_blank(),          # No grid
+                       panel.border    = ggplot2::element_blank(),          # No border around plot
+                       plot.title      = ggplot2::element_text(hjust = 1),  # Right-align title
+                       plot.subtitle   = ggplot2::element_text(hjust = 1),  # Right-align subtitle
+                       legend.position = "top",                             # Legend at the top
+                       legend.title    = ggplot2::element_blank()           # No legend title
+                      )
     )
 }
 
@@ -210,3 +215,42 @@ palette_distinct <- function(n = 1022, random = FALSE) {
     }
 }
 
+
+
+#' Rotate and align ggplot2 axis tick labels
+#'
+#' @param angle (Numeric) Rotation angle. `-90` rotates 90 degrees clockwise, `90` rotates
+#'    90 degrees anti-clockwise.
+#' @param align (Numeric) Horizontal alignment. `0` left-aligns, `1`
+#'    right-aligns, and `0.5` centers.
+#' @param valign (Numeric) Vertical alignment. `0` top-aligns, `1` bottom-aligns,
+#'    and `0.5` centers.
+#'
+#' @return  A ggplot2 theme object.
+#' @export
+#'
+#' @examples
+#' # library(ggplot2)
+#' # ggplot(mpg, aes(manufacturer, cty)) + geom_boxplot() +
+#' #     rotate_x_text() +
+#' #     rotate_y_text()
+#'
+#' #> A plot with X axis labels rotated 90 degrees clockwise and left-aligned to the
+#' #> bottom edge of the plot area, and the Y axis labels rotated 90 degrees counter-
+#' #> clockwise. All axis labels are centered on the tick marks.
+#'
+#' @md
+#' @name rotate_axis_text
+rotate_x_text <- function(angle = -90, align = 0, valign = 0.25) {
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = angle,
+                                                       hjust = align,
+                                                       vjust = valign))
+}
+
+#' @rdname rotate_axis_text
+#' @export
+rotate_y_text <- function(angle = 90, align = 0.5, valign = 0.5) {
+    ggplot2::theme(axis.text.y = ggplot2::element_text(angle = angle,
+                                                       hjust = align,
+                                                       vjust = valign))
+}
