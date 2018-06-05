@@ -422,6 +422,6 @@ concat_nums <- function(...) {
 #' - Desi Quintans (<http://www.desiquintans.com>)
 #'
 #' @md
-percentile <- function(num, cuts) {
-    stats::quantile(num, c(0, 0.10, 0.20, 0.25, 0.33, 0.50, 0.66, 0.75, 0.80, 0.85, 0.90, 0.95, 0.99, 1.0))
+percentile <- function(num, cuts = c(0, 0.10, 0.20, 0.25, 0.33, 0.50, 0.66, 0.75, 0.80, 0.85, 0.90, 0.95, 0.99, 1.0)) {
+    stats::quantile(num, cuts)
 }
