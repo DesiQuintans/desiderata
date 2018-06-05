@@ -1,3 +1,7 @@
+# desiderata 0.8.0
+
+- ADD - `percentile()`, which is an alias of `stats::quantile()` with some useful default percentiles defined.
+
 # desiderata 0.7.0
 
 - MOD - Some changes to `theme_desi_base()`.

@@ -4,7 +4,9 @@
 
 -   Desi Quintans (<https://twitter.com/eco_desi>)
 
-Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
+Please note that this project is released with a 
+[Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to 
+abide by its terms.
 
 ## What is `desiderata`?
 
@@ -45,6 +47,7 @@ library(desiderata)
     - Normalise a matrix column-wise between 0 and 1 (`normalize_colwise()`)
     - Normalise a whole matrix between 0 and 1 (`normalize_whole()`)
     - Concatenate numbers together (`concat_nums()`)
+    - Quick percentile overview (`percentile()`)
     
 - **Plotting functions**
     - Desi's `ggplot2` minimal base theme (`theme_desi_base()`)
@@ -87,7 +90,9 @@ mark_last_peak(input, threshold = 4)
 
 ### Replace all matching values in a dataframe with something else
 
-By default, it will replace "empty" cells (cells with only `NA`, empty strings, spaces, or dashes) with an empty string. This is great for blanking out unwanted values for display in an Rmarkdown document.
+By default, it will replace "empty" cells (cells with only `NA`, empty strings, spaces, 
+or dashes) with an empty string. This is great for blanking out unwanted values for 
+display in an Rmarkdown document.
 
 ``` r
 test_df <-
@@ -287,6 +292,26 @@ normalize_whole(mat, from_zero = FALSE)
 concat_nums(12, "76", NA, 1.5)
 
 #> [1] 127601.5
+```
+
+### Quick percentile overview
+
+This is an alias of `stats::quantile()` with some useful default percentile values.
+
+``` r
+# round(runif(20, min = 0, max = 29))
+vec <- c(28, 23, 3, 28, 6, 5, 21, 19, 9, 17, 22, 23, 26, 9, 5, 20, 19, 24, 3, 27)
+
+perc <- percentile(vec)
+perc
+
+#>   0%   10%   20%   25%   33%   50%   66%   75%   80%   85%   90%   95%   99%  100%
+#> 3.00  4.80  5.80  8.25 11.16 19.50 22.54 23.25 24.40 26.15 27.10 28.00 28.00 28.00
+
+perc["66%"]
+
+#>   66%
+#> 22.54
 ```
 
 ## Plotting functions

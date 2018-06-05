@@ -209,8 +209,6 @@ set.seed.any <- function(seed) {
     set.seed(intval)
 }
 
-
-
 #' Calculate degree-days
 #'
 #' > "In a nutshell: heating degree days are a measure of how much (in degrees), and for
@@ -380,4 +378,39 @@ concat_nums <- function(...) {
     string <- paste0(...)
     string <- stringr::str_replace_all(string, "NA", "0")
     return(as.double(string))
+}
+
+
+#' Quick percentile overview
+#'
+#' Break down a vector into useful percentiles. If the 25th percentile is 10.5, for
+#' example, then 25% of the observations are < 10.5.
+#'
+#' @param num (Numeric) A vector.
+#' @param cuts (Numeric) A vector of percentiles to calculate.
+#'
+#' @return A named numeric vector of percentiles and their values.
+#' @export
+#'
+#' @examples
+#' # round(runif(20, min = 0, max = 29))
+#' vec <- c(28, 23, 3, 28, 6, 5, 21, 19, 9, 17, 22, 23, 26, 9, 5, 20, 19, 24, 3, 27)
+#' perc <- percentile(vec)
+#'
+#' perc
+#'
+#' #>   0%   10%   20%   25%   33%   50%   66%   75%   80%   85%   90%   95%   99%  100%
+#' #> 3.00  4.80  5.80  8.25 11.16 19.50 22.54 23.25 24.40 26.15 27.10 28.00 28.00 28.00
+#'
+#' perc["66%"]
+#'
+#' #>   66%
+#' #> 22.54
+#'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#'
+#' @md
+percentile <- function(num, cuts) {
+    stats::quantile(num, c(0, 0.10, 0.20, 0.25, 0.33, 0.50, 0.66, 0.75, 0.80, 0.85, 0.90, 0.95, 0.99, 1.0))
 }
