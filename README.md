@@ -235,10 +235,12 @@ round_to_nearest(vec, 0.5)
 #> [1]  1.5  2.0 -1.5  1.0  2.0  4.0
 ```
 
-### Seed the random number generator with a character string
+### Seed the random number generator with a character string (or any object)
 
 ``` r
-set.seed.any("Snake... Do you think love can bloom, even on a battlefield?")
+set_seed_any("Snake... Do you think love can bloom, even on a battlefield?")
+
+set_seed_any(iris)
 ```
 
 ### Calculate degree-days

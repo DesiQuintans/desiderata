@@ -1,7 +1,7 @@
 Package: desiderata
 Type: Package
 Title: Assorted utility functions
-Version: 0.6.0
+Version: 0.8.0
 License: GPL-3
 Author: Desi Quintans
 Maintainer: Desi Quintans <science@desiquintans.com>
@@ -10,11 +10,12 @@ Description: This package contains mixed functions for plotting, summarising, fo
 Encoding: UTF-8
 LazyData: true
 Imports:
-    digest (>= 0.6.15),
     dplyr (>= 0.7.4),
     ggplot2 (>= 2.2.1),
     lubridate (>= 1.7.2),
     magrittr (>= 1.5),
     stringr (>= 1.3.0),
     utils (>= 3.4.2)
+Suggests:
+    digest (>= 0.6.15)
 RoxygenNote: 6.0.1

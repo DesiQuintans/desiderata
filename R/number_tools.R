@@ -183,7 +183,7 @@ round_to_nearest <- function(num, to, dir = NULL) {
 
 #' Seed the random number generator with a character string (or any object)
 #'
-#' Set the random number generator's seed using a string, if you want to be extra cute and
+#' Set the random number generator's seed using a string if you want to be extra cute and
 #' use your cats' names like I do. This function can actually generate a seed from any R
 #' object, so you could even feed it a whole dataframe if you felt like it. (Requires the
 #' ['digest'](https://cran.r-project.org/web/packages/digest/index.html) package.)
@@ -194,7 +194,9 @@ round_to_nearest <- function(num, to, dir = NULL) {
 #' @export
 #'
 #' @examples
-#' set.seed.any("Snake... Do you think love can bloom, even on a battlefield?")
+#' # set_seed_any("Snake... Do you think love can bloom, even on a battlefield?")
+#'
+#' # set_seed_any(iris)
 #'
 #' @section Authors:
 #' - Ben Bolker (<https://stackoverflow.com/users/190277/ben-bolker>)
@@ -203,10 +205,19 @@ round_to_nearest <- function(num, to, dir = NULL) {
 #' <https://stackoverflow.com/a/10913336/5578429>
 #'
 #' @md
-set.seed.any <- function(seed) {
+set_seed_any <- function(seed) {
     hexval <- paste0("0x", digest::digest(seed, "crc32"))
     intval <- utils::type.convert(hexval) %% .Machine$integer.max
     set.seed(intval)
+}
+
+#' @describeIn set_seed_any Deprecated. Use set_seed_any() instead.
+#' @export
+set.seed.any <- function(seed) {
+    .Deprecated(new = "set_seed_any",
+                package = "desiderata >= 0.8.0")
+
+    set_seed_any(seed)
 }
 
 #' Calculate degree-days

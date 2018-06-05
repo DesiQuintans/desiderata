@@ -1,6 +1,8 @@
 # desiderata 0.8.0
 
 - ADD - `percentile()`, which is an alias of `stats::quantile()` with some useful default percentiles defined.
+- ADD - `set.seed.any()` deprecated; use `set_seed_any()` instead.
+- MOD - Moved package `digest` from 'Imports' to 'Suggests'. It is only used once by `set_seed_any()`.
 
 # desiderata 0.7.0
 
