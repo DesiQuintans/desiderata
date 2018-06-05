@@ -395,7 +395,7 @@ concat_nums <- function(...) {
 #' Quick percentile overview
 #'
 #' Break down a vector into useful percentiles. If the 25th percentile is 10.5, for
-#' example, then 25% of the observations are < 10.5.
+#' example, then 25 \% of the observations are < 10.5.
 #'
 #' @param num (Numeric) A vector.
 #' @param cuts (Numeric) A vector of percentiles to calculate.
