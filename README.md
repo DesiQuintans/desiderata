@@ -61,6 +61,7 @@ library(desiderata)
     - Suppress all console printing (`cat`, `print`, `warning`, `message`) (`shush()`)
     - Flag vector elements that are not in another vector, the inverse of `%in%` (`%notin%`)
     - Percentage of matching elements between two vectors (`%pctin%`)
+    - Print to console, wrapping the text to a specific line width (`cat_wrap()`)
 
 ------------------------------------------------------------------------------------------
 
@@ -418,7 +419,6 @@ c(1, 4, 21, 7, -3) %notin% 0:10
 #> [1] FALSE FALSE  TRUE FALSE  TRUE
 ```
 
-
 ### Percentage of matching elements between two vectors
 
 ``` r
@@ -427,4 +427,22 @@ c(1, 4, 21, 7, -3) %in% 0:10
 
 c(1, 4, 21, 7, -3) %pctin% 0:10
 #> [1] 0.6
+```
+
+### Print to console, wrapping the text to a specific line width
+
+Wrapping console output is essential in Rmarkdown documents because long character vectors do not wrap when printed inside code blocks.
+
+``` r
+vec <- c("This is a very long chunk of text.",
+         "This is also another quite long chunk of text.")
+
+cat_wrap(vec, width = 25)
+
+#> This is a very long
+#> chunk of text.
+#>
+#> This is also another
+#> quite long chunk of
+#> text.
 ```

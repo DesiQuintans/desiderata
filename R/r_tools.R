@@ -118,3 +118,50 @@ shush <- function(x) {
 "%pctin%" <- function(x, y) {
     length(x[x %in% y])/length(x)
 }
+
+
+
+#' Print to console, wrapping the text to a specific line width
+#'
+#' Wrapping console output is essential in Rmarkdown documents because long character
+#' vectors do not wrap when printed inside code blocks.
+#'
+#' @param text (Character) A vector of text.
+#' @param width (Integer) The character length of each line.
+#' @param element_sep (Character) A string to insert between each element of `text`.
+#'
+#' @return Print to console.
+#' @export
+#'
+#' @examples
+#' vec <- c("This is a very long chunk of text.",
+#'          "This is also another quite long chunk of text.")
+#'
+#' cat_wrap(vec, width = 25)
+#'
+#' #> This is a very long
+#' #> chunk of text.
+#' #>
+#' #> This is also another
+#' #> quite long chunk of
+#' #> text.
+#'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#'
+#' @md
+cat_wrap <- function(text, width = 80, element_sep = "\n") {
+    # Inter-element separator can't be "\n" because strwrap() discards whitespace. Here
+    # I use the Pilcrow character as a unicode escape sequence. I know that user text
+    # may contain a Pilcrow, but using a very long marker (e.g. "#ELEMENT-SEP-HERE#")
+    # makes the string longer and can mess with how the lines get wrapped. To avoid
+    # replacing Pilcrows that might be in user text, I only search for the one that's at
+    # the end of the line.
+    wrap <- strwrap(paste0(text, "\u00B6"), width = width, prefix = "\n", initial = "")
+
+    separated <- gsub("\u00B6$", element_sep, wrap)  # Now I can insert whitespace.
+
+    return(cat(separated))
+}
+
+

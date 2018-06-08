@@ -1,3 +1,7 @@
+# desiderata 0.9.0
+
+- ADD - `cat_wrap()`, which prints text to the console while wrapping the output.
+
 # desiderata 0.8.0
 
 - ADD - `percentile()`, which is an alias of `stats::quantile()` with some useful default percentiles defined.
