@@ -31,7 +31,7 @@ loadRDS <- function(...) {
         basename(file),
         ".\nIt was compiled on ",
         as.character(file.info(file)$mtime),
-        ".",
+        ".\n",
         sep = "")
 
     # cat() needs as.character() to display formatted dates.

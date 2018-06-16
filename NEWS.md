@@ -1,3 +1,8 @@
+# desiderata 0.10.0
+
+- ADD - `vec_to_regex()`, which collapses vectors into a regular expression.
+- ADD - `basic_colour_names`, a built-in dataset that contains the names of 197 browser-compatible web colours. 
+
 # desiderata 0.9.0
 
 - ADD - `cat_wrap()`, which prints text to the console while wrapping the output.

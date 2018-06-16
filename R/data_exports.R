@@ -8,19 +8,18 @@
 #' so that common colours like red and blue come earlier in the list.
 #'
 #' @examples
-#> # data(basic_color_names)
-#> # data(basic_colour_names)
-#>
-#> # print(basic_color_names)
-#>
-#> #>   [1] "red"                    "tan"                    "aqua"
-#> #>   [4] "blue"                   "cyan"                   "erin"
-#> #>   [7] "gold"                   "gray"                   "grey"
-#> #>  [10] "jade"                   "lime"                   "navy"
-#> #>  [13] "pear"                   "peru"                   "pink"
-#> #>  [16] "plum"                   "puce"                   "rose"
-#> #>  [19] "ruby"                   "snow"                   "teal"
-#> #>  [22] "amber"                  "azure"                  ...
+#' # data(basic_color_names)
+#'
+#' # print(basic_color_names)
+#'
+#' #>   [1] "red"                    "tan"                    "aqua"
+#' #>   [4] "blue"                   "cyan"                   "erin"
+#' #>   [7] "gold"                   "gray"                   "grey"
+#' #>  [10] "jade"                   "lime"                   "navy"
+#' #>  [13] "pear"                   "peru"                   "pink"
+#' #>  [16] "plum"                   "puce"                   "rose"
+#' #>  [19] "ruby"                   "snow"                   "teal"
+#' #>  [22] "amber"                  "azure"                  ...
 #'
 #' @section Author:
 #' - Desi Quintans (@eco_desi)
@@ -33,6 +32,14 @@
 #' @name basic_colour_names
 #'
 #' @md
+NULL
+
+#' @name basic_color_names
+#'
+#' @examples
+#' #> data(basic_colour_names)
+#'
+#' @rdname basic_colour_names
 NULL
 
 make_basic_color_names_list <- function() {

@@ -1,17 +1,7 @@
 # desiderata
 
-## Project participants
-
--   Desi Quintans (<https://twitter.com/eco_desi>)
-
-Please note that this project is released with a 
-[Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to 
-abide by its terms.
-
-## What is `desiderata`?
-
-Desiderata is an assorted bunch o' functions that I (Desi) have collected or written as I 
-needed them.
+Desiderata is a personal package with a bunch o' functions that I (Desi) have collected or 
+written as I needed them.
 
 ## Installation
 
@@ -23,45 +13,63 @@ devtools::install_github("DesiQuintans/desiderata")
 library(desiderata)
 ```
 
+## Project participants
+
+-   Desi Quintans (<https://twitter.com/eco_desi>)
+
+Please note that this project is released with a 
+[Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to 
+abide by its terms.
+
+
 ------------------------------------------------------------------------------------------
 
 ## Functions included
 
 - **Dataframe functions**
-    - Find and mark the longest run of TRUEs in a boolean vector (`mark_longest_run()`)
-    - Mark the location of the last maximum value (peak) in a vector (`mark_last_peak()`)
-    - Replace all matching values in a dataframe with something else (`overwrite_df()`)
+    - Find and mark the longest run of TRUEs in a boolean vector 
+    - (`mark_longest_run()` - [example](#find-and-mark-the-longest-run-of-trues-in-a-boolean-vector))
+    - Mark the location of the last maximum value (peak) in a vector (`mark_last_peak()` - [example](#mark-the-location-of-the-last-maximum-value-peak-in-a-vector))
+    - Replace all matching values in a dataframe with something else (`overwrite_df()` - [example](#replace-all-matching-values-in-a-dataframe-with-something-else))
     
 - **File system functions**
-    - Load an RDS file and announce when it was created (`loadRDS()`)
-    - Build a path, creating subfolders if needed (`make_path()`)
-    - Apply a function to every file in a folder that matches a regex pattern (`apply_to_files()`)
+    - Load an RDS file and announce when it was created (`loadRDS()` - [example](#load-an-rds-file-and-announce-when-it-was-created))
+    - Build a path, creating subfolders if needed (`make_path()` - [example](#build-a-path-creating-subfolders-if-needed))
+    - Apply a function to every file in a folder that matches a regex pattern (`apply_to_files()` - [example](#apply-a-function-to-every-file-in-a-folder-that-matches-a-regex-pattern))
     
-- **Number functions**
-    - Find the mode(s) of a numeric/character/factor vector (`Mode()`)
-    - Geometric mean of a vector (`geomean()`)
-    - Round a number to a fixed decimal place length (`round_to_places()`)
-    - Round numbers to the nearest "pretty" value (`round_to_nearest()`)
-    - Seed the random number generator with a character string (`set.seed.any()`)
-    - Calculate degree-days (`degreedays()`)
-    - Normalise a matrix column-wise between 0 and 1 (`normalize_colwise()`)
-    - Normalise a whole matrix between 0 and 1 (`normalize_whole()`)
-    - Concatenate numbers together (`concat_nums()`)
-    - Quick percentile overview (`percentile()`)
+- **Number functions**yes
+- 
+    - Find the mode(s) of a numeric/character/factor vector (`Mode()` - [example](#find-the-modes-of-a-numericcharacterfactor-vector))
+    - Geometric mean of a vector (`geomean()` - [example](#geometric-mean-of-a-vector))
+    - Round a number to a fixed decimal place length (`round_to_places()` - [example](#round-a-number-to-a-fixed-decimal-place-length))
+    - Round numbers to the nearest "pretty" value (`round_to_nearest()` - [example](#round-numbers-to-the-nearest-pretty-value))
+    - Seed the random number generator with a character string (or any object) (`set.seed.any()` - [example](#seed-the-random-number-generator-with-a-character-string-or-any-object))
+    - Calculate degree-days (`degreedays()` - [example](#calculate-degree-days))
+    - Normalise a matrix column-wise between 0 and 1 (`normalize_colwise()` - [example](#normalise-a-matrix-column-wise-between-0-and-1))
+    - Normalise a whole matrix between 0 and 1 (`normalize_whole()` - [example](#normalise-a-whole-matrix-between-0-and-1))
+    - Concatenate numbers together (`concat_nums()` - [example](#concatenate-numbers-together))
+    - Quick percentile overview (`percentile()` - [example](#quick-percentile-overview))
     
 - **Plotting functions**
-    - Desi's `ggplot2` minimal base theme (`theme_desi_base()`)
-    - A palette of 1,022 visually-distinct colours (`palette_distinct()`)
-    - Rotate and align ggplot2 axis tick labels (`rotate_x_text()` and `rotate_y_text()`)
+    - Desi's `ggplot2` minimal base theme (`theme_desi_base()` - [example](#desis-ggplot2-minimal-base-theme))
+    - A palette of 1,022 visually-distinct colours (`palette_distinct()` - [example](#a-palette-of-1022-visually-distinct-colours))
+    - Rotate and align ggplot2 axis tick labels (`rotate_x_text()` and `rotate_y_text()` - [example](#rotate-and-align-ggplot2-axis-tick-labels))
     
 - **Datetime tools**
-    - Find the current month number relative to a starting date (`consecutive_month()`)
+    - Find the current month number relative to a starting date (`consecutive_month()` - [example](#find-the-current-month-number-relative-to-a-starting-date))
+    
+- **String tools**
+    - Collapse vectors into a regex pattern (`vec_to_regex()` - [example](#collapse-vectors-into-a-regex-pattern))
     
 - **R tools**
-    - Suppress all console printing (`cat`, `print`, `warning`, `message`) (`shush()`)
-    - Flag vector elements that are not in another vector, the inverse of `%in%` (`%notin%`)
-    - Percentage of matching elements between two vectors (`%pctin%`)
-    - Print to console, wrapping the text to a specific line width (`cat_wrap()`)
+    - Suppress all console printing (`cat`, `print`, `warning`, `message`) (`shush()` - [example](#suppress-all-console-printing-cat-print-warning-message))
+    - Flag vector elements that are not in another vector (inverse of `%in%`) (`%notin%` - [example](#flag-vector-elements-that-are-not-in-another-vector-inverse-of-in))
+    - Percentage of matching elements between two vectors (`%pctin%` - [example](#percentage-of-matching-elements-between-two-vectors))
+    - Print to console, wrapping the text to a specific line width (`cat_wrap()` - [example](#print-to-console-wrapping-the-text-to-a-specific-line-width))
+
+## Data included
+
+- The names of 197 common colours: red, green, cyan, etc. (`data(basic_color_names)` - [example](#the-names-of-197-common-colours-red-green-cyan-etc))
 
 ------------------------------------------------------------------------------------------
 
@@ -76,7 +84,7 @@ mark_longest_run(x)
 #> [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE
 ```
 
-### Mark the location of the last maximum value in a vector
+### Mark the location of the last maximum value (peak) in a vector
 
 ``` r
 input <- c(1, 2, 3, 3, 1)
@@ -373,6 +381,20 @@ consecutive_month("2015-02-01", "2016-02-04")
 #> [1] 13
 ```
 
+## String tools
+
+### Collapse vectors into a regex pattern
+
+``` r
+vec_to_regex(month.abb)
+
+#> [1] "(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)"
+
+vec_to_regex(letters[1:6], sep = "", wrap = c("([", "]+)"))
+
+#> [1] "([abcdef]+)"
+```
+
 ## R tools
 
 ### Suppress all console printing (`cat`, `print`, `warning`, `message`)
@@ -445,4 +467,32 @@ cat_wrap(vec, width = 25)
 #> This is also another
 #> quite long chunk of
 #> text.
+```
+
+
+## Data included
+
+### The names of 197 common colours: red, green, cyan, etc.
+
+One day I wanted to mine botanical descriptions to get the colours of flowers, so I needed a list of colour names to match to. I decided to use the agreed-upon names for browser-compatible web colours, which spans a range of specificity from "red" to "light goldenrod yellow". I sourced these names from:
+
+- <https://simple.wikipedia.org/wiki/Web_color>
+- <https://simple.wikipedia.org/wiki/List_of_colors>
+
+This is a character vector of names, lowercased and sorted by word length so that common colours like red and blue come earlier in the list.
+
+``` r
+data(basic_color_names)
+data(basic_colour_names)
+
+print(basic_color_names)
+
+#>   [1] "red"                    "tan"                    "aqua"
+#>   [4] "blue"                   "cyan"                   "erin"
+#>   [7] "gold"                   "gray"                   "grey"
+#>  [10] "jade"                   "lime"                   "navy"
+#>  [13] "pear"                   "peru"                   "pink"
+#>  [16] "plum"                   "puce"                   "rose"
+#>  [19] "ruby"                   "snow"                   "teal"
+#>  [22] "amber"                  "azure"                  ...
 ```

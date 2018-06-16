@@ -1,7 +1,7 @@
 Package: desiderata
 Type: Package
 Title: Assorted utility functions
-Version: 0.9.0
+Version: 0.10.0
 License: GPL-3
 Author: Desi Quintans
 Maintainer: Desi Quintans <science@desiquintans.com>
@@ -9,7 +9,9 @@ Description: This package contains mixed functions for plotting, summarising, fo
     and so on.
 Encoding: UTF-8
 LazyData: true
+Depends: R (>= 3.4.0)
 Imports:
+    devtools (>= 1.13.5),
     dplyr (>= 0.7.4),
     ggplot2 (>= 2.2.1),
     lubridate (>= 1.7.2),

@@ -3,6 +3,7 @@
 \docType{data}
 \name{basic_colour_names}
 \alias{basic_colour_names}
+\alias{basic_color_names}
 \title{The names of 197 common colours}
 \description{
 This is a character vector of common colour names, lowercased and sorted by word length
@@ -24,5 +25,19 @@ so that common colours like red and blue come earlier in the list.
 }
 
 \examples{
+# data(basic_color_names)
+
+# print(basic_color_names)
+
+#>   [1] "red"                    "tan"                    "aqua"
+#>   [4] "blue"                   "cyan"                   "erin"
+#>   [7] "gold"                   "gray"                   "grey"
+#>  [10] "jade"                   "lime"                   "navy"
+#>  [13] "pear"                   "peru"                   "pink"
+#>  [16] "plum"                   "puce"                   "rose"
+#>  [19] "ruby"                   "snow"                   "teal"
+#>  [22] "amber"                  "azure"                  ...
+
+#> data(basic_colour_names)
 
 }
