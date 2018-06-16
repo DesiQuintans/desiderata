@@ -1,7 +1,8 @@
 # desiderata 0.10.0
 
 - ADD - `vec_to_regex()`, which collapses vectors into a regular expression.
-- ADD - `basic_colour_names`, a built-in dataset that contains the names of 197 browser-compatible web colours. 
+- ADD - `basic_colour_names`, a built-in dataset that contains the names of 197 browser-compatible web colours.
+- FIX - `set_seed_any()` properly checks if the `digest` package is installed.
 
 # desiderata 0.9.0
 

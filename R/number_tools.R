@@ -206,6 +206,11 @@ round_to_nearest <- function(num, to, dir = NULL) {
 #'
 #' @md
 set_seed_any <- function(seed) {
+    digest_installed <- "digest" %in% rownames(utils::installed.packages())
+    if (digest_installed == FALSE) {
+        stop("The 'digest' package needs to be installed.")
+    }
+
     hexval <- paste0("0x", digest::digest(seed, "crc32"))
     intval <- utils::type.convert(hexval) %% .Machine$integer.max
     set.seed(intval)
