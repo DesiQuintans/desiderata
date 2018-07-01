@@ -119,7 +119,45 @@ overwrite_df <- function(df, find = "^(NA||\\s+|0|-+|_+)$", replace = "", replac
         df_l[is.na(df_l)] <- replace  # gsub can't look for R's NA values, so replace them.
     }
 
-    out <- data.frame(lapply(df_l, function(x) { gsub(find, replace, as.character(x)) }))
+    out <- data.frame(lapply(df_l, function(x) { gsub(find, replace, as.character(x)) }),
+                      stringsAsFactors = FALSE,
+                      check.rows = FALSE,
+                      check.names = FALSE,
+                      fix.empty.names = FALSE)
 
     return(out)
+}
+
+
+#' Drop 'empty' columns in a dataframe
+#'
+#' A column is empty when every single row is NA, NULL, "", or 0.
+#'
+#' @param df (Dataframe) A dataframe to filter.
+#'
+#' @return A copy of `df` with all empty columns removed.
+#' @export
+#'
+#' @examples
+#' data <- data.frame(a = c(1, 2, 3),
+#'                    b = c(0, 0, 0),
+#'                    c = c(1, 1, 0),
+#'                    d = c("", "", ""),
+#'                    e = c("moo", "baa", "woof"))
+#'
+#' #> a b c d    e
+#' #> 1 0 1    moo
+#' #> 2 0 1    baa
+#' #> 3 0 0    woof
+#'
+#' drop_empty_cols(data)
+#'
+#' #> a c    e
+#' #> 1 1  moo
+#' #> 2 1  baa
+#' #> 3 0 woof
+#'
+#' @md
+drop_empty_cols <- function(df) {
+    base::Filter(function(x) !all(is.na(x) || is.null(x) || x == "" || x == 0), df)
 }
