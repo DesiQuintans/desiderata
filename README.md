@@ -31,13 +31,14 @@ abide by its terms.
     - (`mark_longest_run()` - [example](#find-and-mark-the-longest-run-of-trues-in-a-boolean-vector))
     - Mark the location of the last maximum value (peak) in a vector (`mark_last_peak()` - [example](#mark-the-location-of-the-last-maximum-value-peak-in-a-vector))
     - Replace all matching values in a dataframe with something else (`overwrite_df()` - [example](#replace-all-matching-values-in-a-dataframe-with-something-else))
+    - Drop 'empty' columns in a dataframe (`drop_empty_cols()` - [example](#drop-empty-columns-in-a-dataframe))
     
 - **File system functions**
     - Load an RDS file and announce when it was created (`loadRDS()` - [example](#load-an-rds-file-and-announce-when-it-was-created))
     - Build a path, creating subfolders if needed (`make_path()` - [example](#build-a-path-creating-subfolders-if-needed))
     - Apply a function to every file in a folder that matches a regex pattern (`apply_to_files()` - [example](#apply-a-function-to-every-file-in-a-folder-that-matches-a-regex-pattern))
     
-- **Number functions**yes
+- **Number functions**
 - 
     - Find the mode(s) of a numeric/character/factor vector (`Mode()` - [example](#find-the-modes-of-a-numericcharacterfactor-vector))
     - Geometric mean of a vector (`geomean()` - [example](#geometric-mean-of-a-vector))
@@ -54,6 +55,7 @@ abide by its terms.
     - Desi's `ggplot2` minimal base theme (`theme_desi_base()` - [example](#desis-ggplot2-minimal-base-theme))
     - A palette of 1,022 visually-distinct colours (`palette_distinct()` - [example](#a-palette-of-1022-visually-distinct-colours))
     - Rotate and align ggplot2 axis tick labels (`rotate_x_text()` and `rotate_y_text()` - [example](#rotate-and-align-ggplot2-axis-tick-labels))
+    - Horizontally align ggplot2 title and subtitle (`align_titles()` - [example](#horizontally-align-ggplot2-title-and-subtitle))
     
 - **Datetime tools**
     - Find the current month number relative to a starting date (`consecutive_month()` - [example](#find-the-current-month-number-relative-to-a-starting-date))
@@ -141,6 +143,30 @@ overwrite_df(test_df)
 #> 8   insect8                      
 #> 9   insect9                      
 #> 10 insect10 Curculionidae    TRUE
+```
+
+### Drop 'empty' columns in a dataframe
+
+A column is empty when every single row is `NA`, `NULL`, `""`, or `0`.
+
+``` r
+data <- data.frame(a = c(1, 2, 3),
+                b = c(0, 0, 0),
+                c = c(1, 1, 0),
+                d = c("", "", ""),
+                e = c("moo", "baa", "woof"))
+                
+#> a b c d    e
+#> 1 0 1    moo
+#> 2 0 1    baa
+#> 3 0 0    woof
+
+drop_empty_cols(data)
+
+#> a c    e
+#> 1 1  moo
+#> 2 1  baa
+#> 3 0 woof
 ```
 
 ## File system functions
@@ -365,6 +391,17 @@ ggplot(mpg, aes(manufacturer, cty)) +
     rotate_y_text()
 ```
 ![](images/rotate_axis_labels.png)
+
+### Horizontally align ggplot2 title and subtitle
+
+``` r 
+library(ggplot2)
+
+ggplot(mpg, aes(manufacturer, cty)) + geom_boxplot() +
+    labs(title = "This is a title", subtitle = "This is a subtitle") +
+    align_titles(align = 0.5)
+```
+![](images/align_title.png)
 
 ## Datetime tools
 

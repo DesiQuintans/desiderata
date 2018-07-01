@@ -1,3 +1,14 @@
+# desiderata 0.12.0
+
+- ADD - `drop_empty_cols()`, which deletes empty columns from a dataframe. A column is empty if every row is `NA`, `NULL`, `""`, or `0`.
+
+# desiderata 0.11.0
+
+- REM - Title alignment settings in `theme_desi_base()`.
+- ADD - `align_titles()` to horizontally align the title and subtitle of a ggplot.
+- FIX - `overwrite_df()` no longer returns the overwritten columns as factors.
+- FIX - `round_to_places()` no longer rounds numbers twice. `round_to_places(16.666667, 2)` used to return `17`, but it now correctly returns `16.67`.
+
 # desiderata 0.10.0
 
 - ADD - `vec_to_regex()`, which collapses vectors into a regular expression.
