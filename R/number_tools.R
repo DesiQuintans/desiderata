@@ -134,7 +134,7 @@ geomean <- function(x, na.rm = TRUE) {
 #' @md
 round_to_places <- function(num, places = 2) {
     return(
-        formatC(signif(num, places), places, format = "f")
+        formatC(num, places, format = "f")
     )
 }
 
