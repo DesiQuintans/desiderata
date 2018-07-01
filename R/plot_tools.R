@@ -21,8 +21,6 @@ theme_desi_base <- function() {
         ggplot2::theme_bw() +
         ggplot2::theme(panel.grid      = ggplot2::element_blank(),          # No grid
                        panel.border    = ggplot2::element_blank(),          # No border around plot
-                       plot.title      = ggplot2::element_text(hjust = 1),  # Right-align title
-                       plot.subtitle   = ggplot2::element_text(hjust = 1),  # Right-align subtitle
                        legend.position = "top",                             # Legend at the top
                        legend.title    = ggplot2::element_blank()           # No legend title
                       )
@@ -253,4 +251,104 @@ rotate_y_text <- function(angle = 90, align = 0.5, valign = 0.5) {
     ggplot2::theme(axis.text.y = ggplot2::element_text(angle = angle,
                                                        hjust = align,
                                                        vjust = valign))
+}
+
+
+#' Horizontally align ggplot2 title and subtitle
+#'
+#' @param align Horizontal alignment. `0` left-aligns, `1` right-aligns, `0.5` centers.
+#'
+#' @return A ggplot2 theme object.
+#' @export
+#'
+#' @examples
+#'
+#' # library(ggplot2)
+#' # ggplot(mpg, aes(manufacturer, cty)) + geom_boxplot() +
+#' #     labs(title = "This is a title", subtitle = "This is a subtitle") +
+#' #     align_titles(align = 0.5)
+#'
+#' #> A plot with the title and subtitle centered.
+#'
+#' @md
+align_titles <- function(align = 0) {
+    ggplot2::theme(
+        plot.title      = ggplot2::element_text(hjust = align),
+        plot.subtitle   = ggplot2::element_text(hjust = align)
+    )
+}
+
+
+#' Rotate and align ggplot2 facet labels
+#'
+#' @param angle (Numeric) Rotation angle. `-90` rotates 90 degrees clockwise, `90` rotates
+#'    90 degrees anti-clockwise.
+#' @param align (Numeric) Horizontal alignment. `0` left-aligns, `1`
+#'    right-aligns, and `0.5` centers.
+#' @param valign (Numeric) Vertical alignment. `0` top-aligns, `1` bottom-aligns,
+#'    and `0.5` centers.
+#'
+#' @return  A ggplot2 theme object.
+#' @export
+#'
+#'
+#'
+#' @md
+#' @name rotate_facet_text
+rotate_x_facet_text <- function(angle = 45, align = 0, valign = 0.25) {
+    ggplot2::theme(strip.text.x = ggplot2::element_text(angle = angle,
+                                                        hjust = align,
+                                                        vjust = valign))
+}
+
+
+#' @rdname rotate_facet_text
+#' @export
+rotate_y_facet_text <- function(angle = 45, align = 0, valign = 0.25) {
+    ggplot2::theme(strip.text.y = ggplot2::element_text(angle = angle,
+                                                        hjust = align,
+                                                        vjust = valign))
+}
+
+#' Make a dendrogram
+#'
+#' @param df (Dataframe or Matrix) The data, arranged in wide format. Non-numeric data
+#'    will be coerced into `NA`s.
+#' @param clust_method (Character) the agglomeration method to be used. This should be
+#'    (an unambiguous abbreviation of) one of "ward.D", "ward.D2", "single", "complete",
+#'    "average" (= UPGMA), "mcquitty" (= WPGMA), "median" (= WPGMC) or "centroid"
+#'    (= UPGMC).
+#' @param dist_method (Character) the distance measure to be used. This must be one of
+#'    "euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski". Any
+#'    unambiguous substring can be given.
+#' @param labels (Character) Text to use as the tip labels.
+#' @param main (Character) Chart title.
+#' @param sub (Character) Chart subtitle.
+#' @param cex (Numeric) Size magnification. `0.8` is 80 percent of the base value.
+#'
+#' @return A dendrogram plot.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' df <- data.frame(stringsAsFactors = FALSE,
+#'                  site = c("a", "b", "c", "d"),
+#'                  spp1 = c(0L, 1L, 1L, 0L),
+#'                  spp2 = c(1L, 1L, 1L, 0L),
+#'                  spp3 = c(0L, 0L, 1L, 0L))
+#'
+#' dendro(df[2:4], labels = df$site)
+#' }
+#'
+#' @md
+dendro <- function(df, clust_method = "ave", dist_method = "euclidean", labels = NULL,
+                   main = NULL, sub = NULL, cex = 0.8) {
+    hc <- stats::hclust(stats::dist(df, method = dist_method), clust_method)
+    graphics::plot(hc,
+                   main = main,
+                   sub = sub,
+                   labels = labels,
+                   cex = cex)
+
+    # FIXME: dendro() does not actually produce a dendrogram-class plot.
 }
