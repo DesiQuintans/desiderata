@@ -4,7 +4,7 @@
 \alias{drop_empty_rows}
 \title{Drop 'empty' rows in a dataframe}
 \usage{
-drop_empty_rows(df, from = 1, to = NULL, cols = NULL)
+drop_empty_rows(df, from = 1, to = NULL, cols = NULL, regex = "^$")
 }
 \arguments{
 \item{df}{(Dataframe) A dataframe.}
@@ -18,6 +18,9 @@ to the last column in \code{df} so that \code{from = 2, to = NULL} is the same a
 \item{cols}{(Numeric or \code{NULL}) A numeric vector of the columns to consider. This
 allows you to select non-contiguous columns. If the \code{cols} argument is being used
 (not-\code{NULL}), \code{from} and \code{to} will be ignored.}
+
+\item{regex}{(Character) A regex pattern that matches a value that should be considered
+'empty'.}
 }
 \value{
 A copy of \code{df} with all empty rows removed, based on whether the rows in the
@@ -71,6 +74,14 @@ drop_empty_rows(data)
 drop_empty_rows(data, from = 2)
 
 # We get the desired result when 'name' is omitted.
+#>        name  a  b c d e f
+#> 1       Jim  0  1 1 0 0 3
+#> 3    Janice  1  1 2 4 5 0
+#> 5       Jay  0  0 0 0 0 3
+
+drop_empty_rows(data, regex = "^J.*?$")
+
+# Regex can be used to match cells that should be 'empty'.
 #>        name  a  b c d e f
 #> 1       Jim  0  1 1 0 0 3
 #> 3    Janice  1  1 2 4 5 0

@@ -4,10 +4,23 @@
 \alias{drop_empty_cols}
 \title{Drop 'empty' columns in a dataframe}
 \usage{
-drop_empty_cols(df)
+drop_empty_cols(df, from = 1, to = NULL, cols = NULL, regex = "^$")
 }
 \arguments{
-\item{df}{(Dataframe) A dataframe to filter.}
+\item{df}{(Dataframe) A dataframe.}
+
+\item{from, to}{(Numeric or \code{NULL}) The start and end of a continuous range of columns
+that will be considered for the empty/not-empty decision. For example, columns that
+are always filled should be omitted (see examples). If \code{to} is \code{NULL}, it defaults
+to the last column in \code{df} so that \code{from = 2, to = NULL} is the same as
+\code{2:length(df)}.}
+
+\item{cols}{(Numeric or \code{NULL}) A numeric vector of the columns to consider. This
+allows you to select non-contiguous columns. If the \code{cols} argument is being used
+(not-\code{NULL}), \code{from} and \code{to} will be ignored.}
+
+\item{regex}{(Character) A regex pattern that matches a value that should be considered
+'empty'.}
 }
 \value{
 A copy of \code{df} with all empty columns removed.
@@ -44,5 +57,12 @@ drop_empty_cols(data)
 #> 1 1  moo
 #> 2 1  baa
 #> 3 0 woof
+
+drop_empty_cols(data, regex = "moo|baa|woof")
+
+#> a c
+#> 1 1
+#> 2 1
+#> 3 0
 
 }

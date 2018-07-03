@@ -1,6 +1,11 @@
+# desiderata 0.14.0
+
+- ADD - `regex` args to `drop_empty_rows()` and `drop_empty_cols()`.
+
 # desiderata 0.13.0
 
 - ADD - `drop_empty_rows()`, which deletes empty rows from a dataframe. A row is empty if every cell is `NA`, `NULL`, `""`, or `0`. You can select which columns to use or omit when making this empty/not-empty decision. For example, columns containing IDs or names will probably never be empty and should be ignored.
+- ADD - `collapse_df()`, which collapses every cell of a dataframe (or a subset of one) into a vector. Useful for grabbing every number in a table and plotting it on a histogram, for example.
 
 # desiderata 0.12.0
 

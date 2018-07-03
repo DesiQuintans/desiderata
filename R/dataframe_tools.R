@@ -141,7 +141,17 @@ overwrite_df <- function(df, find = "^(NA||\\s+|0|-+|_+)$", replace = "", replac
 #' clutter when you are reading a table. Be careful when using this function to clean or
 #' manipulate data because zeroes are often informative.
 #'
-#' @param df (Dataframe) A dataframe to filter.
+#' @param df (Dataframe) A dataframe.
+#' @param from,to (Numeric or `NULL`) The start and end of a continuous range of columns
+#'     that will be considered for the empty/not-empty decision. For example, columns that
+#'     are always filled should be omitted (see examples). If `to` is `NULL`, it defaults
+#'     to the last column in `df` so that `from = 2, to = NULL` is the same as
+#'     `2:length(df)`.
+#' @param cols (Numeric or `NULL`) A numeric vector of the columns to consider. This
+#'     allows you to select non-contiguous columns. If the `cols` argument is being used
+#'     (not-`NULL`), `from` and `to` will be ignored.
+#' @param regex (Character) A regex pattern that matches a value that should be considered
+#'     'empty'.
 #'
 #' @return A copy of `df` with all empty columns removed.
 #' @export
@@ -165,12 +175,22 @@ overwrite_df <- function(df, find = "^(NA||\\s+|0|-+|_+)$", replace = "", replac
 #' #> 2 1  baa
 #' #> 3 0 woof
 #'
+#' drop_empty_cols(data, regex = "moo|baa|woof")
+#'
+#' #> a c
+#' #> 1 1
+#' #> 2 1
+#' #> 3 0
+#'
 #' @section Authors:
 #' - Desi Quintans (<http://www.desiquintans.com>)
 #'
 #' @md
-drop_empty_cols <- function(df) {
-    base::Filter(function(x) !all(is.na(x) | is.null(x) | x == "" | x == 0), df)
+drop_empty_cols <- function(df, from = 1, to = NULL, cols = NULL, regex = "^$") {
+    selected <- construct_cols(df, from = from, to = to, cols = cols)
+    sub_df <- df[selected]
+
+    base::Filter(function(x) !all(is.na(x) | is.null(x) | x == "" | x == 0 | grepl(regex, x)), sub_df)
 }
 
 
@@ -191,6 +211,8 @@ drop_empty_cols <- function(df) {
 #' @param cols (Numeric or `NULL`) A numeric vector of the columns to consider. This
 #'     allows you to select non-contiguous columns. If the `cols` argument is being used
 #'     (not-`NULL`), `from` and `to` will be ignored.
+#' @param regex (Character) A regex pattern that matches a value that should be considered
+#'     'empty'.
 #'
 #' @return A copy of `df` with all empty rows removed, based on whether the rows in the
 #'     selected columns were empty.
@@ -235,6 +257,14 @@ drop_empty_cols <- function(df) {
 #' #> 3    Janice  1  1 2 4 5 0
 #' #> 5       Jay  0  0 0 0 0 3
 #'
+#' drop_empty_rows(data, regex = "^J.*?$")
+#'
+#' # Regex can be used to match cells that should be 'empty'.
+#' #>        name  a  b c d e f
+#' #> 1       Jim  0  1 1 0 0 3
+#' #> 3    Janice  1  1 2 4 5 0
+#' #> 5       Jay  0  0 0 0 0 3
+#'
 #' drop_empty_rows(data, cols = c(2, 5, 6))
 #'
 #' # Non-contiguous columns can be selected with 'cols'.
@@ -245,21 +275,9 @@ drop_empty_cols <- function(df) {
 #' - Desi Quintans (<http://www.desiquintans.com>)
 #'
 #' @md
-drop_empty_rows <- function(df, from = 1, to = NULL, cols = NULL) {
-    if (is.null(from) & is.null(cols)) {
-        stop("One of either the 'from' or 'cols' arguments needs to be set.")
-    }
-
-    if (is.null(cols)) {
-        # Construct a matrix using the 'from' and 'to' args.
-        if (is.null(to)) {
-            to <- length(df)
-        }
-
-        cols <- from:to
-    }
-
-    mat <- df[cols]
+drop_empty_rows <- function(df, from = 1, to = NULL, cols = NULL, regex = "^$") {
+    selected <- construct_cols(df, from = from, to = to, cols = cols)
+    sub_df <- df[selected]
 
     # trimws() MUST be kept in the anonymous function below.
     # https://stackoverflow.com/a/15618761/5578429
@@ -271,16 +289,54 @@ drop_empty_rows <- function(df, from = 1, to = NULL, cols = NULL) {
     # " 0" "0" " "    This row is wrongly kept because " 0" and " " are not 'empty'.
     # " 1" "1" "2"
     # " 1" "1" "3"
-    is_empty <- apply(mat, MARGIN = 1,
+    is_empty <- apply(sub_df, MARGIN = 1,
                       function(x) {
                           y <- trimws(x, which = "both");
                           all(nchar(y) == 0 |
                               y == "" |
                               y == 0 |
                               is.na(y) |
-                              is.null(y))
+                              is.null(y) |
+                              grepl(regex, y))
                           }
                       )
 
     return(df[!is_empty,])
+}
+
+
+#' Collapse a dataframe into a vector
+#'
+#' Useful for taking every number in a table and plotting it in a histogram, for example.
+#'
+#' @param df (Dataframe) A dataframe.
+#' @param from,to (Numeric or `NULL`) The start and end of a continuous range of columns
+#'     that will be considered for the empty/not-empty decision. For example, columns that
+#'     are always filled should be omitted (see examples). If `to` is `NULL`, it defaults
+#'     to the last column in `df` so that `from = 2, to = NULL` is the same as
+#'     `2:length(df)`.
+#' @param cols (Numeric or `NULL`) A numeric vector of the columns to consider. This
+#'     allows you to select non-contiguous columns. If the `cols` argument is being used
+#'     (not-`NULL`), `from` and `to` will be ignored.
+#'
+#' @return A vector containing the cell contents from the selected columns of `df`.
+#'     If all of the cells are numeric, the vector is Numeric. If any of the cells contain
+#'     strings, the vector is Character. The columns are concatenated in order.
+#' @export
+#'
+#' @examples
+#' collapse_df(iris, cols = 1:4)
+#'
+#' #> [1] 5.1 4.9 4.7 4.6 5.0 5.4 4.6 5.0 4.4 4.9 5.4 4.8 ...
+#'
+#' @md
+collapse_df <- function(df, from = 1, to = NULL, cols = NULL) {
+    selected <- construct_cols(df, from = from, to = to, cols = cols)
+    sub_df <- df[selected]
+
+    # I wondered for a second why I should even make this a function instead of just using
+    # unlist() directly. But then I realised that I would have to keep typing
+    # longdataframename[2:length(longdataframename)], and that's pretty annoying.
+
+    return(unlist(sub_df, use.names = FALSE))
 }

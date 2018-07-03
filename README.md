@@ -32,6 +32,7 @@ abide by its terms.
     - Replace all matching values in a dataframe with something else (`overwrite_df()` - [example](#replace-all-matching-values-in-a-dataframe-with-something-else))
     - Drop 'empty' columns in a dataframe (`drop_empty_cols()` - [example](#drop-empty-columns-in-a-dataframe))
     - Drop 'empty' rows in a dataframe (`drop_empty_rows()` - [example](#drop-empty-rows-in-a-dataframe))
+    - Collapse a dataframe into a vector (`collapse_df()` - [example](#collapse-a-dataframe-into-a-vector))
     
 - **File system functions**
     - Load an RDS file and announce when it was created (`loadRDS()` - [example](#load-an-rds-file-and-announce-when-it-was-created))
@@ -216,6 +217,16 @@ drop_empty_rows(data, cols = c(2, 5, 6))
 # Non-contiguous columns can be selected with 'cols'.
 #>        name  a  b c d e f
 #> 3    Janice  1  1 2 4 5 0
+```
+
+### Collapse a dataframe into a vector
+
+Useful for taking every number in a table and plotting it in a histogram, for example.
+
+``` r
+collapse_df(iris, cols = 1:4)
+
+#> [1] 5.1 4.9 4.7 4.6 5.0 5.4 4.6 5.0 4.4 4.9 5.4 4.8 ...
 ```
 
 ## File system functions
