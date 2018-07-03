@@ -82,9 +82,9 @@ mark_last_peak <- function(vec, threshold = NULL) {
 
 #' Replace all matching values in a dataframe with something else
 #'
-#' Uses regex to match and replace cell values. This function is intended to be used just
-#' before printing a table to a Rmarkdown document; it's often useful to blank out NAs or
-#' other values to minimise visual clutter. For actual data-tidying applications, it's
+#' Uses regex to match and replace cell values. This function is meant for formatting
+#' printed data; it's often useful to blank out NAs or other values to minimise visual
+#' clutter when you are reading a table. For actual data-tidying applications, it's
 #' safer to use `dplyr::recode()` or `dplyr::recode_factor()`.
 #'
 #' By default, this function will replace cells consisting of NAs, spaces, empty strings,
@@ -111,6 +111,10 @@ mark_last_peak <- function(vec, threshold = NULL) {
 #'
 #' test_df
 #' overwrite_df(test_df)
+#'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#'
 #' @md
 overwrite_df <- function(df, find = "^(NA||\\s+|0|-+|_+)$", replace = "", replace_na = TRUE) {
     df_l <- df
@@ -131,7 +135,11 @@ overwrite_df <- function(df, find = "^(NA||\\s+|0|-+|_+)$", replace = "", replac
 
 #' Drop 'empty' columns in a dataframe
 #'
-#' A column is empty when every single row is NA, NULL, "", or 0.
+#' Deletes columns from a dataframe if they are 'empty'. A column is empty when every
+#' single row is `NA`, `NULL`, `""`, or `0`. This function is meant for formatting
+#' printed data; it's often useful to omit uninformative columns to reduce visual
+#' clutter when you are reading a table. Be careful when using this function to clean or
+#' manipulate data because zeroes are often informative.
 #'
 #' @param df (Dataframe) A dataframe to filter.
 #'
@@ -157,7 +165,122 @@ overwrite_df <- function(df, find = "^(NA||\\s+|0|-+|_+)$", replace = "", replac
 #' #> 2 1  baa
 #' #> 3 0 woof
 #'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#'
 #' @md
 drop_empty_cols <- function(df) {
-    base::Filter(function(x) !all(is.na(x) || is.null(x) || x == "" || x == 0), df)
+    base::Filter(function(x) !all(is.na(x) | is.null(x) | x == "" | x == 0), df)
+}
+
+
+#' Drop 'empty' rows in a dataframe
+#'
+#' Deletes rows from a dataframe if they are 'empty'. A row is empty when every single
+#' cell is `NA`, `NULL`, `""`, or `0`. This function is meant for formatting printed data;
+#' it's often useful to omit uninformative rows to reduce visual clutter when you are
+#' reading a table. Be careful when using this function to clean or manipulate data
+#' because zeroes are often informative.
+#'
+#' @param df (Dataframe) A dataframe.
+#' @param from,to (Numeric or `NULL`) The start and end of a continuous range of columns
+#'     that will be considered for the empty/not-empty decision. For example, columns that
+#'     are always filled should be omitted (see examples). If `to` is `NULL`, it defaults
+#'     to the last column in `df` so that `from = 2, to = NULL` is the same as
+#'     `2:length(df)`.
+#' @param cols (Numeric or `NULL`) A numeric vector of the columns to consider. This
+#'     allows you to select non-contiguous columns. If the `cols` argument is being used
+#'     (not-`NULL`), `from` and `to` will be ignored.
+#'
+#' @return A copy of `df` with all empty rows removed, based on whether the rows in the
+#'     selected columns were empty.
+#' @export
+#'
+#' @examples
+#' data <- data.frame(name = c("Jim", "Jane", "Janice", "Joe", "Jay"),
+#'                    a = c(0, 0, 1, NA, 0),
+#'                    b = c(1, "", 1, NA, 0),
+#'                    c = c(1, 0, 2, 0, 0),
+#'                    d = c(0, 0, 4, 0, 0),
+#'                    e = c(0, 0, 5, 0, 0),
+#'                    f = c(3, 0, 0, 0, 3),
+#'                    stringsAsFactors = FALSE)
+#'
+#' data
+#'
+#' #>           1  2    3 4 5 6 7
+#' #>
+#' #>        name  a    b c d e f
+#' #> 1       Jim  0    1 1 0 0 3
+#' #> 2      Jane  0      0 0 0 0
+#' #> 3    Janice  1    1 2 4 5 0
+#' #> 4       Joe NA <NA> 0 0 0 0
+#' #> 5       Jay  0    0 0 0 0 3
+#'
+#' drop_empty_rows(data)
+#'
+#' # Returns the whole dataframe because column 1 ('name') is never empty.
+#' #>        name  a    b c d e f
+#' #> 1       Jim  0    1 1 0 0 3
+#' #> 2      Jane  0      0 0 0 0
+#' #> 3    Janice  1    1 2 4 5 0
+#' #> 4       Joe NA <NA> 0 0 0 0
+#' #> 5       Jay  0    0 0 0 0 3
+#'
+#' drop_empty_rows(data, from = 2)
+#'
+#' # We get the desired result when 'name' is omitted.
+#' #>        name  a  b c d e f
+#' #> 1       Jim  0  1 1 0 0 3
+#' #> 3    Janice  1  1 2 4 5 0
+#' #> 5       Jay  0  0 0 0 0 3
+#'
+#' drop_empty_rows(data, cols = c(2, 5, 6))
+#'
+#' # Non-contiguous columns can be selected with 'cols'.
+#' #>        name  a  b c d e f
+#' #> 3    Janice  1  1 2 4 5 0
+#'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#'
+#' @md
+drop_empty_rows <- function(df, from = 1, to = NULL, cols = NULL) {
+    if (is.null(from) & is.null(cols)) {
+        stop("One of either the 'from' or 'cols' arguments needs to be set.")
+    }
+
+    if (is.null(cols)) {
+        # Construct a matrix using the 'from' and 'to' args.
+        if (is.null(to)) {
+            to <- length(df)
+        }
+
+        cols <- from:to
+    }
+
+    mat <- df[cols]
+
+    # trimws() MUST be kept in the anonymous function below.
+    # https://stackoverflow.com/a/15618761/5578429
+    # When apply() is given a dataframe, it coerces it to a matrix with as.matrix(). The
+    # coercion is done using format(), which pads numbers with spaces to the length
+    # of the longest string in the column. This means that a df might be coerced as:
+    #
+    # "NA" "1" "1"
+    # " 0" "0" " "    This row is wrongly kept because " 0" and " " are not 'empty'.
+    # " 1" "1" "2"
+    # " 1" "1" "3"
+    is_empty <- apply(mat, MARGIN = 1,
+                      function(x) {
+                          y <- trimws(x, which = "both");
+                          all(nchar(y) == 0 |
+                              y == "" |
+                              y == 0 |
+                              is.na(y) |
+                              is.null(y))
+                          }
+                      )
+
+    return(df[!is_empty,])
 }

@@ -20,15 +20,22 @@ overwrite_df(df, find = "^(NA||\\\\s+|0|-+|_+)$", replace = "",
 A dataframe.
 }
 \description{
-Uses regex to match and replace cell values. This function is intended to be used just
-before printing a table to a Rmarkdown document; it's often useful to blank out NAs or
-other values to minimise visual clutter. For actual data-tidying applications, it's
+Uses regex to match and replace cell values. This function is meant for formatting
+printed data; it's often useful to blank out NAs or other values to minimise visual
+clutter when you are reading a table. For actual data-tidying applications, it's
 safer to use \code{dplyr::recode()} or \code{dplyr::recode_factor()}.
 }
 \details{
 By default, this function will replace cells consisting of NAs, spaces, empty strings,
 dashes, and underscores with an empty string.
 }
+\section{Authors}{
+
+\itemize{
+\item Desi Quintans (\url{http://www.desiquintans.com})
+}
+}
+
 \examples{
 test_df <-
     data.frame(stringsAsFactors = FALSE,
@@ -42,4 +49,5 @@ test_df <-
 
 test_df
 overwrite_df(test_df)
+
 }

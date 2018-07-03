@@ -32,6 +32,7 @@ abide by its terms.
     - Mark the location of the last maximum value (peak) in a vector (`mark_last_peak()` - [example](#mark-the-location-of-the-last-maximum-value-peak-in-a-vector))
     - Replace all matching values in a dataframe with something else (`overwrite_df()` - [example](#replace-all-matching-values-in-a-dataframe-with-something-else))
     - Drop 'empty' columns in a dataframe (`drop_empty_cols()` - [example](#drop-empty-columns-in-a-dataframe))
+    - Drop 'empty' rows in a dataframe (`drop_empty_rows()` - [example](#drop-empty-rows-in-a-dataframe))
     
 - **File system functions**
     - Load an RDS file and announce when it was created (`loadRDS()` - [example](#load-an-rds-file-and-announce-when-it-was-created))
@@ -39,7 +40,6 @@ abide by its terms.
     - Apply a function to every file in a folder that matches a regex pattern (`apply_to_files()` - [example](#apply-a-function-to-every-file-in-a-folder-that-matches-a-regex-pattern))
     
 - **Number functions**
-- 
     - Find the mode(s) of a numeric/character/factor vector (`Mode()` - [example](#find-the-modes-of-a-numericcharacterfactor-vector))
     - Geometric mean of a vector (`geomean()` - [example](#geometric-mean-of-a-vector))
     - Round a number to a fixed decimal place length (`round_to_places()` - [example](#round-a-number-to-a-fixed-decimal-place-length))
@@ -167,6 +167,56 @@ drop_empty_cols(data)
 #> 1 1  moo
 #> 2 1  baa
 #> 3 0 woof
+```
+
+### Drop 'empty' rows in a dataframe
+
+A column is empty when every single cell is `NA`, `NULL`, `""`, or `0`.
+
+``` r
+data <- data.frame(name = c("Jim", "Jane", "Janice", "Joe", "Jay"),
+                   a = c(0, 0, 1, NA, 0),
+                   b = c(1, "", 1, NA, 0),
+                   c = c(1, 0, 2, 0, 0),
+                   d = c(0, 0, 4, 0, 0),
+                   e = c(0, 0, 5, 0, 0),
+                   f = c(3, 0, 0, 0, 3),
+                   stringsAsFactors = FALSE)
+
+data
+
+#>           1  2    3 4 5 6 7
+#> 
+#>        name  a    b c d e f
+#> 1       Jim  0    1 1 0 0 3
+#> 2      Jane  0      0 0 0 0
+#> 3    Janice  1    1 2 4 5 0
+#> 4       Joe NA <NA> 0 0 0 0
+#> 5       Jay  0    0 0 0 0 3
+
+drop_empty_rows(data)
+
+# Returns the whole dataframe because column 1 ('name') is never empty.
+#>        name  a    b c d e f
+#> 1       Jim  0    1 1 0 0 3
+#> 2      Jane  0      0 0 0 0
+#> 3    Janice  1    1 2 4 5 0
+#> 4       Joe NA <NA> 0 0 0 0
+#> 5       Jay  0    0 0 0 0 3
+
+drop_empty_rows(data, from = 2)
+
+# We get the desired result when 'name' is omitted.
+#>        name  a  b c d e f
+#> 1       Jim  0  1 1 0 0 3
+#> 3    Janice  1  1 2 4 5 0
+#> 5       Jay  0  0 0 0 0 3
+
+drop_empty_rows(data, cols = c(2, 5, 6))
+
+# Non-contiguous columns can be selected with 'cols'.
+#>        name  a  b c d e f
+#> 3    Janice  1  1 2 4 5 0
 ```
 
 ## File system functions

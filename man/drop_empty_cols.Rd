@@ -13,8 +13,19 @@ drop_empty_cols(df)
 A copy of \code{df} with all empty columns removed.
 }
 \description{
-A column is empty when every single row is NA, NULL, "", or 0.
+Deletes columns from a dataframe if they are 'empty'. A column is empty when every
+single row is \code{NA}, \code{NULL}, \code{""}, or \code{0}. This function is meant for formatting
+printed data; it's often useful to omit uninformative columns to reduce visual
+clutter when you are reading a table. Be careful when using this function to clean or
+manipulate data because zeroes are often informative.
 }
+\section{Authors}{
+
+\itemize{
+\item Desi Quintans (\url{http://www.desiquintans.com})
+}
+}
+
 \examples{
 data <- data.frame(a = c(1, 2, 3),
                    b = c(0, 0, 0),
