@@ -11,9 +11,12 @@
 #' If all values are unique, it will return **all** of the values.
 #'
 #' @param x (Char/Numeric/Factor) A vector.
-#' @param na.rm (Logical) If TRUE, NAs will be silently removed.
-#' @param mean (Logical) If TRUE, return the average of all the modes. Only makes sense
-#'   for a numeric vector.
+#' @param na.rm (Logical) If `TRUE`, NAs will be silently removed.
+#' @param ties (Logical) If `TRUE` and `x` has multiple modes (e.g. `c(2, 2, 1, 1)`),
+#'    return all of modes that were found (`2, 1`). If `FALSE`, only the first mode
+#'    (the one first appearing in `x`) will be returned (`2`).
+#' @param mean (Logical) If `TRUE`, return the average of all the modes. Only makes sense
+#'   for a numeric vector. Only the first mode is returned if `ties == FALSE`,
 #'
 #' @return A vector of the mode value(s).
 #' @export
@@ -36,6 +39,9 @@
 #' Mode(1:4)
 #' #> [1] 1 2 3 4
 #'
+#' Mode(1:4, ties = FALSE)
+#' #> [1] 1
+#'
 #' Mode(1:4, mean = TRUE)
 #' #> [1] 2.5
 #'
@@ -49,7 +55,7 @@
 #' <https://stackoverflow.com/a/8189441/5578429>
 #'
 #' @md
-Mode <- function(x, na.rm = FALSE, mean = FALSE) {
+Mode <- function(x, na.rm = FALSE, ties = FALSE, mean = FALSE) {
     if (na.rm) {
         x = x[!is.na(x)]
     }
@@ -60,6 +66,10 @@ Mode <- function(x, na.rm = FALSE, mean = FALSE) {
 
     if (mean == TRUE) {
         result <- mean(result)
+    }
+
+    if (ties == FALSE) {
+        result <- result[1]
     }
 
     return(result)

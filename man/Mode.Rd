@@ -4,15 +4,19 @@
 \alias{Mode}
 \title{Mode of a vector (numeric/character/factor)}
 \usage{
-Mode(x, na.rm = FALSE, mean = FALSE)
+Mode(x, na.rm = FALSE, ties = FALSE, mean = FALSE)
 }
 \arguments{
 \item{x}{(Char/Numeric/Factor) A vector.}
 
-\item{na.rm}{(Logical) If TRUE, NAs will be silently removed.}
+\item{na.rm}{(Logical) If \code{TRUE}, NAs will be silently removed.}
 
-\item{mean}{(Logical) If TRUE, return the average of all the modes. Only makes sense
-for a numeric vector.}
+\item{ties}{(Logical) If \code{TRUE} and \code{x} has multiple modes (e.g. \code{c(2, 2, 1, 1)}),
+return all of modes that were found (\code{2, 1}). If \code{FALSE}, only the first mode
+(the one first appearing in \code{x}) will be returned (\code{2}).}
+
+\item{mean}{(Logical) If \code{TRUE}, return the average of all the modes. Only makes sense
+for a numeric vector. Only the first mode is returned if \code{ties == FALSE},}
 }
 \value{
 A vector of the mode value(s).
@@ -58,6 +62,9 @@ Mode(vec, na.rm = TRUE, mean = TRUE)
 
 Mode(1:4)
 #> [1] 1 2 3 4
+
+Mode(1:4, ties = FALSE)
+#> [1] 1
 
 Mode(1:4, mean = TRUE)
 #> [1] 2.5
