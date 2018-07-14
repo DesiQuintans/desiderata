@@ -68,6 +68,7 @@ abide by its terms.
     - Flag vector elements that are not in another vector (inverse of `%in%`) (`%notin%` - [example](#flag-vector-elements-that-are-not-in-another-vector-inverse-of-in))
     - Percentage of matching elements between two vectors (`%pctin%` - [example](#percentage-of-matching-elements-between-two-vectors))
     - Print to console, wrapping the text to a specific line width (`cat_wrap()` - [example](#print-to-console-wrapping-the-text-to-a-specific-line-width))
+    - Copy a dataframe, vector, or the result of an expression to the clipboard (`clippy()` - [example](#copy-a-dataframe-vector-or-the-result-of-an-expression-to-the-clipboard))
 
 ## Data included
 
@@ -295,6 +296,9 @@ Mode(vec, na.rm = TRUE, mean = TRUE)
 
 Mode(1:4)
 #> [1] 1 2 3 4
+
+Mode(1:4, ties = FALSE)
+#> [1] 1
 
 Mode(1:4, mean = TRUE)
 #> [1] 2.5
@@ -566,6 +570,34 @@ cat_wrap(vec, width = 25)
 #> text.
 ```
 
+### Copy a dataframe, vector, or the result of an expression to the clipboard
+
+``` r
+clippy(mtcars)
+
+# Clipboard contents:
+# mpg  cyl disp  hp   drat  wt     qsec   vs  am  gear  carb
+# 21   6   160   110  3.9   2.62   16.46  0   1   4     4
+# 21   6   160   110  3.9   2.875  17.02  0   1   4     4
+# ...
+
+clippy(iris$Petal.Length)
+
+# Clipboard contents:
+# 1.4
+# 1.4
+# 1.3
+# ...
+
+clippy(colnames(iris))
+
+# Clipboard contents:
+# Sepal.Length
+# Sepal.Width
+# Petal.Length
+# Petal.Width
+# Species
+```
 
 ## Data included
 

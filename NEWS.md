@@ -1,3 +1,8 @@
+# desiderata 0.15.0
+
+- ADD - `clippy()`, which copies dataframes, vectors, and the results of expressions to the system clipboard. Tested on Windows, but hopefully also works on Mac!
+- MOD - Added `ties` arg to `Mode()`. If `ties == FALSE` and there are multiple modes (e.g. `c(2, 2, 1, 1)`), only the first mode (`2`) will be returned.
+
 # desiderata 0.14.0
 
 - ADD - `regex` args to `drop_empty_rows()` and `drop_empty_cols()`.

@@ -165,3 +165,100 @@ cat_wrap <- function(text, width = 80, element_sep = "\n") {
 }
 
 
+#' Copy a dataframe, vector, or the result of an expression to the clipboard
+#'
+#' Tested on Windows.
+#'
+#' @param x (An expression, vector, dataframe, or `NULL`) The thing to copy to the
+#'   clipboard. If `NULL`, the `.Last.value` will be copied. If x is a dataframe, it will
+#'   be copied with column names but not row names. If x is something else (a vector, for
+#'   example) it will be coerced into a one-column dataframe and copied **without** column
+#'   names or row names. Char and factor in x will not be surrounded by quotes in the
+#'   clipboard.
+#'
+#' @return Invisibly returns the contents of the clipboard. If `.Last.value` is displayed
+#'   in RStudio's 'Environment' tab, you'll see its value change.
+#' @export
+#'
+#' @examples
+#' clippy(mtcars)
+#'
+#' # Clipboard contents:
+#' # mpg  cyl disp  hp   drat  wt     qsec   vs  am  gear  carb
+#' # 21   6   160   110  3.9   2.62   16.46  0   1   4     4
+#' # 21   6   160   110  3.9   2.875  17.02  0   1   4     4
+#' # ...
+#'
+#' clippy(iris$Petal.Length)
+#'
+#' # Clipboard contents:
+#' # 1.4
+#' # 1.4
+#' # 1.3
+#' # ...
+#'
+#' clippy(colnames(iris))
+#'
+#' # Clipboard contents:
+#' # Sepal.Length
+#' # Sepal.Width
+#' # Petal.Length
+#' # Petal.Width
+#' # Species
+#'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#' - Darwin PC (<https://stackoverflow.com/users/2543306>)
+#' - dracodoc (<https://gist.github.com/dracodoc>)
+#'
+#' @section Source:
+#' - <https://stackoverflow.com/a/28845828/5578429>
+#' - <https://gist.github.com/dracodoc/74e5d2042efec0dfd9fcdbe6d65cf7e2>
+#'
+#' @md
+clippy <- function(x = NULL) {
+    # Get the data to copy
+    if (is.null(x)) {
+        result <- .Last.value
+    }
+
+    result <- eval(quote(x))
+
+    # Apparently this provides multi-platform access for writing to the clipboard?
+    clipboard <- file(description = "clipboard")
+
+    # Copy the stuff to the clipboard in a type-sensitive way
+    if ("data.frame" %in% class(result)) {
+        utils::write.table(result, clipboard, sep = "\t",
+                           quote = FALSE,
+                           row.names = FALSE,
+                           col.names = TRUE)
+    } else {
+        # It's assumed to be a simple vector
+        utils::write.table(result, clipboard, sep = "\t",
+                           quote = FALSE,
+                           row.names = FALSE,
+                           col.names = FALSE)
+    }
+
+    # As a confirmatory step, return the contents of the clipboard. If you have
+    # .Last.value displayed in RStudio's 'Environment' tab, you'll see it change.
+    # From dracodoc's generic clipboard funs:
+    # https://gist.github.com/dracodoc/74e5d2042efec0dfd9fcdbe6d65cf7e2
+    os <- Sys.info()[['sysname']]
+
+    if (os == "Windows") {
+        contents <- utils::readClipboard()
+    } else if (os == "Darwin") {
+        pb_read_lines <- function() {
+            clip_r_mac <- pipe("pbpaste")
+            lines <- readLines(clip_r_mac)
+            close(clip_r_mac)
+            return(lines)
+        }
+
+        contents <- pb_read_lines()
+    }
+
+    return(invisible(contents))
+}
