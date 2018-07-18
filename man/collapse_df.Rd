@@ -27,6 +27,13 @@ strings, the vector is Character. The columns are concatenated in order.
 \description{
 Useful for taking every number in a table and plotting it in a histogram, for example.
 }
+\section{Authors}{
+
+\itemize{
+\item Desi Quintans (\url{http://www.desiquintans.com})
+}
+}
+
 \examples{
 collapse_df(iris, cols = 1:4)
 

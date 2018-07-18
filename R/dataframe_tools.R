@@ -329,6 +329,9 @@ drop_empty_rows <- function(df, from = 1, to = NULL, cols = NULL, regex = "^$") 
 #'
 #' #> [1] 5.1 4.9 4.7 4.6 5.0 5.4 4.6 5.0 4.4 4.9 5.4 4.8 ...
 #'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#'
 #' @md
 collapse_df <- function(df, from = 1, to = NULL, cols = NULL) {
     selected <- construct_cols(df, from = from, to = to, cols = cols)
