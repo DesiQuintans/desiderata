@@ -343,3 +343,46 @@ collapse_df <- function(df, from = 1, to = NULL, cols = NULL) {
 
     return(unlist(sub_df, use.names = FALSE))
 }
+
+
+#' Sort columns in a dataframe
+#'
+#' @param df (Dataframe) A dataframe.
+#' @param ... (Column names) If you want to manually position columns _after_ they are
+#'    sorted, provide unquoted column names here. The columns in `...` will be placed
+#'    first in the dataframe, and then all other unlisted columns will be placed after.
+#' @param decreasing (Logical) If `FALSE`, sort columns from A-Z and 0-9. If `TRUE`, sort
+#'    in reverse.
+#'
+#' @return A copy of `df` with reordered columns.
+#' @export
+#'
+#' @examples
+#' colnames(iris)
+#'
+#' #> [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width"  "Species"
+#'
+#' sorted <- sort_cols(iris)
+#' colnames(sorted)
+#'
+#' #> [1] "Petal.Length" "Petal.Width"  "Sepal.Length" "Sepal.Width"  "Species"
+#'
+#' reverse <- sort_cols(iris, decreasing = TRUE)
+#' colnames(reverse)
+#'
+#' #> [1] "Species"  "Sepal.Width"  "Sepal.Length" "Petal.Width"  "Petal.Length"
+#'
+#' manual <- sort_cols(iris, Species)
+#' colnames(manual)
+#'
+#' #> [1] "Species" " Petal.Length" "Petal.Width"  "Sepal.Length" "Sepal.Width"
+#'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#'
+#' @md
+sort_cols <- function(df, ..., decreasing = FALSE) {
+    dots <- dplyr::quos(...)
+    sorted <- df[, order(colnames(df), decreasing = decreasing)]  # Order cols.
+    return(dplyr::select(sorted, !!! dots, dplyr::everything()))
+}
