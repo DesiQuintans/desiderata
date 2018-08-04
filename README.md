@@ -260,7 +260,8 @@ saveRDS(iris, make_path("subfolders/to/compiled/data/iris.rds"))
 ``` r
 rain <- apply_to_files(path = "Raw data/Rainfall", pattern = "csv", 
                        func = readr::read_csv, col_types = "Tiic", 
-                       recursive = FALSE, ignorecase = TRUE)
+                       recursive = FALSE, ignorecase = TRUE, 
+                       method = "row_bind")
 
 dplyr::sample_n(rain, 5)
 

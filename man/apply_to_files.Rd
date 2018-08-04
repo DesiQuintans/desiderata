@@ -5,7 +5,7 @@
 \title{Apply a function to every file in a folder that matches a regex pattern}
 \usage{
 apply_to_files(path, pattern, func, ..., recursive = FALSE,
-  ignorecase = TRUE)
+  ignorecase = TRUE, method = "full_join")
 }
 \arguments{
 \item{path}{(Character) The path to the folder.}
@@ -19,10 +19,21 @@ apply_to_files(path, pattern, func, ..., recursive = FALSE,
 \item{recursive}{(Logical) If \code{TRUE}, also search inside the subfolders of \code{path}.}
 
 \item{ignorecase}{(Logical) If \code{TRUE}, \code{pattern} is case-insensitive.}
+
+\item{method}{(Character) The method to use to merge all of the files into on
+dataframe. \code{"full_join"} (the default) returns all columns and rows. \code{"left_join"}
+returns all rows from the first file, and all columns from subsequent files.
+\code{"inner_join"} returns rows from the first file that have matches in subsequent files.
+\code{"row_bind"} simply appends each file to the end of the last.
+
+appends each new file to last row of the dataframe, but leaves \code{NA}s when the files
+contain different columns.}
 }
 \value{
-Invisibly returns a single dataframe with all of the input files row-binded
-together. A new column, \code{orig_source_file}, contains the source file's name.
+Invisibly returns a single dataframe with all of the input files merged
+together. If \code{method = "row_bind",} then a new column, \code{orig_source_file}, contains
+the source file's name. The "join" methods do not have this column because the values
+are mixed together.
 }
 \description{
 Create a list of files that match a regex search pattern, and then apply a function to
@@ -45,7 +56,8 @@ each file. For example, run \code{read_csv} on every .csv file in a folder.
 
 # rain <- apply_to_files(path = "Raw data/Rainfall", pattern = "csv",
 #                        func = readr::read_csv, col_types = "Tiic",
-#                        recursive = FALSE, ignorecase = TRUE)
+#                        recursive = FALSE, ignorecase = TRUE,
+#                        method = "row_bind")
 
 # dplyr::sample_n(rain, 5)
 

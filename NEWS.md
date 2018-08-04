@@ -1,3 +1,8 @@
+# desiderata 0.16.0 (2018-08-05)
+
+- ADD - `method` arg to `apply_to_files()` to provide more options than simple row-binding. 
+- MOD - Started recording dates of changes.
+
 # desiderata 0.15.0
 
 - ADD - `clippy()`, which copies dataframes, vectors, and the results of expressions to the system clipboard. Tested on Windows, but hopefully also works on Mac!

@@ -103,16 +103,28 @@ make_path <- function(...) {
 #' @param ...  (...) Optional arguments that will be passed to `func`.
 #' @param recursive (Logical) If `TRUE`, also search inside the subfolders of `path`.
 #' @param ignorecase (Logical) If `TRUE`, `pattern` is case-insensitive.
+#' @param method (Character) The method to use to merge all of the files into on
+#'   dataframe. `"full_join"` (the default) returns all columns and rows. `"left_join"`
+#'   returns all rows from the first file, and all columns from subsequent files.
+#'   `"inner_join"` returns rows from the first file that have matches in subsequent files.
+#'   `"row_bind"` simply appends each file to the end of the last.
 #'
-#' @return Invisibly returns a single dataframe with all of the input files row-binded
-#'    together. A new column, `orig_source_file`, contains the source file's name.
+#'
+#'   appends each new file to last row of the dataframe, but leaves `NA`s when the files
+#'   contain different columns.
+#'
+#' @return Invisibly returns a single dataframe with all of the input files merged
+#'   together. If `method = "row_bind",` then a new column, `orig_source_file`, contains
+#'   the source file's name. The "join" methods do not have this column because the values
+#'   are mixed together.
 #' @export
 #'
 #' @examples
 #'
 #' # rain <- apply_to_files(path = "Raw data/Rainfall", pattern = "csv",
 #' #                        func = readr::read_csv, col_types = "Tiic",
-#' #                        recursive = FALSE, ignorecase = TRUE)
+#' #                        recursive = FALSE, ignorecase = TRUE,
+#' #                        method = "row_bind")
 #'
 #' # dplyr::sample_n(rain, 5)
 #'
@@ -134,17 +146,25 @@ make_path <- function(...) {
 #' <http://stackoverflow.com/a/24376207>
 #'
 #' @md
-apply_to_files <- function(path, pattern, func, ..., recursive = FALSE, ignorecase = TRUE) {
+apply_to_files <- function(path, pattern, func, ..., recursive = FALSE, ignorecase = TRUE, method = "full_join") {
     file_list <- list.files(path = path,
                             pattern = pattern,
-                            full.names = TRUE,  # Return full relative path.
+                            full.names = TRUE,      # Return full relative path.
                             recursive = recursive,  # Search into subfolders.
                             ignore.case = ignorecase)
 
     df_list <- lapply(file_list, func, ...)
 
+    # The .id arg of bind_rows() uses the names to create the ID column.
     names(df_list) <- basename(file_list)
-    out <- dplyr::bind_rows(df_list, .id = "orig_source_file")
+
+    out <- switch(method,
+                  "full_join"  = plyr::join_all(df_list, type = "full"),
+                  "left_join"  = plyr::join_all(df_list, type = "left"),
+                  "inner_join" = plyr::join_all(df_list, type = "inner"),
+                  # The fancy joins don't have orig_source_file because the values were
+                  # getting all mixed together.
+                  "row_bind"   = dplyr::bind_rows(df_list, .id = "orig_source_file"))
 
     return(invisible(out))
 }
