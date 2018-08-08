@@ -42,6 +42,7 @@ abide by its terms.
 - **Number functions**
     - Find the mode(s) of a numeric/character/factor vector (`Mode()` - [example](#find-the-modes-of-a-numericcharacterfactor-vector))
     - Geometric mean of a vector (`geomean()` - [example](#geometric-mean-of-a-vector))
+    - Standard error of the mean (`se_mean()` - [example](#standard-error-of-the-mean))
     - Round a number to a fixed decimal place length (`round_to_places()` - [example](#round-a-number-to-a-fixed-decimal-place-length))
     - Round numbers to the nearest "pretty" value (`round_to_nearest()` - [example](#round-numbers-to-the-nearest-pretty-value))
     - Seed the random number generator with a character string (or any object) (`set.seed.any()` - [example](#seed-the-random-number-generator-with-a-character-string-or-any-object))
