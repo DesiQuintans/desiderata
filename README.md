@@ -316,6 +316,22 @@ mean(vec)
 geomean(vec)
 #> [1] 27
 ```
+
+### Standard error of the mean
+
+The standard error of the mean is how the estimated mean changes with multiple
+measurements (i.e. how far away the mean of each sampling event or observation is from
+the true population mean). SE drops as sample size grows because as you take more
+mreasurements, the sampling means cluster more closely to the true mean.
+
+``` r
+se_mean(c(1, 2, 3, 4, NA_integer_))
+#> NA
+
+se_mean(c(1, 2, 3, 4, NA_integer_), na.rm = TRUE)
+#> [1] 0.6454972
+```
+
 ### Round a number to a fixed decimal place length
 
 ``` r

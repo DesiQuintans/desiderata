@@ -1,3 +1,7 @@
+# desiderata 0.17.0 (2018-08-09)
+
+- ADD - `se_mean()`, which calculates the standard error of the mean.
+
 # desiderata 0.16.0 (2018-08-05)
 
 - ADD - `method` arg to `apply_to_files()` to provide more options than simple row-binding. 

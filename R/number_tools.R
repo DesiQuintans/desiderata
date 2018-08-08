@@ -440,3 +440,32 @@ concat_nums <- function(...) {
 percentile <- function(num, cuts = c(0, 0.10, 0.20, 0.25, 0.33, 0.50, 0.66, 0.75, 0.80, 0.85, 0.90, 0.95, 0.99, 1.0)) {
     stats::quantile(num, cuts)
 }
+
+
+
+#' Standard error of the mean
+#'
+#' The standard error of the mean is how the estimated mean changes with multiple
+#' measurements (i.e. how far away the mean of each sampling event or observation is from
+#' the true population mean). SE drops as sample size grows because as you take more
+#' mreasurements, the sampling means cluster more closely to the true mean.
+#'
+#' @param vec (Numeric) A vector.
+#' @param na.rm (Logical) If `TRUE`, remove `NA`s from `vec`.
+#'
+#' @return The standard error of the mean of `vec`.
+#' @export
+#'
+#' @examples
+#' se_mean(c(1, 2, 3, 4, NA_integer_))
+#' #> NA
+#'
+#' se_mean(c(1, 2, 3, 4, NA_integer_), na.rm = TRUE)
+#' #> [1] 0.6454972
+se_mean <- function(vec, na.rm = FALSE) {
+    if (na.rm == TRUE) {
+        vec <- vec[!is.na(vec)]
+    }
+
+    return(stats::sd(vec) / sqrt(length(vec)))
+}
