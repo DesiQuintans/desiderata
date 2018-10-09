@@ -16,7 +16,7 @@ A numeric vector of length 1.
 }
 \description{
 The geometric mean is useful when your values are imbalanced by outliers. Daniel
-McNichol wrote \href{https://towardsdatascience.com/on-average-youre-using-the-wrong-average-geometric-harmonic-means-in-data-analysis-2a703e21ea0}{a very approachablearticle}
+McNichol wrote \href{https://towardsdatascience.com/on-average-youre-using-the-wrong-average-geometric-harmonic-means-in-data-analysis-2a703e21ea0}{a very approachable article}
 about this topic.
 }
 \details{

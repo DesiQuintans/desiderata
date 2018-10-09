@@ -4,8 +4,8 @@
 \alias{dendro}
 \title{Make a dendrogram}
 \usage{
-dendro(df, clust_method = "ave", dist_method = "euclidean", labels = NULL,
-  main = NULL, sub = NULL, cex = 0.8)
+dendro(df, clust_method = "ave", dist_method = "euclidean",
+  labels = NULL, main = NULL, sub = NULL, cex = 0.8)
 }
 \arguments{
 \item{df}{(Dataframe or Matrix) The data, arranged in wide format. Non-numeric data
