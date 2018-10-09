@@ -1,3 +1,8 @@
+# desiderata 0.18.0 (2018-10-09)
+
+- MOD - `desi_theme_base()` doesn't remove the grid lines anymore.
+- FIX - `palette_distinct()` returns the requested number of colours when `random = TRUE`.
+
 # desiderata 0.17.0 (2018-08-09)
 
 - ADD - `se_mean()`, which calculates the standard error of the mean.

@@ -19,8 +19,7 @@
 theme_desi_base <- function() {
     return(
         ggplot2::theme_bw() +
-        ggplot2::theme(panel.grid      = ggplot2::element_blank(),          # No grid
-                       panel.border    = ggplot2::element_blank(),          # No border around plot
+        ggplot2::theme(panel.border    = ggplot2::element_blank(),          # No border around plot
                        legend.position = "top",                             # Legend at the top
                        legend.title    = ggplot2::element_blank()           # No legend title
                       )
@@ -207,7 +206,7 @@ palette_distinct <- function(n = 1022, random = FALSE) {
     )
 
     if (random == TRUE) {
-        return(sample(distinct_colours, 4, replace = FALSE))
+        return(sample(distinct_colours, n, replace = FALSE))
     } else {
         return(distinct_colours[1:n])
     }
