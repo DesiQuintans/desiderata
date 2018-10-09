@@ -13,8 +13,9 @@ shush(x)
 The returned value of the expression.
 }
 \description{
-Sometimes developers leave debugging messages in their packages, and you don't want
-them cluttering your Rmarkdown document. This suppresses them.
+Sometimes developers leave debugging messages in their packages or, infuriatingly,
+choose to output messages by using print() or cat() instead of message() or warning()
+like they're supposed to. This function suppresses them to remove that clutter.
 }
 \section{Authors}{
 

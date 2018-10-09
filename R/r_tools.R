@@ -2,8 +2,9 @@
 
 #' Suppress all console printing (cat, print, warning, message)
 #'
-#' Sometimes developers leave debugging messages in their packages, and you don't want
-#' them cluttering your Rmarkdown document. This suppresses them.
+#' Sometimes developers leave debugging messages in their packages or, infuriatingly,
+#' choose to output messages by using print() or cat() instead of message() or warning()
+#' like they're supposed to. This function suppresses them to remove that clutter.
 #'
 #' @param x (Expression) An expression, usually a call to a function.
 #'
@@ -52,7 +53,13 @@ shush <- function(x) {
             out <- suppressWarnings(suppressMessages(eval(call))))
         )
 
-    return(out)
+    # Has to return invisible() because of an edge case where if the shushed function
+    # returned an invisible value, that value would be printed out by capture.output().
+    #
+    # testfun <- function(x) return(invisible("Should be invisible"))
+    # shush(testfun())
+    # [1] "Should be invisible"
+    return(invisible(out))
 }
 
 
