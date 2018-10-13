@@ -4,13 +4,17 @@
 \alias{palette_distinct}
 \title{A palette of 1,022 visually-distinct colours}
 \usage{
-palette_distinct(n = 1022, random = FALSE)
+palette_distinct(n = 1022, random = FALSE, format = "hex",
+  alpha = NULL)
 }
 \arguments{
 \item{n}{(Numeric) The number of colours to deliver.}
 
 \item{random}{(Logical) If \code{FALSE} (default), you will get \code{n} colours in the order
 they appear in the list. If \code{TRUE}, you will get \code{n} colours chosen randomly.}
+
+\item{alpha}{(Numeric) Add alpha information to the hex output. \code{alpha = 0.65} is 65
+percent opaque. If \code{alpha = NULL}, no alpha information is added.}
 }
 \value{
 A character vector of hex colours.

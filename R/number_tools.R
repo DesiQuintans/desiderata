@@ -469,3 +469,27 @@ se_mean <- function(vec, na.rm = FALSE) {
 
     return(stats::sd(vec) / sqrt(length(vec)))
 }
+
+
+
+#' Number of unique entries in a vector
+#'
+#' Shorthand for `length(unique(x))`.
+#'
+#' @param vec (Vector) A vector.
+#'
+#' @return The number of unique values in `vec`.
+#' @export
+#'
+#' @examples
+#' my_vec <- sample(month.abb, 10, replace = TRUE)
+#' #> [1] "Sep" "Nov" "Nov" "Jul" "Oct" "May" "Jun" "Nov" "Apr" "Jan"
+#'
+#' howmany(my_vec)
+#' #> 6
+#' @md
+howmany <- function(vec) {
+    return(
+        length(unique(vec))
+    )
+}

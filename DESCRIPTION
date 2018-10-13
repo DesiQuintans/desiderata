@@ -1,7 +1,7 @@
 Package: desiderata
 Type: Package
 Title: Assorted utility functions
-Version: 0.18.0
+Version: 0.19.0
 License: GPL-3
 Author: Desi Quintans
 Maintainer: Desi Quintans <science@desiquintans.com>

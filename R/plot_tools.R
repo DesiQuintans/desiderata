@@ -47,6 +47,8 @@ theme_desi_base <- function() {
 #' @param n (Numeric) The number of colours to deliver.
 #' @param random (Logical) If `FALSE` (default), you will get `n` colours in the order
 #'    they appear in the list. If `TRUE`, you will get `n` colours chosen randomly.
+#' @param alpha (Numeric) Add alpha information to the hex output. `alpha = 0.65` is 65
+#'    percent opaque. If `alpha = NULL`, no alpha information is added.
 #'
 #' @return A character vector of hex colours.
 #' @export
@@ -73,7 +75,7 @@ theme_desi_base <- function() {
 #' <https://stackoverflow.com/a/12224359/5578429>
 #'
 #' @md
-palette_distinct <- function(n = 1022, random = FALSE) {
+palette_distinct <- function(n = 1022, random = FALSE, format = "hex", alpha = NULL) {
     distinct_colours <- c(
         "#000000", "#FFFF00", "#1CE6FF", "#FF34FF", "#FF4A46", "#008941", "#006FA6", "#A30059",
         "#FFDBE5", "#7A4900", "#0000A6", "#63FFAC", "#B79762", "#004D43", "#8FB0FF", "#997D87",
@@ -205,10 +207,18 @@ palette_distinct <- function(n = 1022, random = FALSE) {
         "#3D7397", "#CAE8CE", "#D60034", "#AA6746", "#9E5585", "#BA6200"
     )
 
-    if (random == TRUE) {
-        return(sample(distinct_colours, n, replace = FALSE))
+    if (is.null(alpha) == TRUE) {
+        alpha_data <- ""
     } else {
-        return(distinct_colours[1:n])
+        alpha_data <- format(as.hexmode(round(255 * alpha)), upper.case = TRUE)
+    }
+
+    if (random == TRUE) {
+        some_cols <- sample(distinct_colours, n, replace = FALSE)
+        return(paste0(some_cols, alpha_data))
+    } else {
+        some_cols <- distinct_colours[1:n]
+        return(paste0(some_cols, alpha_data))
     }
 }
 

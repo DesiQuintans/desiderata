@@ -1,3 +1,8 @@
+# desiderata 0.19.0 (2018-10-13)
+
+- ADD - `alpha` argument to `palette_distinct()`. Applies a constant transparency to all of the colours that the function returns, which is useful for generating colours in graphs that are heavily overplotted.
+- ADD - `howmany()` is an alias for `length(unique(x))`.
+
 # desiderata 0.18.0 (2018-10-09)
 
 - MOD - `desi_theme_base()` doesn't remove the grid lines anymore.
