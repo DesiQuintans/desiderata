@@ -7,7 +7,7 @@
 build_palette(col_list, n = NULL, random = FALSE, alpha = NULL)
 }
 \arguments{
-\item{col_list}{(Character) A vector of colour in RGB Hex format without transparency.}
+\item{col_list}{(Character) A vector of colours in RGB Hex format without transparency.}
 
 \item{n}{(Numeric or \code{NULL}) The number of colours to return. If \code{NULL}, return all of
 the colours for \code{col_list}.}
@@ -28,5 +28,9 @@ RGBA Hex format (e.g. #FFFF00CB).
 Build a palette of colours from a list of hex codes
 }
 \examples{
+\dontrun{
+build_palette(c("#000000", "#FFFF00", "#1CE6FF", "#FF34FF", "#FF4A46"), alpha = 0.5)
+#> [1] "#00000080" "#FFFF0080" "#1CE6FF80" "#FF34FF80" "#FF4A4680"
+}
 
 }

@@ -18,9 +18,11 @@ This function is used by \code{show_colours()} to find the dimensions of a grid 
 to square as possible) that will fit all of the entries in a vector of colours.
 }
 \examples{
+\dontrun{
 find_dims(1:5)
 
 #> x y
 #> 2 3
+}
 
 }

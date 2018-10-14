@@ -525,6 +525,7 @@ howmany <- function(vec) {
 #' @param num (Numeric) An integer.
 #'
 #' @return `TRUE` if `num` is prime.
+#' @export
 #'
 #' @examples
 #' is.prime(2)

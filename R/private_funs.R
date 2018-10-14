@@ -19,7 +19,9 @@
 #' @return A numeric vector that can be used to reference columns in `df`.
 #'
 #' @examples
+#' \dontrun{
 #' cols <- construct_cols(mtcars, from = 7)
+#' cols
 #'
 #' #> [1]  7  8  9 10 11
 #'
@@ -30,6 +32,7 @@
 #' #> Mazda RX4 Wag       17.02  0  1    4    4
 #' #> Datsun 710          18.61  1  1    4    1
 #' #> Hornet 4 Drive      19.44  1  0    3    1
+#' }
 #'
 #' @md
 construct_cols <- function(df, from = 1, to = NULL, cols = NULL) {
@@ -67,10 +70,12 @@ construct_cols <- function(df, from = 1, to = NULL, cols = NULL) {
 #'    columns and rows respectively.
 #'
 #' @examples
+#' \dontrun{
 #' find_dims(1:5)
 #'
 #' #> x y
 #' #> 2 3
+#' }
 #'
 #' @md
 find_dims <- function(vec)  {
@@ -87,7 +92,7 @@ find_dims <- function(vec)  {
 
 #' Build a palette of colours from a list of hex codes
 #'
-#' @param col_list (Character) A vector of colour in RGB Hex format without transparency.
+#' @param col_list (Character) A vector of colours in RGB Hex format without transparency.
 #' @param n (Numeric or `NULL`) The number of colours to return. If `NULL`, return all of
 #'    the colours for `col_list`.
 #' @param random (Logical) If `TRUE`, colours will be randomly sampled without replacement.
@@ -101,6 +106,10 @@ find_dims <- function(vec)  {
 #'    RGBA Hex format (e.g. #FFFF00CB).
 #'
 #' @examples
+#' \dontrun{
+#' build_palette(c("#000000", "#FFFF00", "#1CE6FF", "#FF34FF", "#FF4A46"), alpha = 0.5)
+#' #> [1] "#00000080" "#FFFF0080" "#1CE6FF80" "#FF34FF80" "#FF4A4680"
+#' }
 #'
 #' @md
 build_palette <- function(col_list, n = NULL, random = FALSE, alpha = NULL) {

@@ -28,7 +28,9 @@ some other variant of it. It lets me subset columns based on contiguous or
 non-contiguous ranges.
 }
 \examples{
+\dontrun{
 cols <- construct_cols(mtcars, from = 7)
+cols
 
 #> [1]  7  8  9 10 11
 
@@ -39,5 +41,6 @@ mtcars[cols]
 #> Mazda RX4 Wag       17.02  0  1    4    4
 #> Datsun 710          18.61  1  1    4    1
 #> Hornet 4 Drive      19.44  1  0    3    1
+}
 
 }
