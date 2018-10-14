@@ -14,7 +14,8 @@ A named numeric vector with 2 entries: \code{x} and \code{y} describing the numb
 columns and rows respectively.
 }
 \description{
-Find the nearest rectangle that will fit the number of entries in a vector
+This function is used by \code{show_colours()} to find the dimensions of a grid (as close
+to square as possible) that will fit all of the entries in a vector of colours.
 }
 \examples{
 find_dims(1:5)

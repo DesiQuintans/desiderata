@@ -58,11 +58,13 @@ construct_cols <- function(df, from = 1, to = NULL, cols = NULL) {
 
 #' Find the nearest rectangle that will fit the number of entries in a vector
 #'
+#' This function is used by `show_colours()` to find the dimensions of a grid (as close
+#' to square as possible) that will fit all of the entries in a vector of colours.
+#'
 #' @param vec (Vector) A vector.
 #'
 #' @return A named numeric vector with 2 entries: `x` and `y` describing the number of
 #'    columns and rows respectively.
-#' @export
 #'
 #' @examples
 #' find_dims(1:5)
