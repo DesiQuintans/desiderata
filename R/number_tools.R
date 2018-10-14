@@ -226,14 +226,7 @@ set_seed_any <- function(seed) {
     set.seed(intval)
 }
 
-#' @describeIn set_seed_any Deprecated. Use set_seed_any() instead.
-#' @export
-set.seed.any <- function(seed) {
-    .Deprecated(new = "set_seed_any",
-                package = "desiderata >= 0.8.0")
 
-    set_seed_any(seed)
-}
 
 #' Calculate degree-days
 #'
@@ -381,6 +374,37 @@ normalize_whole <- function(mat, from_zero = FALSE) {
 }
 
 
+
+#' Mirror a matrix horizontally
+#'
+#' @param mat (Matrix) A matrix object
+#' @param ... Optional arguments that are passed to `as.data.frame()`.
+#'
+#' @return A version of `mat` with its columns in reversed order.
+#' @export
+#'
+#' @examples
+#' m <- matrix(1:6, ncol = 2, nrow = 3, byrow = FALSE)
+#' m
+#'
+#' #>      [,1] [,2]
+#' #> [1,]    1    4
+#' #> [2,]    2    5
+#' #> [3,]    3    6
+#'
+#' mirror_matrix(m)
+#'
+#' #>      V2 V1
+#' #> [1,]  4  1
+#' #> [2,]  5  2
+#' #> [3,]  6  3
+#'
+mirror_matrix <- function(mat, ...) {
+    return(as.matrix(rev(as.data.frame(mat, ...))))
+}
+
+
+
 #' Concatenate numbers together
 #'
 #' Paste a set of numbers side-by-side. Useful for manually building ID numbers from
@@ -492,4 +516,44 @@ howmany <- function(vec) {
     return(
         length(unique(vec))
     )
+}
+
+
+
+#' Check if an integer is a prime number
+#'
+#' @param num (Numeric) An integer.
+#'
+#' @return `TRUE` if `num` is prime.
+#'
+#' @examples
+#' is.prime(2)
+#' #> [1] TRUE
+#'
+#' is.prime(3)
+#' #> [1] TRUE
+#'
+#' is.prime(4)
+#' #> [1] FALSE
+#'
+#' is.prime(5)
+#' #> [1] TRUE
+#'
+#' @section Authors:
+#' - flodel (<https://stackoverflow.com/users/1201032/flodel>)
+#' - geotheory (<https://stackoverflow.com/users/1156245/geotheory>)
+#' - Desi Quintans (<http://www.desiquintans.com)
+#'
+#' @section Source:
+#' <https://stackoverflow.com/a/19767707/5578429>
+#'
+#' @md
+is.prime <- function(num) {
+    if (num == 2) {
+        TRUE
+    } else if (any(num %% 2:(num-1) == 0)) {
+        FALSE
+    } else {
+        TRUE
+    }
 }

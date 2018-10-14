@@ -29,6 +29,60 @@ theme_desi_base <- function() {
 
 # Plotting functions ----------------------------------------------------------------
 
+#' Preview a list of colours as a grid
+#'
+#' @param col_list (Character) A vector of colours in RGB Hex or RGBA Hex format.
+#' @param asp (Numeric or `NA`) The aspect ratio of the image. `asp = 1` produces a square
+#'    plot with square cells. If `NA`, `plot.window`'s default will be used.
+#' @param main (Character or `NULL`) Leave this as `NULL` to generate a title. Supply a
+#'    string to define your own title.
+#'
+#' @return A graphic
+#' @export
+#'
+#' @examples
+#' show_colours(colours(distinct = TRUE))
+#'
+#' @md
+show_colours <- show_colors <- function(col_list, asp = NA, main = NULL) {
+    list_name <- deparse(substitute(col_list))
+
+    # Plan a square grid.
+    dims  <- find_dims(col_list)
+    cells <- dims["x"] * dims["y"]
+
+    # Pad the colour list to the necessary number of cells by repeating the last value.
+    # Necessary because the matrix function will raise an error if the dims are not
+    # multiples of the vector's length.
+    list_length <- length(col_list)
+
+    if (list_length < cells) {
+        col_list <- append(col_list, rep(col_list[list_length], cells - list_length))
+    }
+
+    # Build the matrix that is used by image(). image() rotates the matrix 90 degrees
+    # anti-clockwise during filling, so the colours end up being placed in the wrong
+    # order. I couldn't fix this with any combination of t(), byrow, reversing the order
+    # of the col_list, or reversing the order of the numbers inside the matrix. However,
+    # I found this matrix-mirroring solution in Glenn Tattersall's `Thermimage` package.
+    # https://www.rdocumentation.org/packages/Thermimage/versions/3.1.1/topics/mirror.matrix
+
+    m <- matrix(1:cells, ncol = dims["x"], nrow = dims["y"], byrow = FALSE)
+    m <- mirror_matrix(m)
+
+    # Make a plot title, if requested
+    if (is.null(main) == TRUE) {
+        plot_title <- paste0("Showing ", list_length, " colours in '", list_name, "'")
+    } else {
+        plot_title <- main
+    }
+
+    # Plot the output.
+    graphics::image(m,
+                    col = col_list, axes = 0, cex.main = 1, asp = asp,
+                    main = plot_title
+    )
+}
 
 # Colour palettes -------------------------------------------------------------------
 
@@ -47,15 +101,18 @@ theme_desi_base <- function() {
 #' @param n (Numeric) The number of colours to deliver.
 #' @param random (Logical) If `FALSE` (default), you will get `n` colours in the order
 #'    they appear in the list. If `TRUE`, you will get `n` colours chosen randomly.
-#' @param alpha (Numeric) Add alpha information to the hex output. `alpha = 0.65` is 65
-#'    percent opaque. If `alpha = NULL`, no alpha information is added.
+#' @param alpha (Numeric) A single decimal value that modifies the opacity of the colours.
+#'    `alpha = 0.65` makes all of the colours 65 percent opaque (35 percent transparent).
+#'    If `alpha = NULL`, no alpha channel is added and the colours are 100 percent opaque.
 #'
-#' @return A character vector of hex colours.
+#' @return A character vector of hex colours. If `alpha = NULL`, the colours will be in
+#'    RGB Hex format (e.g. #FFFF00). If `alpha` is not `NULL`, the colours will be in
+#'    RGBA Hex format (e.g. #FFFF00CB).
 #' @export
 #'
 #' @examples
 #' # To see all of the colours (ordered left-to-right and top-to-bottom):
-#' image(apply(matrix(1022:1, ncol = 73, nrow = 14, byrow = TRUE), 1, rev), col = palette_distinct())
+#' show_colours(palette_distinct())
 #'
 #' # To get the first 4 colours:
 #' palette_distinct(4)
@@ -67,6 +124,11 @@ theme_desi_base <- function() {
 #'
 #' #> [1] "#2F2E2C" "#DFE3E6" "#5C424D" "#FFE47D"
 #'
+#' # To make the colours 75 percent opaque:
+#' palette_distinct(4, random = TRUE, alpha = 0.75)
+#'
+#' #> [1] "#4D913EBF" "#2A7FFFBF" "#830055BF" "#664327BF"
+#'
 #' @section Authors:
 #' - Tatarize (<https://stackoverflow.com/users/631911/tatarize>)
 #' - Desi Quintans (<http://www.desiquintans.com)
@@ -75,7 +137,7 @@ theme_desi_base <- function() {
 #' <https://stackoverflow.com/a/12224359/5578429>
 #'
 #' @md
-palette_distinct <- function(n = 1022, random = FALSE, format = "hex", alpha = NULL) {
+palette_distinct <- function(n = NULL, random = FALSE, alpha = NULL) {
     distinct_colours <- c(
         "#000000", "#FFFF00", "#1CE6FF", "#FF34FF", "#FF4A46", "#008941", "#006FA6", "#A30059",
         "#FFDBE5", "#7A4900", "#0000A6", "#63FFAC", "#B79762", "#004D43", "#8FB0FF", "#997D87",
@@ -207,22 +269,157 @@ palette_distinct <- function(n = 1022, random = FALSE, format = "hex", alpha = N
         "#3D7397", "#CAE8CE", "#D60034", "#AA6746", "#9E5585", "#BA6200"
     )
 
-    if (is.null(alpha) == TRUE) {
-        alpha_data <- ""
-    } else {
-        alpha_data <- format(as.hexmode(round(255 * alpha)), upper.case = TRUE)
-    }
-
-    if (random == TRUE) {
-        some_cols <- sample(distinct_colours, n, replace = FALSE)
-        return(paste0(some_cols, alpha_data))
-    } else {
-        some_cols <- distinct_colours[1:n]
-        return(paste0(some_cols, alpha_data))
-    }
+    build_palette(distinct_colours, n = n, random = random, alpha = alpha)
 }
 
 
+#' Adam Morse's palette of 16 web-safe colours
+#'
+#' These are more attractive alternatives to the standard 16 default web-safe colours.
+#' They have good contrast against each other, and the colour list is named.
+#'
+#' @param n (Numeric) The number of colours to deliver.
+#' @param random (Logical) If `FALSE` (default), you will get `n` colours in the order
+#'    they appear in the list. If `TRUE`, you will get `n` colours chosen randomly.
+#' @param alpha (Numeric) A single decimal value that modifies the opacity of the colours.
+#'    `alpha = 0.65` makes all of the colours 65 percent opaque (35 percent transparent).
+#'    If `alpha = NULL`, no alpha channel is added and the colours are 100 percent opaque.
+#'
+#' @return A character vector of hex colours. If `alpha = NULL`, the colours will be in
+#'    RGB Hex format (e.g. #FFFF00). If `alpha` is not `NULL`, the colours will be in
+#'    RGBA Hex format (e.g. #FFFF00CB).
+#' @export
+#'
+#' @examples
+#' # To see all of the colours (ordered left-to-right and top-to-bottom):
+#' show_colours(palette_mrmrs())
+#'
+#' # The colours in the list are named
+#' names(palette_mrmrs())
+#'
+#' #> [1] "navy"    "blue"    "aqua"    "teal"    "olive"   "green"   "lime"    "yellow"
+#' #> [9] "orange"  "red"     "maroon"  "fuchsia" "purple"  "black"   "gray"    "silver"
+#'
+#' # To get the first 4 colours:
+#' palette_mrmrs(4)
+#'
+#' #>      navy      blue      aqua      teal
+#' #> "#001F3F" "#0074D9" "#7FDBFF" "#39CCCC"
+#'
+#' # To pick 4 colours randomly:
+#' palette_mrmrs(4, random = TRUE)
+#'
+#' #>    orange    maroon     olive   fuchsia
+#' #> "#FF851B" "#85144B" "#3D9970" "#F012BE"
+#'
+#' # To make the colours 75 percent opaque:
+#' palette_mrmrs(4, random = TRUE, alpha = 0.75)
+#'
+#' #>      orange      maroon       olive     fuchsia
+#' #> "#FF851BBF" "#85144BBF" "#3D9970BF" "#F012BEBF"
+#'
+#' @section Authors:
+#' - Adam Morse (<http://mrmrs.cc/>)
+#' - Desi Quintans (<http://www.desiquintans.com)
+#'
+#' @section Source:
+#' <https://clrs.cc/>
+#'
+#' @md
+palette_mrmrs <- function(n = NULL, random = FALSE, alpha = NULL) {
+    mrmrs_colours <- c(
+        "navy" = "#001F3F", "blue" = "#0074D9", "aqua" = "#7FDBFF", "teal" = "#39CCCC",
+        "olive" = "#3D9970", "green" = "#2ECC40", "lime" = "#01FF70",
+        "yellow" = "#FFDC00", "orange" = "#FF851B", "red" = "#FF4136",
+        "maroon" = "#85144B", "fuchsia" = "#F012BE", "purple" = "#B10DC9",
+        "black" = "#111111", "gray" = "#AAAAAA", "silver" = "#DDDDDD"
+    )
+
+    build_palette(mrmrs_colours, n = n, random = random, alpha = alpha)
+}
+
+
+#' 14 hand-picked distinct colours
+#'
+#' The palette created by `desiderata::palette_distinct()` has a lot of colours that are
+#' either so dark or so light that it's difficult to differentiate them next to each
+#' other. In addition, many of the colours are affected by adjacency effects where they
+#' can be differentiated when they're next to each other, but not when they're next to
+#' a closely-related colour. I went through the preview plots manually, deleting colours
+#' that were visually similar until I ended up with a list of colours that were easy to
+#' differentiate. Then I randomised the order of those colours so that I could see how
+#' they looked when they were next to a range of different colour tiles.
+#'
+#' @param n (Numeric) The number of colours to deliver.
+#' @param random (Logical) If `FALSE` (default), you will get `n` colours in the order
+#'    they appear in the list. If `TRUE`, you will get `n` colours chosen randomly.
+#' @param alpha (Numeric) A single decimal value that modifies the opacity of the colours.
+#'    `alpha = 0.65` makes all of the colours 65 percent opaque (35 percent transparent).
+#'    If `alpha = NULL`, no alpha channel is added and the colours are 100 percent opaque.
+#'
+#' @return A character vector of hex colours. If `alpha = NULL`, the colours will be in
+#'    RGB Hex format (e.g. #FFFF00). If `alpha` is not `NULL`, the colours will be in
+#'    RGBA Hex format (e.g. #FFFF00CB).
+#' @export
+#'
+#' @examples
+#' # To see all of the colours (ordered left-to-right and top-to-bottom):
+#' show_colours(palette_picked())
+#'
+#' # The colours in the list are named
+#' names(palette_picked())
+#'
+#' #>  [1] "darkslateblue" "darkseagreen"  "darkorchid"    "yellow"        "magenta"       "plum"
+#' #>  [7] "goldenrod"     "orangered"     "darkorange"    "skyblue"       "palegreen"     "dodgerblue"
+#' #> [13] "chartreuse"    "grey10"
+#'
+#' # To get the first 4 colours:
+#' palette_picked(4)
+#'
+#' #> darkslateblue  darkseagreen    darkorchid        yellow
+#' #>     "#004754"     "#00AE7E"     "#7E2DD2"     "#FFE502"
+#'
+#' # To pick 4 colours randomly:
+#' palette_picked(4, random = TRUE)
+#'
+#' #> dodgerblue   darkorchid darkseagreen    orangered
+#' #>  "#3B5DFF"    "#7E2DD2"    "#00AE7E"    "#BE0028"
+#'
+#' # To make the colours 75 percent opaque:
+#' palette_picked(4, random = TRUE, alpha = 0.75)
+#'
+#' #>  darkorange   goldenrod  darkorchid  chartreuse
+#' #> "#FF6832BF" "#FEC96DBF" "#7E2DD2BF" "#4FC601BF"
+#'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com)
+#'
+#' @section Source:
+#' <https://stackoverflow.com/a/12224359/5578429>
+#'
+#' @md
+palette_picked <- function(n = NULL, random = FALSE, alpha = NULL) {
+    picked_colours <- c(
+        "darkslateblue" = "#004754",
+        "darkseagreen" = "#00AE7E",
+        "darkorchid" = "#7E2DD2",
+        "yellow" = "#FFE502",
+        "magenta" = "#FF029D",
+        "plum" = "#FFA6FE",
+        "goldenrod" = "#FEC96D",
+        "orangered" = "#BE0028",
+        "darkorange" = "#FF6832",
+        "skyblue" = "#8CD0FF",
+        "palegreen" = "#C2FF99",
+        "dodgerblue" = "#3B5DFF",
+        "chartreuse" = "#4FC601",
+        "grey10" = "#121212"
+    )
+
+    build_palette(picked_colours, n = n, random = random, alpha = alpha)
+}
+
+# ggplot2 helper functions ----------------------------------------------------------
 
 #' Rotate and align ggplot2 axis tick labels
 #'

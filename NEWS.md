@@ -1,7 +1,21 @@
+# desiderata 0.20.0 (2018-10-114)
+
+This update is mostly about adding more plotting tools that I needed while I was making network graphs in `igraph`.
+
+- ADD - `palette_mrmrs()` which contains 16 web-safe colours from [Adam Morse](https://clrs.cc/).
+- ADD - `palette_picked()` which contains 14 colours that I picked as high-contrast replacements from `palette_distinct()`. Nearly all of them are similar to the ones from `palette_mrmrs()`, that's pretty neat!
+- ADD - `show_colours()` takes a vector of colours and shows them in a nice plot.
+- ADD - `is.prime()` checks if a number is prime or not.
+- ADD - `mirror_matrix()` mirrors a matrix horizontally.
+- ADD - `alpha` argument to `palette_distinct()`. Applies a constant transparency to all of the colours that the function returns, which is useful for generating colours in graphs that are heavily overplotted.
+- ADD - A private function `desiderata:::find_dims()` that finds the dimensions of a grid that will fit a certain number of cells. Used internally for `show_colours()`.
+- ADD - A private function `desiderata:::build_palette()` 
+- REM - `set.seed.any()` was deprecated for months and is now removed. Use `set_seed_any()` instead.
+
 # desiderata 0.19.0 (2018-10-13)
 
-- ADD - `alpha` argument to `palette_distinct()`. Applies a constant transparency to all of the colours that the function returns, which is useful for generating colours in graphs that are heavily overplotted.
 - ADD - `howmany()` is an alias for `length(unique(x))`.
+- FIX - `shush()` no longer causes invisibly-returned output to print.
 
 # desiderata 0.18.0 (2018-10-09)
 

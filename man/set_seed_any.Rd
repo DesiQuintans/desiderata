@@ -2,12 +2,9 @@
 % Please edit documentation in R/number_tools.R
 \name{set_seed_any}
 \alias{set_seed_any}
-\alias{set.seed.any}
 \title{Seed the random number generator with a character string (or any object)}
 \usage{
 set_seed_any(seed)
-
-set.seed.any(seed)
 }
 \arguments{
 \item{seed}{(Any) Any object.}
@@ -21,11 +18,6 @@ use your cats' names like I do. This function can actually generate a seed from 
 object, so you could even feed it a whole dataframe if you felt like it. (Requires the
 \href{https://cran.r-project.org/web/packages/digest/index.html}{'digest'} package.)
 }
-\section{Functions}{
-\itemize{
-\item \code{set.seed.any}: Deprecated. Use set_seed_any() instead.
-}}
-
 \section{Authors}{
 
 \itemize{
