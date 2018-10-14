@@ -1,0 +1,4 @@
+name: Analysis Document (Markdown)
+description: >
+  Template for data analysis with a literate programming focus.
+create_dir: false

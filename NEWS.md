@@ -1,4 +1,8 @@
-# desiderata 0.20.0 (2018-10-114)
+# desiderata 0.21.0 (2018-10-15)
+
+- ADD - Rmarkdown template for the analysis documents that I write.
+
+# desiderata 0.20.0 (2018-10-14)
 
 This update is mostly about adding more plotting tools that I needed while I was making network graphs in `igraph`.
 

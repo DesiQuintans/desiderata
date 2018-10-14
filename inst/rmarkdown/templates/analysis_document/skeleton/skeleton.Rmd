@@ -1,0 +1,45 @@
+---
+title: ""
+author: ""
+date: "Started DD MM YYYY. Compiled `r format(Sys.time(), '%d %B %Y')`"
+output: pdf_document
+geometry: margin=2.5cm
+toc: true
+toc_depth: 1
+number_sections: true
+smart: true
+header-includes:
+- \usepackage{pdflscape}
+- \newcommand{\blandscape}{\begin{landscape}}
+- \newcommand{\elandscape}{\end{landscape}}
+---
+
+\pagebreak
+
+```{r setup, include = FALSE, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(cache   = TRUE,    # Cache results of chunks until they're changed?
+                      eval    = TRUE,    # Run the code in the chunks?
+                      echo    = FALSE,   # Display the code in the document?
+                      message = FALSE,   # Print messages?
+                      warning = FALSE,   # Print warnings?
+                      fig.dim = c(7, 7)  # Figure dimensions in inches.
+                      )
+```
+
+# Aim
+
+In this document, 
+
+
+# Data import
+
+```{r libraries, include = TRUE}
+librarian::shelf(knitr, kableExtra, PEASdata, tidyr, dplyr, janitor, readr,
+                 DesiQuintans/desiderata)
+```
+
+```{r import, echo=TRUE}
+
+```
+
+# References
