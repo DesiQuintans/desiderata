@@ -16,7 +16,7 @@ header-includes:
 
 \pagebreak
 
-```{r setup, include = FALSE, echo = FALSE, message = FALSE, warning = FALSE}
+```{r knit_config_chunk, include = FALSE}
 knitr::opts_chunk$set(cache   = TRUE,    # Cache results of chunks until they're changed?
                       eval    = TRUE,    # Run the code in the chunks?
                       echo    = FALSE,   # Display the code in the document?
@@ -26,14 +26,17 @@ knitr::opts_chunk$set(cache   = TRUE,    # Cache results of chunks until they're
                       )
 ```
 
+
+
 # Aim
 
 In this document, 
 
 
+
 # Data import
 
-```{r libraries, include = TRUE}
+```{r setup, echo = TRUE, message = FALSE, warning = FALSE}
 librarian::shelf(knitr, kableExtra, PEASdata, tidyr, dplyr, janitor, readr,
                  DesiQuintans/desiderata)
 ```
@@ -41,5 +44,7 @@ librarian::shelf(knitr, kableExtra, PEASdata, tidyr, dplyr, janitor, readr,
 ```{r import, echo=TRUE}
 
 ```
+
+
 
 # References
