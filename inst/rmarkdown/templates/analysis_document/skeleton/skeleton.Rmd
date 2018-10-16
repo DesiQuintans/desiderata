@@ -9,6 +9,7 @@ toc_depth: 1
 number_sections: true
 smart: true
 header-includes:
+- \usepackage{caption}
 - \usepackage{pdflscape}
 - \newcommand{\blandscape}{\begin{landscape}}
 - \newcommand{\elandscape}{\end{landscape}}
