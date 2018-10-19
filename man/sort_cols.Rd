@@ -20,7 +20,8 @@ in reverse.}
 A copy of \code{df} with reordered columns.
 }
 \description{
-Sort columns in a dataframe
+Sorts the columns of a dataframe, and then allows you to pull columns to the start of
+the dataframe by name.
 }
 \section{Authors}{
 

@@ -343,12 +343,12 @@ palette_mrmrs <- function(n = NULL, random = FALSE, alpha = NULL) {
 #'
 #' The palette created by `desiderata::palette_distinct()` has a lot of colours that are
 #' either so dark or so light that it's difficult to differentiate them next to each
-#' other. In addition, many of the colours are affected by adjacency effects where they
-#' can be differentiated when they're next to each other, but not when they're next to
-#' a closely-related colour. I went through the preview plots manually, deleting colours
-#' that were visually similar until I ended up with a list of colours that were easy to
-#' differentiate. Then I randomised the order of those colours so that I could see how
-#' they looked when they were next to a range of different colour tiles.
+#' other. In addition, many of the colours are affected by adjacency effects where
+#' putting an intermediate colour between them makes them look the same.
+#'
+#' I went through the preview plots manually, randomising the order of colours and
+#' deleting colours that were visually similar until I ended up with a list of colours
+#' that were easy to differentiate.
 #'
 #' @param n (Numeric) The number of colours to deliver.
 #' @param random (Logical) If `FALSE` (default), you will get `n` colours in the order
@@ -497,7 +497,11 @@ align_titles <- function(align = 0) {
 #' @return  A ggplot2 theme object.
 #' @export
 #'
-#'
+#' @examples
+#' # plot <- ggplot(mpg, aes(cty, hwy)) + geom_point() + facet_grid(year ~ fl)
+#' # plot +
+#' #     rotate_x_facet_text(angle = 45, align = 0.5) +
+#' #     rotate_y_facet_text(angle = 0, valign = 0.5)
 #'
 #' @md
 #' @name rotate_facet_text

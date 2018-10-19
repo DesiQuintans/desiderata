@@ -347,6 +347,9 @@ collapse_df <- function(df, from = 1, to = NULL, cols = NULL) {
 
 #' Sort columns in a dataframe
 #'
+#' Sorts the columns of a dataframe, and then allows you to pull columns to the start of
+#' the dataframe by name.
+#'
 #' @param df (Dataframe) A dataframe.
 #' @param ... (Column names) If you want to manually position columns _after_ they are
 #'    sorted, provide unquoted column names here. The columns in `...` will be placed

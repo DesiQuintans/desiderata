@@ -500,9 +500,9 @@ se_mean <- function(vec, na.rm = FALSE) {
 #'
 #' Shorthand for `length(unique(x))`.
 #'
-#' @param vec (Vector) A vector.
+#' @param ... (Vector) Multiple vectors will be concatenated.
 #'
-#' @return The number of unique values in `vec`.
+#' @return The number of unique values in `...`.
 #' @export
 #'
 #' @examples
@@ -511,10 +511,13 @@ se_mean <- function(vec, na.rm = FALSE) {
 #'
 #' howmany(my_vec)
 #' #> 6
+#'
+#' howmany(letters, LETTERS)
+#' #> 52
 #' @md
-howmany <- function(vec) {
+howmany <- function(...) {
     return(
-        length(unique(vec))
+        length(unique(c(...)))
     )
 }
 

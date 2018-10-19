@@ -4,13 +4,13 @@
 \alias{howmany}
 \title{Number of unique entries in a vector}
 \usage{
-howmany(vec)
+howmany(...)
 }
 \arguments{
-\item{vec}{(Vector) A vector.}
+\item{...}{(Vector) Multiple vectors will be concatenated.}
 }
 \value{
-The number of unique values in \code{vec}.
+The number of unique values in \code{...}.
 }
 \description{
 Shorthand for \code{length(unique(x))}.
@@ -21,4 +21,7 @@ my_vec <- sample(month.abb, 10, replace = TRUE)
 
 howmany(my_vec)
 #> 6
+
+howmany(letters, LETTERS)
+#> 52
 }

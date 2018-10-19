@@ -33,6 +33,7 @@ abide by its terms.
     - Drop 'empty' columns in a dataframe (`drop_empty_cols()` - [example](#drop-empty-columns-in-a-dataframe))
     - Drop 'empty' rows in a dataframe (`drop_empty_rows()` - [example](#drop-empty-rows-in-a-dataframe))
     - Collapse a dataframe into a vector (`collapse_df()` - [example](#collapse-a-dataframe-into-a-vector))
+    - Sort columns of a dataframe by name (`sort_cols()` - [example](#sort-columns-of-a-dataframe-by-name))
     
 - **File system functions**
     - Load an RDS file and announce when it was created (`loadRDS()` - [example](#load-an-rds-file-and-announce-when-it-was-created))
@@ -45,18 +46,25 @@ abide by its terms.
     - Standard error of the mean (`se_mean()` - [example](#standard-error-of-the-mean))
     - Round a number to a fixed decimal place length (`round_to_places()` - [example](#round-a-number-to-a-fixed-decimal-place-length))
     - Round numbers to the nearest "pretty" value (`round_to_nearest()` - [example](#round-numbers-to-the-nearest-pretty-value))
-    - Seed the random number generator with a character string (or any object) (`set.seed.any()` - [example](#seed-the-random-number-generator-with-a-character-string-or-any-object))
+    - Seed the random number generator with a character string (or any object) (`set_seed_any()` - [example](#seed-the-random-number-generator-with-a-character-string-or-any-object))
     - Calculate degree-days (`degreedays()` - [example](#calculate-degree-days))
     - Normalise a matrix column-wise between 0 and 1 (`normalize_colwise()` - [example](#normalise-a-matrix-column-wise-between-0-and-1))
     - Normalise a whole matrix between 0 and 1 (`normalize_whole()` - [example](#normalise-a-whole-matrix-between-0-and-1))
     - Concatenate numbers together (`concat_nums()` - [example](#concatenate-numbers-together))
     - Quick percentile overview (`percentile()` - [example](#quick-percentile-overview))
+    - Mirror a matrix horizontally (`mirror_matrix()` - [example](#mirror-a-matrix-horizontally))
+    - Count the number of unique values in vectors (`howmany()` - [example](#count-the-number-of-unique-values-in-vectors))
+    - Is a number prime? (`is.prime()` - [example](#is-a-number-prime))
     
 - **Plotting functions**
     - Desi's `ggplot2` minimal base theme (`theme_desi_base()` - [example](#desis-ggplot2-minimal-base-theme))
+    - Plot colours as tiles (`show_colours()` - [example](#plot-colours-as-tiles))
     - A palette of 1,022 visually-distinct colours (`palette_distinct()` - [example](#a-palette-of-1022-visually-distinct-colours))
+    - A palette of Adam Morse's 16 web-safe colours (`palette_mrmrs()` - [example](#a-palette-of-adam-morses-16-web-safe-colours))
+    - A palette of hand-picked distinct colours (`palette_picked()` - [example](#a-palette-of-hand-picked-distinct-colours))
     - Rotate and align ggplot2 axis tick labels (`rotate_x_text()` and `rotate_y_text()` - [example](#rotate-and-align-ggplot2-axis-tick-labels))
     - Horizontally align ggplot2 title and subtitle (`align_titles()` - [example](#horizontally-align-ggplot2-title-and-subtitle))
+    - Rotate and align ggplot2 facet labels (`rotate_x_facet_text()` and `rotate_y_facet_text()` - [example](#rotate-and-align-ggplot2-facet-labels))
     
 - **Datetime tools**
     - Find the current month number relative to a starting date (`consecutive_month()` - [example](#find-the-current-month-number-relative-to-a-starting-date))
@@ -230,6 +238,31 @@ collapse_df(iris, cols = 1:4)
 
 #> [1] 5.1 4.9 4.7 4.6 5.0 5.4 4.6 5.0 4.4 4.9 5.4 4.8 ...
 ```
+
+### Sort columns of a dataframe by name
+
+Sorts the columns of a dataframe, and then allows you to pull columns to the start of the dataframe by name.
+
+``` r
+colnames(iris)
+#> [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width"  "Species"
+
+sorted <- sort_cols(iris)
+
+colnames(sorted)
+#> [1] "Petal.Length" "Petal.Width"  "Sepal.Length" "Sepal.Width"  "Species"
+
+reverse <- sort_cols(iris, decreasing = TRUE)
+
+colnames(reverse)
+#> [1] "Species"  "Sepal.Width"  "Sepal.Length" "Petal.Width"  "Petal.Length"
+
+manual <- sort_cols(iris, Species)
+
+colnames(manual)
+#> [1] "Species" " Petal.Length" "Petal.Width"  "Sepal.Length" "Sepal.Width"
+```
+
 
 ## File system functions
 
@@ -432,6 +465,55 @@ perc["66%"]
 #>   66%
 #> 22.54
 ```
+### Mirror a matrix horizontally
+
+``` r
+m <- matrix(1:6, ncol = 2, nrow = 3, byrow = FALSE)
+m
+
+#>      [,1] [,2]
+#> [1,]    1    4
+#> [2,]    2    5
+#> [3,]    3    6
+
+mirror_matrix(m)
+
+#>      V2 V1
+#> [1,]  4  1
+#> [2,]  5  2
+#> [3,]  6  3
+```
+
+### Count the number of unique values in vectors
+
+``` r
+my_vec <- sample(month.abb, 10, replace = TRUE)
+#> [1] "Sep" "Nov" "Nov" "Jul" "Oct" "May" "Jun" "Nov" "Apr" "Jan"
+
+howmany(my_vec)
+#> 6
+
+howmany(letters, LETTERS)
+#> 52
+```
+
+### Is a number prime?
+
+``` r
+is.prime(2)
+#> [1] TRUE
+
+is.prime(3)
+#> [1] TRUE
+
+is.prime(4)
+#> [1] FALSE
+
+is.prime(5)
+#> [1] TRUE
+```
+
+
 
 ## Plotting functions
 
@@ -443,12 +525,24 @@ ggplot(iris, aes(x = Petal.Length, y = Sepal.Length)) + geom_point() + theme_des
 
 ![](images/theme_desi_base.png)
 
+### Plot colours as tiles
+
+``` r
+show_colours(colours(distinct = TRUE))
+```
+
+![](images/base_colours.png)
+
 ### A palette of 1,022 visually-distinct colours
 
 ``` r
 # To see all of the colours (ordered left-to-right and top-to-bottom):
-image(apply(matrix(1022:1, ncol = 73, nrow = 14, byrow = TRUE), 1, rev), col = palette_distinct())
+show_colours(palette_distinct())
+```
 
+![](images/palette_distinct.png)
+
+``` r
 # To get the first 4 colours:
 palette_distinct(4)
 
@@ -458,9 +552,90 @@ palette_distinct(4)
 palette_distinct(4, random = TRUE)
 
 #> [1] "#2F2E2C" "#DFE3E6" "#5C424D" "#FFE47D"
+
+# To make the colours 75 percent opaque:
+palette_distinct(4, random = TRUE, alpha = 0.75)
+
+#> [1] "#4D913EBF" "#2A7FFFBF" "#830055BF" "#664327BF"
 ```
 
-![](images/palette_distinct.png)
+### A palette of Adam Morse's 16 web-safe colours
+
+This is a palette by Adam Morse, sourced from <https://clrs.cc/>.
+
+``` r
+# To see all of the colours (ordered left-to-right and top-to-bottom):
+show_colours(palette_mrmrs())
+```
+
+![](images/palette_mrmrs.png)
+
+``` r
+# The colours in the list are named
+names(palette_mrmrs())
+
+#> [1] "navy"    "blue"    "aqua"    "teal"    "olive"   "green"   "lime"    "yellow"
+#> [9] "orange"  "red"     "maroon"  "fuchsia" "purple"  "black"   "gray"    "silver"
+
+# To get the first 4 colours:
+palette_mrmrs(4)
+
+#>      navy      blue      aqua      teal
+#> "#001F3F" "#0074D9" "#7FDBFF" "#39CCCC"
+
+# To pick 4 colours randomly:
+palette_mrmrs(4, random = TRUE)
+
+#>    orange    maroon     olive   fuchsia
+#> "#FF851B" "#85144B" "#3D9970" "#F012BE"
+
+# To make the colours 75 percent opaque:
+palette_mrmrs(4, random = TRUE, alpha = 0.75)
+
+#>      orange      maroon       olive     fuchsia
+#> "#FF851BBF" "#85144BBF" "#3D9970BF" "#F012BEBF"
+```
+
+### A palette of hand-picked distinct colours
+
+The palette created by `desiderata::palette_distinct()` has a lot of colours that are either so dark or so light that it's difficult to differentiate them next to each other. In addition, many of the colours are affected by adjacency effects where they can be differentiated when they're next to each other, but not when they're next to a closely-related colour.
+
+I went through the preview plots manually, randomising the order of the colours each time and deleting any colours that were visually similar until I ended up with a list of colours that were easy to differentiate.
+
+``` r
+# To see all of the colours (ordered left-to-right and top-to-bottom):
+show_colours(palette_picked())
+```
+
+![](images/palette_picked.png)
+
+``` r
+# The colours in the list are named
+names(palette_picked())
+
+#>  [1] "darkslateblue" "darkseagreen"  "darkorchid"    "yellow"        "magenta"       "plum"
+#>  [7] "goldenrod"     "orangered"     "darkorange"    "skyblue"       "palegreen"     "dodgerblue"
+#> [13] "chartreuse"    "grey10"
+
+# To get the first 4 colours:
+palette_picked(4)
+
+#> darkslateblue  darkseagreen    darkorchid        yellow
+#>     "#004754"     "#00AE7E"     "#7E2DD2"     "#FFE502"
+
+# To pick 4 colours randomly:
+palette_picked(4, random = TRUE)
+
+#> dodgerblue   darkorchid darkseagreen    orangered
+#>  "#3B5DFF"    "#7E2DD2"    "#00AE7E"    "#BE0028"
+
+# To make the colours 75 percent opaque:
+palette_picked(4, random = TRUE, alpha = 0.75)
+
+#>  darkorange   goldenrod  darkorchid  chartreuse
+#> "#FF6832BF" "#FEC96DBF" "#7E2DD2BF" "#4FC601BF"
+```
+
 
 ### Rotate and align ggplot2 axis tick labels
 
@@ -485,6 +660,20 @@ ggplot(mpg, aes(manufacturer, cty)) + geom_boxplot() +
 ```
 ![](images/align_title.png)
 
+### Rotate and align ggplot2 facet labels
+
+``` r
+plot <- ggplot(mpg, aes(cty, hwy)) + geom_point() + facet_grid(year ~ fl)
+
+plot +
+   rotate_x_facet_text(angle = 45, align = 0.5) +
+   rotate_y_facet_text(angle = 0, valign = 0.5)
+```
+
+![](images/rotate_facet_text.png)
+
+
+
 ## Datetime tools
 
 ### Find the current month number relative to a starting date
@@ -499,6 +688,7 @@ consecutive_month(2015,         "2016-02-04")
 consecutive_month("2015-02-01", "2016-02-04")
 #> [1] 13
 ```
+
 
 ## String tools
 

@@ -26,3 +26,10 @@ A ggplot2 theme object.
 \description{
 Rotate and align ggplot2 facet labels
 }
+\examples{
+# plot <- ggplot(mpg, aes(cty, hwy)) + geom_point() + facet_grid(year ~ fl)
+# plot +
+#     rotate_x_facet_text(angle = 45, align = 0.5) +
+#     rotate_y_facet_text(angle = 0, valign = 0.5)
+
+}
