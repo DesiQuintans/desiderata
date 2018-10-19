@@ -1,3 +1,10 @@
+# desiderata 0.22.0 (2018-10-19)
+
+- MOD - `howmany()` now accepts multiple vectors with `...` instead of only one vector.
+- MOD - Various changes to the Analysis Document Rmarkdown template.
+- FIX - Add all new functions to the readme.
+- ADD - Starting from this version, my other package `librarian` is also loaded.
+
 # desiderata 0.21.0 (2018-10-15)
 
 - ADD - Rmarkdown template for the analysis documents that I write.
