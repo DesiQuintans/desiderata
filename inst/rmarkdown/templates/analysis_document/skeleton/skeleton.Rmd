@@ -2,17 +2,21 @@
 title: ""
 author: ""
 date: "Started DD MM YYYY. Compiled `r format(Sys.time(), '%d %B %Y')`"
-output: pdf_document
-geometry: margin=2.5cm
-toc: true
-toc_depth: 1
-number_sections: true
-smart: true
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
 header-includes:
 - \usepackage{caption}
 - \usepackage{pdflscape}
 - \newcommand{\blandscape}{\begin{landscape}}
 - \newcommand{\elandscape}{\end{landscape}}
+geometry: margin=2.5cm
+smart: yes
+number_sections: yes
+tables: yes
+toc: yes
+toc_depth: 1
 ---
 
 \pagebreak
@@ -35,12 +39,16 @@ In this document,
 
 
 
-# Data import
+# Packages used
 
 ```{r setup, echo = TRUE, message = FALSE, warning = FALSE}
 librarian::shelf(knitr, kableExtra, PEASdata, tidyr, dplyr, janitor, readr,
                  DesiQuintans/desiderata)
 ```
+
+
+
+# Data import
 
 ```{r import, echo=TRUE}
 
