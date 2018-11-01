@@ -269,3 +269,24 @@ clippy <- function(x = NULL) {
 
     return(invisible(contents))
 }
+
+
+
+#' Randomly return TRUE or FALSE
+#'
+#' @param n (Integer) The number of times to 'flip the coin'
+#'
+#' @return Returns `TRUE` or `FALSE` randomly.
+#' @export
+#'
+#' @examples
+#' coinflip()
+#' #> [1] FALSE
+#'
+#' coinflip(5)
+#' #> [1] TRUE TRUE FALSE TRUE FALSE
+#'
+#' @md
+coinflip <- function(n = 1) {
+    sample(c(TRUE, FALSE), size = n, replace = TRUE)
+}

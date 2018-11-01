@@ -78,6 +78,7 @@ abide by its terms.
     - Percentage of matching elements between two vectors (`%pctin%` - [example](#percentage-of-matching-elements-between-two-vectors))
     - Print to console, wrapping the text to a specific line width (`cat_wrap()` - [example](#print-to-console-wrapping-the-text-to-a-specific-line-width))
     - Copy a dataframe, vector, or the result of an expression to the clipboard (`clippy()` - [example](#copy-a-dataframe-vector-or-the-result-of-an-expression-to-the-clipboard))
+    - Randomly return `TRUE` or `FALSE` (`coinflip()` - [example](#randomly-return-true-or-false))
 
 ## Data included
 
@@ -805,6 +806,18 @@ clippy(colnames(iris))
 # Petal.Length
 # Petal.Width
 # Species
+```
+
+### Randomly return `TRUE` or `FALSE`
+
+``` r
+coinflip()
+
+# [1] TRUE
+
+coinflip(5)
+
+# [1] TRUE TRUE FALSE TRUE FALSE
 ```
 
 ## Data included

@@ -1,3 +1,7 @@
+# desiderata 0.23.0 (2018-11-02)
+
+- ADD - `coinflip()` which randomly returns `TRUE` or `FALSE`.
+
 # desiderata 0.22.0 (2018-10-19)
 
 - MOD - `howmany()` now accepts multiple vectors with `...` instead of only one vector.
