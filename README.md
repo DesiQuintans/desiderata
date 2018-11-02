@@ -357,7 +357,7 @@ geomean(vec)
 The standard error of the mean is how the estimated mean changes with multiple
 measurements (i.e. how far away the mean of each sampling event or observation is from
 the true population mean). SE drops as sample size grows because as you take more
-mreasurements, the sampling means cluster more closely to the true mean.
+measurements, the sampling means cluster more closely to the true mean.
 
 ``` r
 se_mean(c(1, 2, 3, 4, NA_integer_))
