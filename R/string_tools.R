@@ -36,3 +36,31 @@ vec_to_regex <- function(..., sep = "|", wrap = c("(", ")")) {
 
 
 
+#' Collapse a vector into a string
+#'
+#' Take the elements of multiple vectors and concatenate them into one long string.
+#'
+#' @param ... (...) Vectors that will be concatenated and coerced to Character.
+#' @param wrap (Character) Placed at the left and right sides of each vector element.
+#' @param collapse (Character) Placed between each element of the original vector(s).
+#' @param unique (Logical) If `TRUE`, duplicate entries in `...` will be removed.
+#'
+#' @return A string.
+#'
+#' @examples
+#' \dontrun{
+#' collapse_vec(month.abb, wrap = "-", collapse = ", ")
+#' #> [1] "-Jan-, -Feb-, -Mar-, -Apr-, -May-, -Jun-, -Jul-, -Aug-, -Sep-, -Oct-, -Nov-, -Dec-"
+#' }
+#'
+#' @md
+collapse_vec <- function(..., wrap = "'", collapse = ", ", unique = TRUE) {
+    vec <- as.character(c(...))
+
+    if (unique == TRUE) {
+        vec <- unique(vec)
+    }
+
+    # vec is wrapped in empty strings so that 'sep' arg will wrap each entry.
+    paste(character(0), vec, character(0), collapse = collapse, sep = wrap)
+}

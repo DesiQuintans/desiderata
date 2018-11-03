@@ -71,6 +71,7 @@ abide by its terms.
     
 - **String tools**
     - Collapse vectors into a regex pattern (`vec_to_regex()` - [example](#collapse-vectors-into-a-regex-pattern))
+    - Collapse a vector into a string (`collapse_vec()` - [example](#collapse-a-vector-into-a-string))
     
 - **R tools**
     - Suppress all console printing (`cat`, `print`, `warning`, `message`) (`shush()` - [example](#suppress-all-console-printing-cat-print-warning-message))
@@ -703,6 +704,14 @@ vec_to_regex(month.abb)
 vec_to_regex(letters[1:6], sep = "", wrap = c("([", "]+)"))
 
 #> [1] "([abcdef]+)"
+```
+
+### Collapse a vector into a string
+
+``` r
+collapse_vec(month.abb, month.name, wrap = "-", collapse = ", ")
+
+#> [1] "-Jan-, -Feb-, -Mar-, -Apr-, -May-, -Jun-, -Jul-, -Aug-, -Sep-, -Oct-, -Nov-, -Dec-, -January-, -February-, -March-, -April-, -June-, -July-, -August-, -September-, -October-, -November-, -December-"
 ```
 
 ## R tools
