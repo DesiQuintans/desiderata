@@ -2,6 +2,7 @@
 
 - ADD - `coinflip()` which randomly returns `TRUE` or `FALSE`.
 - ADD - `collapse_vec()` which lets you concatenate the elements of multiple vectors into one long string.
+- ADD - `count_unique()` which counts how many times each unique element in a vector is repeated.
 
 # desiderata 0.22.0 (2018-10-19)
 

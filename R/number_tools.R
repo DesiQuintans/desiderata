@@ -523,6 +523,42 @@ howmany <- function(...) {
 
 
 
+#' Count how many times each unique element in a vector is repeated
+#'
+#' @param ... (Vectors) Vectors that will be concatenated together.
+#' @param sort (Logical) If `TRUE`, the results will be sorted by decreasing count.
+#'
+#' @return A dataframe with two columns: `unique` which lists the unique value, and
+#'    `count` which shows how many times that unique value appeared in `...`.
+#' @export
+#'
+#' @examples
+#' count_unique(sample(letters, size = 10, replace = TRUE))
+#'
+#' #>    unique  count
+#' #> 1       e      1
+#' #> 2       g      1
+#' #> 3       i      2
+#' #> 4       m      1
+#' #> 5       n      1
+#' #> 6       o      1
+#' #> 7       p      2
+#' #> 8       y      1
+#'
+#' @md
+count_unique <- function(..., sort = FALSE) {
+    vec <- c(...)
+    counts <- table(vec)
+    if (sort == TRUE) counts <- sort(counts, decreasing = TRUE)
+
+    df <- as.data.frame(counts, stringsAsFactors = FALSE)
+    names(df) <- c("unique", "count")
+
+    return(df)
+}
+
+
+
 #' Check if an integer is a prime number
 #'
 #' @param num (Numeric) An integer.

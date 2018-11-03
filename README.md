@@ -54,7 +54,9 @@ abide by its terms.
     - Quick percentile overview (`percentile()` - [example](#quick-percentile-overview))
     - Mirror a matrix horizontally (`mirror_matrix()` - [example](#mirror-a-matrix-horizontally))
     - Count the number of unique values in vectors (`howmany()` - [example](#count-the-number-of-unique-values-in-vectors))
+    - Count how many times each unique element in a vector is repeated (`count_unique()` - [example](#count-how-many-times-each-unique-element-in-a-vector-is-repeated))
     - Is a number prime? (`is.prime()` - [example](#is-a-number-prime))
+    
     
 - **Plotting functions**
     - Desi's `ggplot2` minimal base theme (`theme_desi_base()` - [example](#desis-ggplot2-minimal-base-theme))
@@ -497,6 +499,22 @@ howmany(my_vec)
 
 howmany(letters, LETTERS)
 #> 52
+```
+
+### Count how many times each unique element in a vector is repeated
+
+``` r
+count_unique(sample(letters, size = 10, replace = TRUE))
+
+#>    unique  count
+#> 1       e      1
+#> 2       g      1
+#> 3       i      2
+#> 4       m      1
+#> 5       n      1
+#> 6       o      1
+#> 7       p      2
+#> 8       y      1
 ```
 
 ### Is a number prime?
