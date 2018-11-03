@@ -1,6 +1,7 @@
 # desiderata 0.23.0 (2018-11-02)
 
 - ADD - `coinflip()` which randomly returns `TRUE` or `FALSE`.
+- ADD - `collapse_vec()` which lets you concatenate the elements of multiple vectors into one long string.
 
 # desiderata 0.22.0 (2018-10-19)
 
