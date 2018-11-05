@@ -488,7 +488,7 @@ percentile <- function(num, cuts = c(0, 0.10, 0.20, 0.25, 0.33, 0.50, 0.66, 0.75
         graphics::plot(results ~ cuts, xaxt = "n", xlim = c(0, 1), type = "c", lty = 2,
              xlab = "Percentile", ylab = "Value", col = "gray")
         graphics::axis(1, at = cuts, labels = names(results))
-        graphics::text(x = cuts, y = results, labels = results, adj = c(0.5, 0.5),
+        graphics::text(x = cuts, y = results, labels = format(results, digits = 1), adj = c(0.5, 0.5),
                        col = "black", font = 2, cex = 0.75)
     }
 }
