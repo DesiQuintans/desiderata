@@ -5,15 +5,21 @@
 \title{Quick percentile overview}
 \usage{
 percentile(num, cuts = c(0, 0.1, 0.2, 0.25, 0.33, 0.5, 0.66, 0.75, 0.8,
-  0.85, 0.9, 0.95, 0.99, 1))
+  0.85, 0.9, 0.95, 0.99, 1), plot = FALSE)
 }
 \arguments{
 \item{num}{(Numeric) A vector.}
 
 \item{cuts}{(Numeric) A vector of percentiles to calculate.}
+
+\item{plot}{(Logical) If \code{FALSE} (default), returns a named numeric vector of
+percentiles and their values. If \code{TRUE}, returns a scatter plot of the percentiles
+along X and their values along Y.}
 }
 \value{
-A named numeric vector of percentiles and their values.
+If \code{plot = FALSE} (default), returns a named numeric vector of percentiles and
+their values. If \code{plot = TRUE}, returns a scatter plot of the percentiles along X
+and their values along Y.
 }
 \description{
 Break down a vector into useful percentiles. If the 25th percentile is 10.5, for
@@ -40,5 +46,18 @@ perc["66\%"]
 
 #>   66\%
 #> 22.54
+
+# You can also just ask for one percentile:
+percentile(vec, 0.66)
+
+#>   66\%
+#> 22.54
+
+\dontrun{
+percentile(vec, plot = TRUE)
+}
+
+# Produces a scatter plot with percentile cuts on the X axis, value on the Y axis, and
+# the points joined by a line to show the shape of the data.
 
 }

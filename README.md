@@ -468,7 +468,19 @@ perc["66%"]
 
 #>   66%
 #> 22.54
+
+# You can also just ask for one percentile:
+percentile(vec, 0.66)
+
+#>   66%
+#> 22.54
+
+# You can also output a plot:
+percentile(vec, plot = TRUE)
 ```
+
+![](images/percentile.png)
+
 ### Mirror a matrix horizontally
 
 ``` r

@@ -1,3 +1,7 @@
+# desiderata 0.23.1 (2018-11-05)
+
+- ADD - `plot` argument for `percentile()` creates a graphical representation of the percentile values.
+
 # desiderata 0.23.0 (2018-11-02)
 
 - ADD - `coinflip()` which randomly returns `TRUE` or `FALSE`.

@@ -438,8 +438,13 @@ concat_nums <- function(...) {
 #'
 #' @param num (Numeric) A vector.
 #' @param cuts (Numeric) A vector of percentiles to calculate.
+#' @param plot (Logical) If `FALSE` (default), returns a named numeric vector of
+#'    percentiles and their values. If `TRUE`, returns a scatter plot of the percentiles
+#'    along X and their values along Y.
 #'
-#' @return A named numeric vector of percentiles and their values.
+#' @return If `plot = FALSE` (default), returns a named numeric vector of percentiles and
+#'    their values. If `plot = TRUE`, returns a scatter plot of the percentiles along X
+#'    and their values along Y.
 #' @export
 #'
 #' @examples
@@ -457,12 +462,33 @@ concat_nums <- function(...) {
 #' #>   66%
 #' #> 22.54
 #'
+#' # You can also just ask for one percentile:
+#' percentile(vec, 0.66)
+#'
+#' #>   66%
+#' #> 22.54
+#'
+#' \dontrun{
+#' percentile(vec, plot = TRUE)
+#' }
+#'
+#' # Produces a scatter plot with percentile cuts on the X axis, value on the Y axis, and
+#' # the points joined by a line to show the shape of the data.
+#'
 #' @section Authors:
 #' - Desi Quintans (<http://www.desiquintans.com>)
 #'
 #' @md
-percentile <- function(num, cuts = c(0, 0.10, 0.20, 0.25, 0.33, 0.50, 0.66, 0.75, 0.80, 0.85, 0.90, 0.95, 0.99, 1.0)) {
-    stats::quantile(num, cuts)
+percentile <- function(num, cuts = c(0, 0.10, 0.20, 0.25, 0.33, 0.50, 0.66, 0.75, 0.80, 0.85, 0.90, 0.95, 0.99, 1.0), plot = FALSE) {
+    results <- stats::quantile(num, cuts)
+
+    if (plot == FALSE) {
+        return(results)
+    } else {
+        graphics::plot(results ~ cuts, xaxt = "n", xlim = c(0, 1), type = "b", lty = 2,
+             xlab = "Percentile", ylab = "Value")
+        graphics::axis(1, at = cuts, labels = names(results))
+    }
 }
 
 
