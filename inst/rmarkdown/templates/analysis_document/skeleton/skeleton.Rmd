@@ -22,9 +22,9 @@ toc_depth: 1
 \pagebreak
 
 ```{r knit_config_chunk, include = FALSE}
-knitr::opts_chunk$set(cache   = TRUE,    # Cache results of chunks until they're changed?
+knitr::opts_chunk$set(cache   = TRUE,    # Cache chunks until they're edited?
                       eval    = TRUE,    # Run the code in the chunks?
-                      echo    = FALSE,   # Display the code in the document?
+                      echo    = TRUE,    # Display the code in the document?
                       message = FALSE,   # Print messages?
                       warning = FALSE,   # Print warnings?
                       fig.dim = c(7, 7)  # Figure dimensions in inches.
@@ -41,19 +41,44 @@ In this document,
 
 # Packages used
 
+```{r install_librarian, message = FALSE, warning = FALSE, include = FALSE}
+# This chunk installs the package-management package 'librarian' if it is 
+# not already installed. This code will not appear in the final document.
+
+# 'librarian' makes it easy to add new packages to your Rmarkdown document; just
+# add the package's name to the list and it will automatically download the package
+# from CRAN, Bioconductor, or GitHub (if you also provide the GitHub username). 
+
+# For more details: 
+# https://github.com/DesiQuintans/librarian
+
+
+installed <- rownames(utils::installed.packages())
+
+if (("devtools" %in% installed) == FALSE) {
+    install.packages("devtools")
+}
+
+if (("librarian" %in% installed) == FALSE) {
+    devtools::install_github("DesiQuintans/librarian")
+}
+```
+
+
 ```{r setup, echo = TRUE, message = FALSE, warning = FALSE}
-librarian::shelf(knitr, kableExtra, PEASdata, tidyr, dplyr, janitor, readr,
-                 DesiQuintans/desiderata)
+librarian::shelf(knitr, kableExtra)
 ```
 
 
 
 # Data import
 
-```{r import, echo=TRUE}
+```{r import, echo = TRUE}
 
 ```
 
 
 
 # References
+
+
