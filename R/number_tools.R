@@ -441,6 +441,7 @@ concat_nums <- function(...) {
 #' @param plot (Logical) If `FALSE` (default), returns a named numeric vector of
 #'    percentiles and their values. If `TRUE`, returns a scatter plot of the percentiles
 #'    along X and their values along Y.
+#' @param ... Extra parameters that are passed to plot() if `plot = TRUE`.
 #'
 #' @return If `plot = FALSE` (default), returns a named numeric vector of percentiles and
 #'    their values. If `plot = TRUE`, returns a scatter plot of the percentiles along X
@@ -479,14 +480,14 @@ concat_nums <- function(...) {
 #' - Desi Quintans (<http://www.desiquintans.com>)
 #'
 #' @md
-percentile <- function(num, cuts = c(0, 0.10, 0.20, 0.25, 0.33, 0.50, 0.66, 0.75, 0.80, 0.85, 0.90, 0.95, 0.99, 1.0), plot = FALSE) {
+percentile <- function(num, cuts = c(0, 0.10, 0.20, 0.25, 0.33, 0.50, 0.66, 0.75, 0.80, 0.85, 0.90, 0.95, 0.99, 1.0), plot = FALSE, ...) {
     results <- stats::quantile(num, cuts)
 
     if (plot == FALSE) {
         return(results)
     } else {
         graphics::plot(results ~ cuts, xaxt = "n", xlim = c(0, 1), type = "c", lty = 2,
-             xlab = "Percentile", ylab = "Value", col = "gray")
+             xlab = "Percentile", ylab = "Value", col = "gray", ...)
         graphics::axis(1, at = cuts, labels = names(results))
         graphics::text(x = cuts, y = results, labels = format(results, digits = 1), adj = c(0.5, 0.5),
                        col = "black", font = 2, cex = 0.75)

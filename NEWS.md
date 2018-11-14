@@ -1,3 +1,11 @@
+# desiderata 0.23.3 (2018-11-15)
+
+- MOD - `percentile()` now passes `...` to `plot()` if the `plot` argument is `TRUE`.
+
+# desiderata 0.23.2 (2018-11-07)
+
+- MOD - Added a chunk to the 'Analysis Document' Rmd template that installs my package-management package 'librarian' if it does not already exist. Librarian makes it very easy to maintain a package list in your analysis document, automatically installs packages from CRAN/Bioconductor/GitHub if they're not already installed, and lets your analysis document set itself up on any other computer. <https://github.com/DesiQuintans/librarian>
+
 # desiderata 0.23.1 (2018-11-05)
 
 - ADD - `plot` argument for `percentile()` creates a graphical representation of the percentile values.

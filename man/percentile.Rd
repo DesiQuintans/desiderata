@@ -5,7 +5,7 @@
 \title{Quick percentile overview}
 \usage{
 percentile(num, cuts = c(0, 0.1, 0.2, 0.25, 0.33, 0.5, 0.66, 0.75, 0.8,
-  0.85, 0.9, 0.95, 0.99, 1), plot = FALSE)
+  0.85, 0.9, 0.95, 0.99, 1), plot = FALSE, ...)
 }
 \arguments{
 \item{num}{(Numeric) A vector.}
@@ -15,6 +15,8 @@ percentile(num, cuts = c(0, 0.1, 0.2, 0.25, 0.33, 0.5, 0.66, 0.75, 0.8,
 \item{plot}{(Logical) If \code{FALSE} (default), returns a named numeric vector of
 percentiles and their values. If \code{TRUE}, returns a scatter plot of the percentiles
 along X and their values along Y.}
+
+\item{...}{Extra parameters that are passed to plot() if \code{plot = TRUE}.}
 }
 \value{
 If \code{plot = FALSE} (default), returns a named numeric vector of percentiles and
