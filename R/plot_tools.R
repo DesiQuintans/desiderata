@@ -272,8 +272,11 @@ build_palette <- function(col_list, n = NULL, random = FALSE, spaced = FALSE, al
 #'    same ones that would be output by `colours(distinct = TRUE)`. The biggest
 #'    advantage of accessing R's colours with this function is that you can add
 #'    transparency to them.
+#'
 #' @section Authors:
 #' - R Core Team
+#'
+#' @export
 #' @md
 palette_builtin <- function(n = NULL, random = FALSE, spaced = FALSE, alpha = NULL) {
     build_palette(rcols_as_hex(distinct = TRUE),
@@ -289,6 +292,8 @@ palette_builtin <- function(n = NULL, random = FALSE, spaced = FALSE, alpha = NU
 #'
 #' @section Authors:
 #' - Tatarize (<https://stackoverflow.com/users/631911/tatarize>)
+#'
+#' @export
 #' @md
 palette_distinct <- function(n = NULL, random = FALSE, spaced = FALSE, alpha = NULL) {
     distinct_colours <- c(
@@ -433,6 +438,8 @@ palette_distinct <- function(n = NULL, random = FALSE, spaced = FALSE, alpha = N
 #'
 #' @section Authors:
 #' - Adam Morse (<http://mrmrs.cc/>)
+#'
+#' @export
 #' @md
 palette_mrmrs <- function(n = NULL, random = FALSE, spaced = FALSE, alpha = NULL) {
     mrmrs_colours <- c(
@@ -456,6 +463,8 @@ palette_mrmrs <- function(n = NULL, random = FALSE, spaced = FALSE, alpha = NULL
 #'    through the preview plots manually, randomising the order of colours and deleting
 #'    colours that were visually similar until I ended up with a list of colours that were
 #'    easy to differentiate.
+#'
+#' @export
 #' @md
 palette_picked <- function(n = NULL, random = FALSE, spaced = FALSE, alpha = NULL) {
     picked_colours <- c(
