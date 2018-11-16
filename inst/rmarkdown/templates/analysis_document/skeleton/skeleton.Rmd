@@ -52,16 +52,18 @@ In this document,
 # For more details: 
 # https://github.com/DesiQuintans/librarian
 
-
-installed <- rownames(utils::installed.packages())
-
-if (("devtools" %in% installed) == FALSE) {
-    install.packages("devtools")
+librarian_installer <- function() {
+    pkg_missing <- function(pkg) {
+        location <- tryCatch(find.package(pkg), error = function(e) {character(0)})
+        ifelse(length(location) == 0, TRUE, FALSE)
+    }
+    
+    if (pkg_missing("devtools"))  install.packages("devtools")
+    if (pkg_missing("librarian")) devtools::install_github("DesiQuintans/librarian")
 }
 
-if (("librarian" %in% installed) == FALSE) {
-    devtools::install_github("DesiQuintans/librarian")
-}
+librarian_installer()
+rm(librarian_installer)
 ```
 
 
