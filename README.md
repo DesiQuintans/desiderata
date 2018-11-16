@@ -61,9 +61,12 @@ abide by its terms.
 - **Plotting functions**
     - Desi's `ggplot2` minimal base theme (`theme_desi_base()` - [example](#desis-ggplot2-minimal-base-theme))
     - Plot colours as tiles (`show_colours()` - [example](#plot-colours-as-tiles))
+    - Convert R's built-in named colours to hex codes (`rcols_as_hex()` - [example](#convert-rs-built-in-named-colours-to-hex-codes))
+    - Manipulate a list of hex colours (`build_palette()` - [example](#manipulate-a-list-of-hex-colours))
+    - A palette of R's 502 distinct built-in colours (`palette_builtin()` - [example](#a-palette-of-rs-502-distinct-built-in-colours))
     - A palette of 1,022 visually-distinct colours (`palette_distinct()` - [example](#a-palette-of-1022-visually-distinct-colours))
     - A palette of Adam Morse's 16 web-safe colours (`palette_mrmrs()` - [example](#a-palette-of-adam-morses-16-web-safe-colours))
-    - A palette of hand-picked distinct colours (`palette_picked()` - [example](#a-palette-of-hand-picked-distinct-colours))
+    - A palette of 14 hand-picked distinct colours (`palette_picked()` - [example](#a-palette-of-14-hand-picked-distinct-colours))
     - Rotate and align ggplot2 axis tick labels (`rotate_x_text()` and `rotate_y_text()` - [example](#rotate-and-align-ggplot2-axis-tick-labels))
     - Horizontally align ggplot2 title and subtitle (`align_titles()` - [example](#horizontally-align-ggplot2-title-and-subtitle))
     - Rotate and align ggplot2 facet labels (`rotate_x_facet_text()` and `rotate_y_facet_text()` - [example](#rotate-and-align-ggplot2-facet-labels))
@@ -565,108 +568,117 @@ show_colours(colours(distinct = TRUE))
 
 ![](images/base_colours.png)
 
-### A palette of 1,022 visually-distinct colours
+### Convert R's built-in named colours to hex codes
+
+``` r
+rcols_as_hex(c("tomato", "steelblue"))
+#>    tomato steelblue
+#> "#FF6347" "#4682B4"
+
+rcols_as_hex()
+#>     white    aliceblue    antiquewhite    ... for all colours in colours()
+#> "#FFFFFF"    "#F0F8FF"    "#FAEBD7"       ... for all colours in colours()
+
+rcols_as_hex(distinct = TRUE)
+#>     white    aliceblue    antiquewhite    ... for all in colours(distinct = TRUE)
+#> "#FFFFFF"    "#F0F8FF"    "#FAEBD7"       ... for all in colours(distinct = TRUE)
+
+rcols_as_hex(c("snow", "snow1"))
+#>      snow     snow1
+#> "#FFFAFA" "#FFFAFA"
+
+rcols_as_hex(c("snow", "snow1"), distinct = TRUE)
+#>      snow
+#> "#FFFAFA"
+```
+
+### Manipulate a list of hex colours
+
+`build_palette()` is a function that takes a vector of hex colours and lets you randomise and return subsets of those colours. All of the other `palette_...()` functions documented below use pre-compiled lists of hex colours (i.e. the `col_list` argument is already provided). All functions work identically and return the same kind of data.
 
 ``` r
 # To see all of the colours (ordered left-to-right and top-to-bottom):
+show_colours(palette_builtin())
+
+# See the plots below.
+
+# To get the first 4 colours:
+palette_builtin(4)
+
+#>     white     aliceblue  antiquewhite    antiquewhite1
+#> "#FFFFFF"     "#F0F8FF"     "#FAEBD7"        "#FFEFDB"
+
+# To pick 4 colours randomly:
+palette_builtin(4, random = TRUE)
+
+#>    gray52       coral4    darkorchid2      orchid4
+#> "#858585"    "#8B3E2F"      "#B23AEE"    "#8B4789"
+
+# To pick 4 colours distributed evenly throughout the colour list:
+palette_builtin(4, spaced = TRUE)
+
+#>     white        gray32    mediumpurple3       yellow4
+#> "#FFFFFF"     "#525252"        "#8968CD"     "#8B8B00"
+
+# To make the colours 75 percent opaque (note that all args can work together):
+palette_builtin(4, random = TRUE, spaced = TRUE, alpha = 0.75)
+
+#>      gray35          gray7          plum2     peachpuff3
+#> "#595959BF"    "#121212BF"    "#EEAEEEBF"    "#CDAF95BF"
+
+# ------------
+
+# To use your own colour list, use build_palette():
+build_palette(c("#000000", "#FFFF00", "#1CE6FF", "#FF34FF", "#FF4A46"), alpha = 0.5)
+
+#> [1] "#00000080" "#FFFF0080" "#1CE6FF80" "#FF34FF80" "#FF4A4680"
+```
+
+    - 
+    -  (`palette_builtin()` - [example](#a-palette-of-rs-502-distinct-built-in-colours))
+
+#### A palette of R's 502 distinct built-in colours
+
+``` r
+show_colours(palette_builtin())
+```
+
+![](images/palette_builtin.png)
+
+
+#### A palette of 1,022 visually-distinct colours
+
+Many of these are not colorblind safe, and many of them have low contrast or are very similar (but should still be different enough to discriminate when they are side-by-side).
+
+``` r
 show_colours(palette_distinct())
 ```
 
 ![](images/palette_distinct.png)
 
-``` r
-# To get the first 4 colours:
-palette_distinct(4)
 
-#> [1] "#000000" "#FFFF00" "#1CE6FF" "#FF34FF"
-
-# To pick 4 colours randomly:
-palette_distinct(4, random = TRUE)
-
-#> [1] "#2F2E2C" "#DFE3E6" "#5C424D" "#FFE47D"
-
-# To make the colours 75 percent opaque:
-palette_distinct(4, random = TRUE, alpha = 0.75)
-
-#> [1] "#4D913EBF" "#2A7FFFBF" "#830055BF" "#664327BF"
-```
-
-### A palette of Adam Morse's 16 web-safe colours
+#### A palette of Adam Morse's 16 web-safe colours
 
 This is a palette by Adam Morse, sourced from <https://clrs.cc/>.
 
 ``` r
-# To see all of the colours (ordered left-to-right and top-to-bottom):
 show_colours(palette_mrmrs())
 ```
 
 ![](images/palette_mrmrs.png)
 
-``` r
-# The colours in the list are named
-names(palette_mrmrs())
 
-#> [1] "navy"    "blue"    "aqua"    "teal"    "olive"   "green"   "lime"    "yellow"
-#> [9] "orange"  "red"     "maroon"  "fuchsia" "purple"  "black"   "gray"    "silver"
-
-# To get the first 4 colours:
-palette_mrmrs(4)
-
-#>      navy      blue      aqua      teal
-#> "#001F3F" "#0074D9" "#7FDBFF" "#39CCCC"
-
-# To pick 4 colours randomly:
-palette_mrmrs(4, random = TRUE)
-
-#>    orange    maroon     olive   fuchsia
-#> "#FF851B" "#85144B" "#3D9970" "#F012BE"
-
-# To make the colours 75 percent opaque:
-palette_mrmrs(4, random = TRUE, alpha = 0.75)
-
-#>      orange      maroon       olive     fuchsia
-#> "#FF851BBF" "#85144BBF" "#3D9970BF" "#F012BEBF"
-```
-
-### A palette of hand-picked distinct colours
+#### A palette of 14 hand-picked distinct colours
 
 The palette created by `desiderata::palette_distinct()` has a lot of colours that are either so dark or so light that it's difficult to differentiate them next to each other. In addition, many of the colours are affected by adjacency effects where they can be differentiated when they're next to each other, but not when they're next to a closely-related colour.
 
 I went through the preview plots manually, randomising the order of the colours each time and deleting any colours that were visually similar until I ended up with a list of colours that were easy to differentiate.
 
 ``` r
-# To see all of the colours (ordered left-to-right and top-to-bottom):
 show_colours(palette_picked())
 ```
 
 ![](images/palette_picked.png)
-
-``` r
-# The colours in the list are named
-names(palette_picked())
-
-#>  [1] "darkslateblue" "darkseagreen"  "darkorchid"    "yellow"        "magenta"       "plum"
-#>  [7] "goldenrod"     "orangered"     "darkorange"    "skyblue"       "palegreen"     "dodgerblue"
-#> [13] "chartreuse"    "grey10"
-
-# To get the first 4 colours:
-palette_picked(4)
-
-#> darkslateblue  darkseagreen    darkorchid        yellow
-#>     "#004754"     "#00AE7E"     "#7E2DD2"     "#FFE502"
-
-# To pick 4 colours randomly:
-palette_picked(4, random = TRUE)
-
-#> dodgerblue   darkorchid darkseagreen    orangered
-#>  "#3B5DFF"    "#7E2DD2"    "#00AE7E"    "#BE0028"
-
-# To make the colours 75 percent opaque:
-palette_picked(4, random = TRUE, alpha = 0.75)
-
-#>  darkorange   goldenrod  darkorchid  chartreuse
-#> "#FF6832BF" "#FEC96DBF" "#7E2DD2BF" "#4FC601BF"
-```
 
 
 ### Rotate and align ggplot2 axis tick labels

@@ -84,61 +84,211 @@ show_colours <- show_colors <- function(col_list, asp = NA, main = NULL) {
     )
 }
 
+
+
+#' Convert R's built-in named colours to hex codes
+#'
+#' @param vec (Character) A character vector of R's built-in named colours. If left `NULL`,
+#'    the entire contents of `grDevices::colours()` will be used.
+#' @param distinct (Logical) Should only distinct colours be returned? Distinct colours do
+#'    not share the same (0:255)^3 RGB space, and do not have the same hex code. Defaults
+#'    to `FALSE` so that you don't get unexpectedly-short vectors.
+#'
+#' @return A named character vector of hex colours that were converted from R's built-in
+#'    names. The names are the original R colour names that were provided in `vec`.
+#' @export
+#'
+#' @examples
+#' rcols_as_hex(c("tomato", "steelblue"))
+#' #>    tomato steelblue
+#' #> "#FF6347" "#4682B4"
+#'
+#' rcols_as_hex()
+#' #>     white    aliceblue    antiquewhite    ... for all colours in colours()
+#' #> "#FFFFFF"    "#F0F8FF"    "#FAEBD7"       ... for all colours in colours()
+#'
+#' rcols_as_hex(distinct = TRUE)
+#' #>     white    aliceblue    antiquewhite    ... for all in colours(distinct = TRUE)
+#' #> "#FFFFFF"    "#F0F8FF"    "#FAEBD7"       ... for all in colours(distinct = TRUE)
+#'
+#' rcols_as_hex(c("snow", "snow1"))
+#' #>      snow     snow1
+#' #> "#FFFAFA" "#FFFAFA"
+#'
+#' rcols_as_hex(c("snow", "snow1"), distinct = TRUE)
+#' #>      snow
+#' #> "#FFFAFA"
+#'
+#' @md
+rcols_as_hex <- function(vec = NULL, distinct = FALSE) {
+    vec_is_null <- is.null(vec)
+
+    if (vec_is_null)
+        vec <- grDevices::colours(distinct = distinct)
+
+    if (distinct == TRUE & !vec_is_null) {  # !vec_is_null so this is not done twice to colours().
+        vec <- vec[!duplicated(t(col2rgb(vec)))]
+    }
+
+    # Keep the colour names by naming vec with itself.
+    names(vec) <- vec
+
+    p <- grDevices::col2rgb(vec, alpha = FALSE)  # Convert named R colours to RGB.
+    hex <- grDevices::rgb(p["red",], p["green",], p["blue",],
+                          names = colnames(p), maxColorValue = 255)  # RGB to Hex
+
+    if (distinct == TRUE)
+        hex <- hex[!duplicated(hex)]  # unique() does not keep the names of a vector.
+
+    return(hex)
+}
+
+
+
 # Colour palettes -------------------------------------------------------------------
 
-#' A palette of 1,022 visually-distinct colours
+#' Build a palette of colours from a list of hex codes
 #'
-#' There's so many colours, man. Many of these are not colourblind-safe! Many also have
-#' poor contrast against each other, but they can still be differentiated as different
-#' colours. Never rely on colour alone to differentiate data points; use shapes, opacity,
-#' patterns, etc. Better yet, consider simplifying your graph so that it doesn't have so
-#' many dimensions.
+#' `build_palette()` is a function that takes a vector of hex colours and lets you
+#' randomise and return subsets of those colours. All of the other `palette_...()`
+#' functions documented in the _Functions_ section below use pre-compiled lists
+#' of hex colours (i.e. the `col_list` argument is already provided). All functions work
+#' identically and return the same kind of data.
 #'
-#' Code to plot all the colours can be found in the Examples section. You can even use a
-#' colour picker to choose colours from the resulting plot and be assured that they can
-#' be differentiated.
-#'
-#' @param n (Numeric) The number of colours to deliver.
-#' @param random (Logical) If `FALSE` (default), you will get `n` colours in the order
-#'    they appear in the list. If `TRUE`, you will get `n` colours chosen randomly.
+#' @param col_list (Character) A vector of colours in RGB Hex format without transparency.
+#' @param n (Numeric or `NULL`) The number of colours to return. If `NULL`, return all of
+#'    the colours in `col_list`. If `n` is greater than the length of the colour list,
+#'    triggers a warning and returns all of the colours.
+#' @param random (Logical) If `TRUE`, colours will be randomly selected. If `FALSE`, they
+#'    will be drawn from `col_list` in order.
 #' @param alpha (Numeric) A single decimal value that modifies the opacity of the colours.
 #'    `alpha = 0.65` makes all of the colours 65 percent opaque (35 percent transparent).
 #'    If `alpha = NULL`, no alpha channel is added and the colours are 100 percent opaque.
-#' @param spaced (Logical) If `TRUE`, `n` colours will be chosen equally spaced within the
-#'    `col_list`, e.g. 3 colours from a list of 16 will return 1, 8, and 16th colours.
+#' @param spaced (Logical) If `TRUE`, the `n` chosen colours will be distributed throughout
+#'    the `col_list`, e.g. 3 colours from a list of 16 will return 1, 8, and 16th colours.
 #'    If `FALSE` (by default), colours will not be spaced out.
 #'
 #' @return A character vector of hex colours. If `alpha = NULL`, the colours will be in
 #'    RGB Hex format (e.g. #FFFF00). If `alpha` is not `NULL`, the colours will be in
-#'    RGBA Hex format (e.g. #FFFF00CB).
+#'    RGBA Hex format (e.g. #FFFF00CB). If the `col_list` was a named vector, the names
+#'    will be preserved.
 #' @export
+#'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
 #'
 #' @examples
 #' # To see all of the colours (ordered left-to-right and top-to-bottom):
-#' show_colours(palette_distinct())
+#' show_colours(palette_builtin())
 #'
 #' # To get the first 4 colours:
-#' palette_distinct(4)
+#' palette_builtin(4)
 #'
-#' #> [1] "#000000" "#FFFF00" "#1CE6FF" "#FF34FF"
+#' #>     white     aliceblue  antiquewhite    antiquewhite1
+#' #> "#FFFFFF"     "#F0F8FF"     "#FAEBD7"        "#FFEFDB"
 #'
 #' # To pick 4 colours randomly:
-#' palette_distinct(4, random = TRUE)
+#' palette_builtin(4, random = TRUE)
 #'
-#' #> [1] "#2F2E2C" "#DFE3E6" "#5C424D" "#FFE47D"
+#' #>    gray52       coral4    darkorchid2      orchid4
+#' #> "#858585"    "#8B3E2F"      "#B23AEE"    "#8B4789"
 #'
-#' # To make the colours 75 percent opaque:
-#' palette_distinct(4, random = TRUE, alpha = 0.75)
+#' # To pick 4 colours distributed evenly throughout the colour list:
+#' palette_builtin(4, spaced = TRUE)
 #'
-#' #> [1] "#4D913EBF" "#2A7FFFBF" "#830055BF" "#664327BF"
+#' #>     white        gray32    mediumpurple3       yellow4
+#' #> "#FFFFFF"     "#525252"        "#8968CD"     "#8B8B00"
+#'
+#' # To make the colours 75 percent opaque (note that all args can work together):
+#' palette_builtin(4, random = TRUE, spaced = TRUE, alpha = 0.75)
+#'
+#' #>      gray35          gray7          plum2     peachpuff3
+#' #> "#595959BF"    "#121212BF"    "#EEAEEEBF"    "#CDAF95BF"
+#'
+#' # ------------
+#'
+#' # To use your own colour list, use build_palette():
+#' build_palette(c("#000000", "#FFFF00", "#1CE6FF", "#FF34FF", "#FF4A46"), alpha = 0.5)
+#'
+#' #> [1] "#00000080" "#FFFF0080" "#1CE6FF80" "#FF34FF80" "#FF4A4680"
+#'
+#' @md
+build_palette <- function(col_list, n = NULL, random = FALSE, spaced = FALSE, alpha = NULL) {
+    # Default to returning all of the colours in the list if no specific number is chosen,
+    # or if too many colours are requested.
+    list_length <- length(col_list)
+
+    if (is.null(n) == TRUE) {
+        n <- list_length
+    } else if (n <= 0 | is.numeric(n) == FALSE) {
+        stop("You need to request at least 1 colour, or leave the 'n' argument as NULL\n",
+             "  to request all colours by default.")
+    } else if (list_length < n) {
+        warning(n, " colours were requested, but there are only ", list_length, " colours ",
+                "in the list. \n",
+                "  All ", list_length, " colours will be returned.")
+        n <- list_length
+    }
+
+    # 1. Build transparency info
+    if (is.null(alpha) == TRUE) {
+        alpha_data <- ""
+    } else {
+        # The decimal is converted to hex and then appended to the end of the colour code.
+        alpha_data <- format(as.hexmode(round(255 * alpha[1])), upper.case = TRUE)
+    }
+
+    # 2. Randomise colours if needed.
+    if (random == TRUE) {
+        cols <- sample(col_list)
+    } else {
+        cols <- col_list
+    }
+
+    # 2. Then, take every nth element from the list.
+    if (spaced == TRUE) {
+        nth <- floor(seq(1, list_length, length.out = n))  # n elements, spaced evenly.
+
+        # Note that n is never greater than list_length because of the length check at the
+        # start of the function, so this function will return every 1th element if too
+        # many n are requested.
+    } else {
+        nth <- seq(1, n)  # Return every 1th element up to n elements.
+    }
+
+    # 3. Select the colours
+    cols <- cols[nth]
+
+    # paste() destroys any names that are attached to the list. Need to save them first
+    # and reapply them later.
+    col_names <- names(cols)
+    cols <- paste0(cols, alpha_data)
+    names(cols) <- col_names
+
+    return(cols)
+}
+
+#' @describeIn build_palette R's 502 built-in distinct named colours in hex form (the
+#'    same ones that would be output by `colours(distinct = TRUE)`. The biggest
+#'    advantage of accessing R's colours with this function is that you can add
+#'    transparency to them.
+#' @section Authors:
+#' - R Core Team
+#' @md
+palette_builtin <- function(n = NULL, random = FALSE, spaced = FALSE, alpha = NULL) {
+    build_palette(rcols_as_hex(distinct = TRUE),
+                  n = n, random = random, spaced = spaced, alpha = alpha)
+}
+
+
+
+#' @describeIn build_palette Tatarize's 1,022 visually-distinct colours
+#'    (<https://stackoverflow.com/a/12224359/5578429>). Many of these are not
+#'    colorblind safe, and many of them have low contrast or are very similar (but should
+#'    still be different enough to discriminate when they are side-by-side).
 #'
 #' @section Authors:
 #' - Tatarize (<https://stackoverflow.com/users/631911/tatarize>)
-#' - Desi Quintans (<http://www.desiquintans.com)
-#'
-#' @section Source:
-#' <https://stackoverflow.com/a/12224359/5578429>
-#'
 #' @md
 palette_distinct <- function(n = NULL, random = FALSE, spaced = FALSE, alpha = NULL) {
     distinct_colours <- c(
@@ -276,61 +426,13 @@ palette_distinct <- function(n = NULL, random = FALSE, spaced = FALSE, alpha = N
 }
 
 
-#' Adam Morse's palette of 16 web-safe colours
-#'
-#' These are more attractive alternatives to the standard 16 default web-safe colours.
-#' They have good contrast against each other, and the colour list is named.
-#'
-#' @param n (Numeric) The number of colours to deliver.
-#' @param random (Logical) If `FALSE` (default), you will get `n` colours in the order
-#'    they appear in the list. If `TRUE`, you will get `n` colours chosen randomly.
-#' @param alpha (Numeric) A single decimal value that modifies the opacity of the colours.
-#'    `alpha = 0.65` makes all of the colours 65 percent opaque (35 percent transparent).
-#'    If `alpha = NULL`, no alpha channel is added and the colours are 100 percent opaque.
-#' @param spaced (Logical) If `TRUE`, `n` colours will be chosen equally spaced within the
-#'    `col_list`, e.g. 3 colours from a list of 16 will return 1, 8, and 16th colours.
-#'    If `FALSE` (by default), colours will not be spaced out.
-#'
-#' @return A character vector of hex colours. If `alpha = NULL`, the colours will be in
-#'    RGB Hex format (e.g. #FFFF00). If `alpha` is not `NULL`, the colours will be in
-#'    RGBA Hex format (e.g. #FFFF00CB).
-#' @export
-#'
-#' @examples
-#' # To see all of the colours (ordered left-to-right and top-to-bottom):
-#' show_colours(palette_mrmrs())
-#'
-#' # The colours in the list are named
-#' names(palette_mrmrs())
-#'
-#' #> [1] "navy"    "blue"    "aqua"    "teal"    "olive"   "green"   "lime"    "yellow"
-#' #> [9] "orange"  "red"     "maroon"  "fuchsia" "purple"  "black"   "gray"    "silver"
-#'
-#' # To get the first 4 colours:
-#' palette_mrmrs(4)
-#'
-#' #>      navy      blue      aqua      teal
-#' #> "#001F3F" "#0074D9" "#7FDBFF" "#39CCCC"
-#'
-#' # To pick 4 colours randomly:
-#' palette_mrmrs(4, random = TRUE)
-#'
-#' #>    orange    maroon     olive   fuchsia
-#' #> "#FF851B" "#85144B" "#3D9970" "#F012BE"
-#'
-#' # To make the colours 75 percent opaque:
-#' palette_mrmrs(4, random = TRUE, alpha = 0.75)
-#'
-#' #>      orange      maroon       olive     fuchsia
-#' #> "#FF851BBF" "#85144BBF" "#3D9970BF" "#F012BEBF"
+
+#' @describeIn build_palette Adam Morse's 16 web-safe colours (<https://clrs.cc>). Nicer
+#'    replacements for the standard browser colours, with good contrast and readability
+#'    even when overplotted.
 #'
 #' @section Authors:
 #' - Adam Morse (<http://mrmrs.cc/>)
-#' - Desi Quintans (<http://www.desiquintans.com)
-#'
-#' @section Source:
-#' <https://clrs.cc/>
-#'
 #' @md
 palette_mrmrs <- function(n = NULL, random = FALSE, spaced = FALSE, alpha = NULL) {
     mrmrs_colours <- c(
@@ -345,67 +447,15 @@ palette_mrmrs <- function(n = NULL, random = FALSE, spaced = FALSE, alpha = NULL
 }
 
 
-#' 14 hand-picked distinct colours
-#'
-#' The palette created by `desiderata::palette_distinct()` has a lot of colours that are
-#' either so dark or so light that it's difficult to differentiate them next to each
-#' other. In addition, many of the colours are affected by adjacency effects where
-#' putting an intermediate colour between them makes them look the same.
-#'
-#' I went through the preview plots manually, randomising the order of colours and
-#' deleting colours that were visually similar until I ended up with a list of colours
-#' that were easy to differentiate.
-#'
-#' @param n (Numeric) The number of colours to deliver.
-#' @param random (Logical) If `FALSE` (default), you will get `n` colours in the order
-#'    they appear in the list. If `TRUE`, you will get `n` colours chosen randomly.
-#' @param alpha (Numeric) A single decimal value that modifies the opacity of the colours.
-#'    `alpha = 0.65` makes all of the colours 65 percent opaque (35 percent transparent).
-#'    If `alpha = NULL`, no alpha channel is added and the colours are 100 percent opaque.
-#' @param spaced (Logical) If `TRUE`, `n` colours will be chosen equally spaced within the
-#'    `col_list`, e.g. 3 colours from a list of 16 will return 1, 8, and 16th colours.
-#'    If `FALSE` (by default), colours will not be spaced out.
-#'
-#' @return A character vector of hex colours. If `alpha = NULL`, the colours will be in
-#'    RGB Hex format (e.g. #FFFF00). If `alpha` is not `NULL`, the colours will be in
-#'    RGBA Hex format (e.g. #FFFF00CB).
-#' @export
-#'
-#' @examples
-#' # To see all of the colours (ordered left-to-right and top-to-bottom):
-#' show_colours(palette_picked())
-#'
-#' # The colours in the list are named
-#' names(palette_picked())
-#'
-#' #>  [1] "darkslateblue" "darkseagreen"  "darkorchid"    "yellow"        "magenta"       "plum"
-#' #>  [7] "goldenrod"     "orangered"     "darkorange"    "skyblue"       "palegreen"     "dodgerblue"
-#' #> [13] "chartreuse"    "grey10"
-#'
-#' # To get the first 4 colours:
-#' palette_picked(4)
-#'
-#' #> darkslateblue  darkseagreen    darkorchid        yellow
-#' #>     "#004754"     "#00AE7E"     "#7E2DD2"     "#FFE502"
-#'
-#' # To pick 4 colours randomly:
-#' palette_picked(4, random = TRUE)
-#'
-#' #> dodgerblue   darkorchid darkseagreen    orangered
-#' #>  "#3B5DFF"    "#7E2DD2"    "#00AE7E"    "#BE0028"
-#'
-#' # To make the colours 75 percent opaque:
-#' palette_picked(4, random = TRUE, alpha = 0.75)
-#'
-#' #>  darkorange   goldenrod  darkorchid  chartreuse
-#' #> "#FF6832BF" "#FEC96DBF" "#7E2DD2BF" "#4FC601BF"
-#'
-#' @section Authors:
-#' - Desi Quintans (<http://www.desiquintans.com)
-#'
-#' @section Source:
-#' <https://stackoverflow.com/a/12224359/5578429>
-#'
+
+#' @describeIn build_palette Desi's 14 hand-picked colours from the `palette_distinct()`
+#'    range. The palette created by `desiderata::palette_distinct()` has a lot of colours
+#'    that are either so dark or so light that it's difficult to differentiate them next
+#'    to each other. In addition, many of the colours are affected by adjacency effects
+#'    where putting an intermediate colour between them makes them look the same. I went
+#'    through the preview plots manually, randomising the order of colours and deleting
+#'    colours that were visually similar until I ended up with a list of colours that were
+#'    easy to differentiate.
 #' @md
 palette_picked <- function(n = NULL, random = FALSE, spaced = FALSE, alpha = NULL) {
     picked_colours <- c(

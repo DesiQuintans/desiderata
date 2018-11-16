@@ -1,6 +1,13 @@
 # desiderata 0.23.3 (2018-11-15)
 
 - MOD - `percentile()` now passes `...` to `plot()` if the `plot` argument is `TRUE`.
+- MOD - `percentile(plot = TRUE)` now shows values on the plotted points.
+- MOD - `build_palette()` is now a public function so that you can get the functionality of the `palette_...()` family in your own colour lists.
+- ADD - `spaced` arg to `palette_...()` and `build_palette()` functions. This argument lets you sample `n` colours evenly across the colour list. If you have a list of colours that are sorted by hue, for example, this helps you pick colours that are further away from each other.
+- ADD - `rcols_as_hex()` converts built-in R colours to hex values (e.g. "goldenrod" → "#DAA520").
+- ADD - `palette_builtin()` lets you access the list of colours provided by `colours(distinct = TRUE)`, adding features like transparency and random colour selection via the `build_palette()` framework.
+- MOD - Documentation for all of the `palette_...()` functions is now bundled together with `build_palette()`.
+- MOD - The librarian auto-installer in the 'Analysis Document' Rmd template now works faster.
 
 # desiderata 0.23.2 (2018-11-07)
 
