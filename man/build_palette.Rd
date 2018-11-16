@@ -4,7 +4,8 @@
 \alias{build_palette}
 \title{Build a palette of colours from a list of hex codes}
 \usage{
-build_palette(col_list, n = NULL, random = FALSE, alpha = NULL)
+build_palette(col_list, n = NULL, random = FALSE, spaced = FALSE,
+  alpha = NULL)
 }
 \arguments{
 \item{col_list}{(Character) A vector of colours in RGB Hex format without transparency.}
@@ -15,7 +16,11 @@ the colours for \code{col_list}.}
 \item{random}{(Logical) If \code{TRUE}, colours will be randomly sampled without replacement.
 If \code{FALSE}, they will be drawn from \code{col_list} in order.}
 
-\item{alpha}{A single decimal value that modifies the opacity of the colours.
+\item{spaced}{(Logical) If \code{TRUE}, \code{n} colours will be chosen equally spaced within the
+\code{col_list}, e.g. 3 colours from a list of 16 will return 1, 8, and 16th colours.
+If \code{FALSE} (by default), colours will not be spaced out.}
+
+\item{alpha}{(Numeric) A single decimal value that modifies the opacity of the colours.
 \code{alpha = 0.65} makes all of the colours 65 percent opaque (35 percent transparent).
 If \code{alpha = NULL}, no alpha channel is added and the colours are 100 percent opaque.}
 }

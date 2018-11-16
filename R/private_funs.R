@@ -97,9 +97,12 @@ find_dims <- function(vec)  {
 #'    the colours for `col_list`.
 #' @param random (Logical) If `TRUE`, colours will be randomly sampled without replacement.
 #'    If `FALSE`, they will be drawn from `col_list` in order.
-#' @param alpha A single decimal value that modifies the opacity of the colours.
+#' @param alpha (Numeric) A single decimal value that modifies the opacity of the colours.
 #'    `alpha = 0.65` makes all of the colours 65 percent opaque (35 percent transparent).
 #'    If `alpha = NULL`, no alpha channel is added and the colours are 100 percent opaque.
+#' @param spaced (Logical) If `TRUE`, `n` colours will be chosen equally spaced within the
+#'    `col_list`, e.g. 3 colours from a list of 16 will return 1, 8, and 16th colours.
+#'    If `FALSE` (by default), colours will not be spaced out.
 #'
 #' @return A character vector of hex colours. If `alpha = NULL`, the colours will be in
 #'    RGB Hex format (e.g. #FFFF00). If `alpha` is not `NULL`, the colours will be in
@@ -112,7 +115,7 @@ find_dims <- function(vec)  {
 #' }
 #'
 #' @md
-build_palette <- function(col_list, n = NULL, random = FALSE, alpha = NULL) {
+build_palette <- function(col_list, n = NULL, random = FALSE, spaced = FALSE, alpha = NULL) {
     # Default to returning all of the colours in the list if no specific number is chosen,
     # or if too many colours are requested.
     list_length <- length(col_list)
@@ -129,7 +132,7 @@ build_palette <- function(col_list, n = NULL, random = FALSE, alpha = NULL) {
         n <- list_length
     }
 
-    # Build transparency info
+    # 1. Build transparency info
     if (is.null(alpha) == TRUE) {
         alpha_data <- ""
     } else {
@@ -137,12 +140,26 @@ build_palette <- function(col_list, n = NULL, random = FALSE, alpha = NULL) {
         alpha_data <- format(as.hexmode(round(255 * alpha[1])), upper.case = TRUE)
     }
 
-    # Select the colours
+    # 2. Randomise colours if needed.
     if (random == TRUE) {
-        cols <- sample(col_list, n, replace = FALSE)
+        cols <- sample(col_list)
     } else {
-        cols <- col_list[1:n]
+        cols <- col_list
     }
+
+    # 2. Then, take every nth element from the list.
+    if (spaced == TRUE) {
+        nth <- floor(seq(1, list_length, length.out = n))  # n elements, spaced evenly.
+
+        # Note that n is never greater than list_length because of the length check at the
+        # start of the function, so this function will return every 1th element if too
+        # many n are requested.
+    } else {
+        nth <- seq(1, n)  # Return every 1th element up to n elements.
+    }
+
+    # 3. Select the colours
+    cols <- cols[nth]
 
     # paste() destroys any names that are attached to the list. Need to save them first
     # and reapply them later.

@@ -4,13 +4,18 @@
 \alias{palette_picked}
 \title{14 hand-picked distinct colours}
 \usage{
-palette_picked(n = NULL, random = FALSE, alpha = NULL)
+palette_picked(n = NULL, random = FALSE, spaced = FALSE,
+  alpha = NULL)
 }
 \arguments{
 \item{n}{(Numeric) The number of colours to deliver.}
 
 \item{random}{(Logical) If \code{FALSE} (default), you will get \code{n} colours in the order
 they appear in the list. If \code{TRUE}, you will get \code{n} colours chosen randomly.}
+
+\item{spaced}{(Logical) If \code{TRUE}, \code{n} colours will be chosen equally spaced within the
+\code{col_list}, e.g. 3 colours from a list of 16 will return 1, 8, and 16th colours.
+If \code{FALSE} (by default), colours will not be spaced out.}
 
 \item{alpha}{(Numeric) A single decimal value that modifies the opacity of the colours.
 \code{alpha = 0.65} makes all of the colours 65 percent opaque (35 percent transparent).

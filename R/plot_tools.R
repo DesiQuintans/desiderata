@@ -104,6 +104,9 @@ show_colours <- show_colors <- function(col_list, asp = NA, main = NULL) {
 #' @param alpha (Numeric) A single decimal value that modifies the opacity of the colours.
 #'    `alpha = 0.65` makes all of the colours 65 percent opaque (35 percent transparent).
 #'    If `alpha = NULL`, no alpha channel is added and the colours are 100 percent opaque.
+#' @param spaced (Logical) If `TRUE`, `n` colours will be chosen equally spaced within the
+#'    `col_list`, e.g. 3 colours from a list of 16 will return 1, 8, and 16th colours.
+#'    If `FALSE` (by default), colours will not be spaced out.
 #'
 #' @return A character vector of hex colours. If `alpha = NULL`, the colours will be in
 #'    RGB Hex format (e.g. #FFFF00). If `alpha` is not `NULL`, the colours will be in
@@ -137,7 +140,7 @@ show_colours <- show_colors <- function(col_list, asp = NA, main = NULL) {
 #' <https://stackoverflow.com/a/12224359/5578429>
 #'
 #' @md
-palette_distinct <- function(n = NULL, random = FALSE, alpha = NULL) {
+palette_distinct <- function(n = NULL, random = FALSE, spaced = FALSE, alpha = NULL) {
     distinct_colours <- c(
         "#000000", "#FFFF00", "#1CE6FF", "#FF34FF", "#FF4A46", "#008941", "#006FA6", "#A30059",
         "#FFDBE5", "#7A4900", "#0000A6", "#63FFAC", "#B79762", "#004D43", "#8FB0FF", "#997D87",
@@ -269,7 +272,7 @@ palette_distinct <- function(n = NULL, random = FALSE, alpha = NULL) {
         "#3D7397", "#CAE8CE", "#D60034", "#AA6746", "#9E5585", "#BA6200"
     )
 
-    build_palette(distinct_colours, n = n, random = random, alpha = alpha)
+    build_palette(distinct_colours, n = n, random = random, spaced = spaced, alpha = alpha)
 }
 
 
@@ -284,6 +287,9 @@ palette_distinct <- function(n = NULL, random = FALSE, alpha = NULL) {
 #' @param alpha (Numeric) A single decimal value that modifies the opacity of the colours.
 #'    `alpha = 0.65` makes all of the colours 65 percent opaque (35 percent transparent).
 #'    If `alpha = NULL`, no alpha channel is added and the colours are 100 percent opaque.
+#' @param spaced (Logical) If `TRUE`, `n` colours will be chosen equally spaced within the
+#'    `col_list`, e.g. 3 colours from a list of 16 will return 1, 8, and 16th colours.
+#'    If `FALSE` (by default), colours will not be spaced out.
 #'
 #' @return A character vector of hex colours. If `alpha = NULL`, the colours will be in
 #'    RGB Hex format (e.g. #FFFF00). If `alpha` is not `NULL`, the colours will be in
@@ -326,7 +332,7 @@ palette_distinct <- function(n = NULL, random = FALSE, alpha = NULL) {
 #' <https://clrs.cc/>
 #'
 #' @md
-palette_mrmrs <- function(n = NULL, random = FALSE, alpha = NULL) {
+palette_mrmrs <- function(n = NULL, random = FALSE, spaced = FALSE, alpha = NULL) {
     mrmrs_colours <- c(
         "navy" = "#001F3F", "blue" = "#0074D9", "aqua" = "#7FDBFF", "teal" = "#39CCCC",
         "olive" = "#3D9970", "green" = "#2ECC40", "lime" = "#01FF70",
@@ -335,7 +341,7 @@ palette_mrmrs <- function(n = NULL, random = FALSE, alpha = NULL) {
         "black" = "#111111", "gray" = "#AAAAAA", "silver" = "#DDDDDD"
     )
 
-    build_palette(mrmrs_colours, n = n, random = random, alpha = alpha)
+    build_palette(mrmrs_colours, n = n, random = random, spaced = spaced, alpha = alpha)
 }
 
 
@@ -356,6 +362,9 @@ palette_mrmrs <- function(n = NULL, random = FALSE, alpha = NULL) {
 #' @param alpha (Numeric) A single decimal value that modifies the opacity of the colours.
 #'    `alpha = 0.65` makes all of the colours 65 percent opaque (35 percent transparent).
 #'    If `alpha = NULL`, no alpha channel is added and the colours are 100 percent opaque.
+#' @param spaced (Logical) If `TRUE`, `n` colours will be chosen equally spaced within the
+#'    `col_list`, e.g. 3 colours from a list of 16 will return 1, 8, and 16th colours.
+#'    If `FALSE` (by default), colours will not be spaced out.
 #'
 #' @return A character vector of hex colours. If `alpha = NULL`, the colours will be in
 #'    RGB Hex format (e.g. #FFFF00). If `alpha` is not `NULL`, the colours will be in
@@ -398,7 +407,7 @@ palette_mrmrs <- function(n = NULL, random = FALSE, alpha = NULL) {
 #' <https://stackoverflow.com/a/12224359/5578429>
 #'
 #' @md
-palette_picked <- function(n = NULL, random = FALSE, alpha = NULL) {
+palette_picked <- function(n = NULL, random = FALSE, spaced = FALSE, alpha = NULL) {
     picked_colours <- c(
         "darkslateblue" = "#004754",
         "darkseagreen" = "#00AE7E",
@@ -416,7 +425,7 @@ palette_picked <- function(n = NULL, random = FALSE, alpha = NULL) {
         "grey10" = "#121212"
     )
 
-    build_palette(picked_colours, n = n, random = random, alpha = alpha)
+    build_palette(picked_colours, n = n, random = random, spaced = spaced, alpha = alpha)
 }
 
 # ggplot2 helper functions ----------------------------------------------------------
