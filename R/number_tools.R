@@ -143,8 +143,9 @@ geomean <- function(x, na.rm = TRUE) {
 #'
 #' @md
 round_to_places <- function(num, places = 2) {
+    warning("round_to_places() is deprecated.\nInstead, use the base function round() with 'digits' arg.")
     return(
-        formatC(num, places, format = "f")
+        round(num, digits = places)
     )
 }
 
