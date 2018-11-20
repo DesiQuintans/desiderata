@@ -22,7 +22,7 @@ toc_depth: 1
 \pagebreak
 
 ```{r knit_config_chunk, include = FALSE}
-knitr::opts_chunk$set(cache   = TRUE,    # Cache chunks until they're edited?
+knitr::opts_chunk$set(cache   = FALSE,   # Cache chunks? Sometimes creates bugs.
                       eval    = TRUE,    # Run the code in the chunks?
                       echo    = TRUE,    # Display the code in the document?
                       message = FALSE,   # Print messages?

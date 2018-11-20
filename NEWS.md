@@ -1,6 +1,7 @@
 # desiderata 0.23.4 (2018-11-20)
 
 - REM - `round_to_places()` is deprecated. Use the base function `round()` with a `digits` argument instead (e.g. `round(n, digits = 2)`).
+- FIX - Rmd Analysis Document template no longer defaults to `cache = TRUE` because it can sometimes cause annoying bugs.
 
 # desiderata 0.23.3 (2018-11-15)
 
