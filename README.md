@@ -77,6 +77,7 @@ abide by its terms.
 - **String tools**
     - Collapse vectors into a regex pattern (`vec_to_regex()` - [example](#collapse-vectors-into-a-regex-pattern))
     - Collapse a vector into a string (`collapse_vec()` - [example](#collapse-a-vector-into-a-string))
+    - "Unwrap" hard-wrapped strings into a single line (`uw()` - [example](#unwrap-hard-wrapped-strings-into-a-single-line))
     
 - **R tools**
     - Suppress all console printing (`cat`, `print`, `warning`, `message`) (`shush()` - [example](#suppress-all-console-printing-cat-print-warning-message))
@@ -374,6 +375,8 @@ se_mean(c(1, 2, 3, 4, NA_integer_), na.rm = TRUE)
 ```
 
 ### Round a number to a fixed decimal place length
+
+This is deprecated as of 2018-11-20. Use `round(x, digits = 2)` instead, it's much faster.
 
 ``` r
 vec <- c(1.739006, 2, -1.4, 1.05, 1.90, 3.826)
@@ -755,6 +758,49 @@ collapse_vec(month.abb, month.name, wrap = "-", collapse = ", ")
 
 #> [1] "-Jan-, -Feb-, -Mar-, -Apr-, -May-, -Jun-, -Jul-, -Aug-, -Sep-, -Oct-, -Nov-, -Dec-, -January-, -February-, -March-, -April-, -June-, -July-, -August-, -September-, -October-, -November-, -December-"
 ```
+
+### "Unwrap" hard-wrapped strings into a single line
+
+It is often necessary to break a very long string (e.g. a table caption) across several lines in your source code to keep it readable, but these linebreaks and spaces end up being printed in the final output. This function removes hard-wrap whitespace characters while preserving the ones you explicitly add with `\n`.
+
+`uw()` will replace any linebreak that is followed by any number of spaces with a single space. This means that **if you want to insert a linebreak `\n` manually, then it should not have any spaces after it**. A `\n` at the very end of the line will be kept, and this is the most sensible way to format the text anyway. 
+
+Also note that since `uw()` uses the presence of indenting spaces to decide whether a piece of text is hard-wrapped, text that merely goes to the 0th column is not unwrapped. Compare:
+
+    text <- "This will be
+            unwrapped by uw()."
+    
+    text <- "This will NOT
+    be unwrapped by uw()."
+
+```r
+text <- "Here's an example of some text
+        that you might want to break
+        across many lines.\n
+        But this line should be separate."
+
+print(text)
+
+#> [1] "Here's an example of some text\n        that you might want to break\n        across many lines.\n\n     But this line should be separate."
+
+cat(text)
+
+#> Here's an example of some text
+#>         that you might want to break
+#>         across multiple lines.
+#>
+#>         But this line should be separate.
+
+uw(text)
+
+#> [1] "Here's an example of some text that you might want to break across many lines.\nBut this line should be arate.
+
+cat(.Last.value)
+
+#> Here's an example of some text that you might want to break across many lines.
+#> But this line should be separate.
+```
+
 
 ## R tools
 

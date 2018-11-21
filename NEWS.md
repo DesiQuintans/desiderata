@@ -1,3 +1,7 @@
+# desiderata 0.23.5 (2018-11-22)
+
+- ADD - `uw()` ("unwrap") takes hard-wrapped strings, removes the cosmetic linebreaks and indentation, and outputs it as a single combined string.
+
 # desiderata 0.23.4 (2018-11-20)
 
 - REM - `round_to_places()` is deprecated. Use the base function `round()` with a `digits` argument instead (e.g. `round(n, digits = 2)`).
