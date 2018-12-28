@@ -481,8 +481,8 @@ concat_nums <- function(...) {
 #' - Desi Quintans (<http://www.desiquintans.com>)
 #'
 #' @md
-percentile <- function(num, cuts = c(0, 0.10, 0.20, 0.25, 0.33, 0.50, 0.66, 0.75, 0.80, 0.85, 0.90, 0.95, 0.99, 1.0), plot = FALSE, ...) {
-    results <- stats::quantile(num, cuts)
+percentile <- function(num, cuts = c(0, 0.10, 0.20, 0.25, 0.33, 0.50, 0.66, 0.75, 0.80, 0.85, 0.90, 0.95, 0.99, 1.0), na.rm = FALSE, plot = FALSE, ...) {
+    results <- stats::quantile(num, cuts, na.rm = na.rm)
 
     if (plot == FALSE) {
         return(results)

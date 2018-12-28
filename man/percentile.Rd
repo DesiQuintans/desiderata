@@ -5,7 +5,7 @@
 \title{Quick percentile overview}
 \usage{
 percentile(num, cuts = c(0, 0.1, 0.2, 0.25, 0.33, 0.5, 0.66, 0.75, 0.8,
-  0.85, 0.9, 0.95, 0.99, 1), plot = FALSE, ...)
+  0.85, 0.9, 0.95, 0.99, 1), na.rm = FALSE, plot = FALSE, ...)
 }
 \arguments{
 \item{num}{(Numeric) A vector.}
