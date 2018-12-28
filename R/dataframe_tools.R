@@ -385,3 +385,82 @@ sort_cols <- function(df, ..., decreasing = FALSE) {
     sorted <- df[, order(colnames(df), decreasing = decreasing)]  # Order cols.
     return(dplyr::select(sorted, !!! dots, dplyr::everything()))
 }
+
+
+
+#' Drop invariant columns from a dataframe
+#'
+#' Deletes columns from a dataframe if they do not vary. For `character` and `factor`
+#' columns, this means that every row of the column contains exactly the same string.
+#' For `numeric` columns, the numbers are rounded to a nearest common value and then
+#' checked to see if every rounded number is the same.
+#'
+#' @param df (Dataframe) A dataframe.
+#' @param from,to (Numeric or `NULL`) The start and end of a continuous range of columns
+#'     that will be used. If `to` is `NULL`, it defaults to the last column in `df` so
+#'     that `from = 2, to = NULL` is the same as `2:length(df)`.
+#' @param cols (Numeric or `NULL`) A numeric vector of the columns to consider. This
+#'     allows you to select non-contiguous columns. If the `cols` argument is being used
+#'     (not-`NULL`), `from` and `to` will be ignored.
+#' @param nearest (Numeric or `NULL`) For numeric columns, this is the common value that
+#'     all numbers will be rounded to. The default `NULL` uses the `mean()` of each
+#'     column as the rounding target.
+#' @param dir (Character or `NULL`) Controls the rounding function used. Leave as `NULL`
+#'     to round up and down. Use `"up"` to round up only. Use `"down"` to round down only.
+#'
+#' @return A copy of `df` with all invariant columns removed.
+#' @export
+#'
+#' @examples
+#' df <- data.frame(stringsAsFactors=FALSE,
+#'          char_invar = c("A", "A", "A", "A", "A"),
+#'            char_var = c("A", "A", "A", "B", "A"),
+#'           num_invar = c(1L, 1L, 1L, 1L, 1L),
+#'          num_mean_0 = c(0, -0.1, 0.1, 0.01, -0.01),
+#'             num_var = c(0, 0.2, 0.8, 0.03, 0.4)
+#'       )
+#'
+#' df
+#'
+#' #>   char_invar char_var num_invar num_mean_0 num_var
+#' #> 1          A        A         1       0.00    0.00
+#' #> 2          A        A         1      -0.10    0.20
+#' #> 3          A        A         1       0.10    0.80
+#' #> 4          A        B         1       0.01    0.03
+#' #> 5          A        A         1      -0.01    0.40
+#'
+#'
+#' drop_invar_cols(df)
+#'
+#' #>   char_var num_var
+#' #> 1        A    0.00
+#' #> 2        A    0.20
+#' #> 3        A    0.80
+#' #> 4        B    0.03
+#' #> 5        A    0.40
+#'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#'
+#' @md
+drop_invar_cols <- function(df, from = 1, to = NULL, cols = NULL,
+                            nearest = NULL, dir = NULL) {
+    selected <- construct_cols(df, from = from, to = to, cols = cols)
+    sub_df <- df[selected]
+
+    base::Filter(
+        function(x) {
+            if (is.character(x) | is.factor(x)) {
+                # Use exact matching
+                if (howmany(x) == 1) return(FALSE)
+            } else if (is.numeric(x)) {
+                # Use fuzzy (rounded) matching
+                if (is.null(nearest)) nearest = mean(x, na.rm = TRUE)
+
+                rounded <- round_to_nearest(x, to = nearest, dir = dir)
+                if (howmany(rounded) == 1) return(FALSE)
+            }
+
+            return(TRUE)
+        }, sub_df)
+}
