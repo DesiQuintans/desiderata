@@ -4,10 +4,15 @@
 \alias{show_colours}
 \title{Preview a list of colours as a grid}
 \usage{
-show_colours(col_list, asp = NA, main = NULL)
+show_colours(col_list, pad = "#FFFFFF", asp = NA, main = NULL)
 }
 \arguments{
 \item{col_list}{(Character) A vector of colours in RGB Hex or RGBA Hex format.}
+
+\item{pad}{(Character) If there are too few colours to fill all of the spaces in
+the grid, what colour should be used to pad it out? \code{pad = "last"} repeats the
+last colour in the colour list. A hex colour can be provided too. Otherwise,
+this defaults to white (`#FFFFFF``).}
 
 \item{asp}{(Numeric or \code{NA}) The aspect ratio of the image. \code{asp = 1} produces a square
 plot with square cells. If \code{NA}, \code{plot.window}'s default will be used.}
@@ -16,7 +21,7 @@ plot with square cells. If \code{NA}, \code{plot.window}'s default will be used.
 string to define your own title.}
 }
 \value{
-A graphic
+A graphic that shows all of the colours in \code{col_list}.
 }
 \description{
 Preview a list of colours as a grid

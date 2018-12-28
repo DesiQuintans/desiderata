@@ -27,24 +27,29 @@ theme_desi_base <- function() {
 }
 
 
+
 # Plotting functions ----------------------------------------------------------------
 
 #' Preview a list of colours as a grid
 #'
 #' @param col_list (Character) A vector of colours in RGB Hex or RGBA Hex format.
+#' @param pad (Character) If there are too few colours to fill all of the spaces in
+#'    the grid, what colour should be used to pad it out? `pad = "last"` repeats the
+#'    last colour in the colour list. A hex colour can be provided too. Otherwise,
+#'    this defaults to white (`#FFFFFF``).
 #' @param asp (Numeric or `NA`) The aspect ratio of the image. `asp = 1` produces a square
 #'    plot with square cells. If `NA`, `plot.window`'s default will be used.
 #' @param main (Character or `NULL`) Leave this as `NULL` to generate a title. Supply a
 #'    string to define your own title.
 #'
-#' @return A graphic
+#' @return A graphic that shows all of the colours in `col_list`.
 #' @export
 #'
 #' @examples
 #' show_colours(colours(distinct = TRUE))
 #'
 #' @md
-show_colours <- show_colors <- function(col_list, asp = NA, main = NULL) {
+show_colours <- show_colors <- function(col_list, pad = "#FFFFFF", asp = NA, main = NULL) {
     list_name <- deparse(substitute(col_list))
 
     # Plan a square grid.
@@ -54,10 +59,11 @@ show_colours <- show_colors <- function(col_list, asp = NA, main = NULL) {
     # Pad the colour list to the necessary number of cells by repeating the last value.
     # Necessary because the matrix function will raise an error if the dims are not
     # multiples of the vector's length.
+    pad_string <- ifelse(pad == "last", col_list[list_length], pad)
     list_length <- length(col_list)
 
     if (list_length < cells) {
-        col_list <- append(col_list, rep(col_list[list_length], cells - list_length))
+        col_list <- append(col_list, rep(pad_string, cells - list_length))
     }
 
     # Build the matrix that is used by image(). image() rotates the matrix 90 degrees
