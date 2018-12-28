@@ -3,6 +3,7 @@
 - ADD - `drop_invar_cols()` drops columns whose values are all the same (for character/factor), or whose values are very close together (for numeric).
 - MOD - Edited the documentation for the `drop_empty_()` functions to make it clearer that `df` is being subset with the `to/from/cols` arguments. 
 - MOD - `percentile()` given an `na.rm` argument.
+- MOD - `show_colours()` given a `pad` argument for padding out the table when the number of colours doesn't perfectly fit a square. By default this is white (because the default plot background is white).
 
 
 # desiderata 0.23.5 (2018-11-22)
