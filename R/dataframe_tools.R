@@ -143,17 +143,15 @@ overwrite_df <- function(df, find = "^(NA||\\s+|0|-+|_+)$", replace = "", replac
 #'
 #' @param df (Dataframe) A dataframe.
 #' @param from,to (Numeric or `NULL`) The start and end of a continuous range of columns
-#'     that will be considered for the empty/not-empty decision. For example, columns that
-#'     are always filled should be omitted (see examples). If `to` is `NULL`, it defaults
-#'     to the last column in `df` so that `from = 2, to = NULL` is the same as
-#'     `2:length(df)`.
+#'     that will be subsetted from `df`. If `to` is `NULL`, it defaults to the last
+#'     column in `df` so that `from = 2, to = NULL` is the same as `2:length(df)`.
 #' @param cols (Numeric or `NULL`) A numeric vector of the columns to consider. This
 #'     allows you to select non-contiguous columns. If the `cols` argument is being used
 #'     (not-`NULL`), `from` and `to` will be ignored.
 #' @param regex (Character) A regex pattern that matches a value that should be considered
 #'     'empty'.
 #'
-#' @return A copy of `df` with all empty columns removed.
+#' @return A subset of `df` with all empty columns removed.
 #' @export
 #'
 #' @examples
@@ -204,18 +202,16 @@ drop_empty_cols <- function(df, from = 1, to = NULL, cols = NULL, regex = "^$") 
 #'
 #' @param df (Dataframe) A dataframe.
 #' @param from,to (Numeric or `NULL`) The start and end of a continuous range of columns
-#'     that will be considered for the empty/not-empty decision. For example, columns that
-#'     are always filled should be omitted (see examples). If `to` is `NULL`, it defaults
-#'     to the last column in `df` so that `from = 2, to = NULL` is the same as
-#'     `2:length(df)`.
+#'     that will be subsetted from `df`. For example, columns that are always filled
+#'     should be omitted (see examples). If `to` is `NULL`, it defaults to the last
+#'     column in `df` so that `from = 2, to = NULL` is the same as `2:length(df)`.
 #' @param cols (Numeric or `NULL`) A numeric vector of the columns to consider. This
 #'     allows you to select non-contiguous columns. If the `cols` argument is being used
 #'     (not-`NULL`), `from` and `to` will be ignored.
 #' @param regex (Character) A regex pattern that matches a value that should be considered
 #'     'empty'.
 #'
-#' @return A copy of `df` with all empty rows removed, based on whether the rows in the
-#'     selected columns were empty.
+#' @return A subset of `df` with all empty rows removed.
 #' @export
 #'
 #' @examples

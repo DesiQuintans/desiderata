@@ -10,10 +10,9 @@ drop_empty_rows(df, from = 1, to = NULL, cols = NULL, regex = "^$")
 \item{df}{(Dataframe) A dataframe.}
 
 \item{from, to}{(Numeric or \code{NULL}) The start and end of a continuous range of columns
-that will be considered for the empty/not-empty decision. For example, columns that
-are always filled should be omitted (see examples). If \code{to} is \code{NULL}, it defaults
-to the last column in \code{df} so that \code{from = 2, to = NULL} is the same as
-\code{2:length(df)}.}
+that will be subsetted from \code{df}. For example, columns that are always filled
+should be omitted (see examples). If \code{to} is \code{NULL}, it defaults to the last
+column in \code{df} so that \code{from = 2, to = NULL} is the same as \code{2:length(df)}.}
 
 \item{cols}{(Numeric or \code{NULL}) A numeric vector of the columns to consider. This
 allows you to select non-contiguous columns. If the \code{cols} argument is being used
@@ -23,8 +22,7 @@ allows you to select non-contiguous columns. If the \code{cols} argument is bein
 'empty'.}
 }
 \value{
-A copy of \code{df} with all empty rows removed, based on whether the rows in the
-selected columns were empty.
+A subset of \code{df} with all empty rows removed.
 }
 \description{
 Deletes rows from a dataframe if they are 'empty'. A row is empty when every single
