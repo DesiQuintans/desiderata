@@ -34,6 +34,7 @@ abide by its terms.
     - Drop 'empty' rows in a dataframe (`drop_empty_rows()` - [example](#drop-empty-rows-in-a-dataframe))
     - Collapse a dataframe into a vector (`collapse_df()` - [example](#collapse-a-dataframe-into-a-vector))
     - Sort columns of a dataframe by name (`sort_cols()` - [example](#sort-columns-of-a-dataframe-by-name))
+    - Drop invariant columns from a dataframe (`drop_invar_cols()` - [example](#drop-invariant-columns-from-a-dataframe))
     
 - **File system functions**
     - Load an RDS file and announce when it was created (`loadRDS()` - [example](#load-an-rds-file-and-announce-when-it-was-created))
@@ -269,6 +270,34 @@ manual <- sort_cols(iris, Species)
 
 colnames(manual)
 #> [1] "Species" " Petal.Length" "Petal.Width"  "Sepal.Length" "Sepal.Width"
+```
+
+### Drop invariant columns from a dataframe
+
+Deletes columns from a dataframe if they do not vary. For `character` and `factor`
+columns, this means that every row of the column contains exactly the same string.
+For `numeric` columns, the numbers are rounded to a nearest common value (by default, 
+the mean of the column) and then checked to see if every rounded number is the same.
+
+``` r
+df
+
+#>   char_invar char_var num_invar num_mean_0 num_var
+#> 1          A        A         1       0.00    0.00
+#> 2          A        A         1      -0.10    0.20
+#> 3          A        A         1       0.10    0.80
+#> 4          A        B         1       0.01    0.03
+#> 5          A        A         1      -0.01    0.40
+
+
+drop_invar_cols(df)
+
+#>   char_var num_var
+#> 1        A    0.00
+#> 2        A    0.20
+#> 3        A    0.80
+#> 4        B    0.03
+#> 5        A    0.40
 ```
 
 
