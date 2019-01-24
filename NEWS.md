@@ -1,3 +1,15 @@
+# desiderata 0.25.0 (2019-01-25)
+
+- ADD - `quick_lm()` for fast data exploration using plots of `x ~ y` linear models.
+
+
+
+# desiderata 0.24.0 (2019-01-07)
+
+- ADD - `split_n()` divides a vector into groups by assigning each entry a grouping number.
+
+
+
 # desiderata 0.23.6 (2018-12-28)
 
 - ADD - `drop_invar_cols()` drops columns whose values are all the same (for character/factor), or whose values are very close together (for numeric).

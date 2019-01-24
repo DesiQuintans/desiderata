@@ -28,6 +28,36 @@ theme_desi_base <- function() {
 
 
 
+#' Fit and plot a two-term linear model quickly
+#'
+#' @param formula (Formula) A two-term formula for both the linear model and the plot.
+#' @param data (Dataframe) The dataframe to use for fitting and plotting.
+#' @param ... (Args) Arguments that will be passed to `plot()`.
+#'
+#' @return A plot that shows a fit line and lists intercept, slope, and adjusted r-squared.
+#' @export
+#'
+#' @examples
+#' quick_lm(Petal.Length ~ Sepal.Length, iris)
+#'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#'
+#' @md
+quick_lm <- function(formula, data, ...) {
+    fit <- lm(formula = formula, data = data)
+
+    intercept <- round(coef(fit)[[1]], 4)
+    slope     <- round(coef(fit)[[2]], 4)
+    adjrsq    <- round(summary(fit)$adj.r.squared, 4)
+
+    plot(formula, data = data, ...)
+    title(sub = paste0("int = ", intercept, "    slope = ", slope, "    adj r^2 = ", adjrsq))
+    abline(fit)
+}
+
+
+
 # Plotting functions ----------------------------------------------------------------
 
 #' Preview a list of colours as a grid

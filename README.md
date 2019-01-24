@@ -36,10 +36,12 @@ abide by its terms.
     - Sort columns of a dataframe by name (`sort_cols()` - [example](#sort-columns-of-a-dataframe-by-name))
     - Drop invariant columns from a dataframe (`drop_invar_cols()` - [example](#drop-invariant-columns-from-a-dataframe))
     
+    
 - **File system functions**
     - Load an RDS file and announce when it was created (`loadRDS()` - [example](#load-an-rds-file-and-announce-when-it-was-created))
     - Build a path, creating subfolders if needed (`make_path()` - [example](#build-a-path-creating-subfolders-if-needed))
     - Apply a function to every file in a folder that matches a regex pattern (`apply_to_files()` - [example](#apply-a-function-to-every-file-in-a-folder-that-matches-a-regex-pattern))
+    
     
 - **Number functions**
     - Find the mode(s) of a numeric/character/factor vector (`Mode()` - [example](#find-the-modes-of-a-numericcharacterfactor-vector))
@@ -57,10 +59,12 @@ abide by its terms.
     - Count the number of unique values in vectors (`howmany()` - [example](#count-the-number-of-unique-values-in-vectors))
     - Count how many times each unique element in a vector is repeated (`count_unique()` - [example](#count-how-many-times-each-unique-element-in-a-vector-is-repeated))
     - Is a number prime? (`is.prime()` - [example](#is-a-number-prime))
+    - Divide a vector into groups (`split_n` - [example](#divide-a-vector-into-groups))
     
     
 - **Plotting functions**
     - Desi's `ggplot2` minimal base theme (`theme_desi_base()` - [example](#desis-ggplot2-minimal-base-theme))
+    - Fit and plot a two-term linear model quickly (`quick_lm()` - [example](#fit-and-plot-a-two-term-linear-model-quickly))
     - Plot colours as tiles (`show_colours()` - [example](#plot-colours-as-tiles))
     - Convert R's built-in named colours to hex codes (`rcols_as_hex()` - [example](#convert-rs-built-in-named-colours-to-hex-codes))
     - Manipulate a list of hex colours (`build_palette()` - [example](#manipulate-a-list-of-hex-colours))
@@ -72,13 +76,16 @@ abide by its terms.
     - Horizontally align ggplot2 title and subtitle (`align_titles()` - [example](#horizontally-align-ggplot2-title-and-subtitle))
     - Rotate and align ggplot2 facet labels (`rotate_x_facet_text()` and `rotate_y_facet_text()` - [example](#rotate-and-align-ggplot2-facet-labels))
     
+    
 - **Datetime tools**
     - Find the current month number relative to a starting date (`consecutive_month()` - [example](#find-the-current-month-number-relative-to-a-starting-date))
+    
     
 - **String tools**
     - Collapse vectors into a regex pattern (`vec_to_regex()` - [example](#collapse-vectors-into-a-regex-pattern))
     - Collapse a vector into a string (`collapse_vec()` - [example](#collapse-a-vector-into-a-string))
     - "Unwrap" hard-wrapped strings into a single line (`uw()` - [example](#unwrap-hard-wrapped-strings-into-a-single-line))
+    
     
 - **R tools**
     - Suppress all console printing (`cat`, `print`, `warning`, `message`) (`shush()` - [example](#suppress-all-console-printing-cat-print-warning-message))
@@ -580,6 +587,26 @@ is.prime(5)
 #> [1] TRUE
 ```
 
+### Divide a vector into groups
+
+``` r
+testvec <- c(0.7685, 0.4116, 0.1416, 0.8450, 0.9021, 0.4965, 0.8341, 0.0438)
+
+order(testvec)
+#> [1] 8 3 2 6 1 7 4 5
+
+split_n(testvec, 4)
+#> [1] 4 2 1 3 1 4 2 3
+
+split_n(testvec, 7, balance = TRUE)  # The range of groups is limited
+#> [1] 4 2 1 3 1 4 2 3
+
+split_n(testvec, 7, balance = FALSE)  # Try to use the whole range
+#> [1] 7 2 1 5 1 6 3 4
+
+split_n(testvec, 3)  # Sometimes unbalanced groups are inevitable
+#> [1] 3 1 1 2 1 3 2 2
+```
 
 
 ## Plotting functions
@@ -591,6 +618,15 @@ ggplot(iris, aes(x = Petal.Length, y = Sepal.Length)) + geom_point() + theme_des
 ```
 
 ![](images/theme_desi_base.png)
+
+### Fit and plot a two-term linear model quickly
+
+``` r
+quick_lm(Petal.Length ~ Sepal.Length, iris)
+```
+
+![](images/quick_lm.png)
+
 
 ### Plot colours as tiles
 
