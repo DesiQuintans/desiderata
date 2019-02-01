@@ -45,15 +45,15 @@ theme_desi_base <- function() {
 #'
 #' @md
 quick_lm <- function(formula, data, ...) {
-    fit <- lm(formula = formula, data = data)
+    fit <- stats::lm(formula = formula, data = data)
 
-    intercept <- round(coef(fit)[[1]], 4)
-    slope     <- round(coef(fit)[[2]], 4)
+    intercept <- round(stats::coef(fit)[[1]], 4)
+    slope     <- round(stats::coef(fit)[[2]], 4)
     adjrsq    <- round(summary(fit)$adj.r.squared, 4)
 
-    plot(formula, data = data, ...)
-    title(sub = paste0("int = ", intercept, "    slope = ", slope, "    adj r^2 = ", adjrsq))
-    abline(fit)
+    graphics::plot(formula, data = data, ...)
+    graphics::title(sub = paste0("int = ", intercept, "    slope = ", slope, "    adj r^2 = ", adjrsq))
+    graphics::abline(fit)
 }
 
 
@@ -163,7 +163,7 @@ rcols_as_hex <- function(vec = NULL, distinct = FALSE) {
         vec <- grDevices::colours(distinct = distinct)
 
     if (distinct == TRUE & !vec_is_null) {  # !vec_is_null so this is not done twice to colours().
-        vec <- vec[!duplicated(t(col2rgb(vec)))]
+        vec <- vec[!duplicated(t(grDevices::col2rgb(vec)))]
     }
 
     # Keep the colour names by naming vec with itself.
