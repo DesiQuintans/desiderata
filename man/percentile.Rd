@@ -12,6 +12,8 @@ percentile(num, cuts = c(0, 0.1, 0.2, 0.25, 0.33, 0.5, 0.66, 0.75, 0.8,
 
 \item{cuts}{(Numeric) A vector of percentiles to calculate.}
 
+\item{na.rm}{(Logical) If \code{TRUE}, \code{NA}s will be ignored.}
+
 \item{plot}{(Logical) If \code{FALSE} (default), returns a named numeric vector of
 percentiles and their values. If \code{TRUE}, returns a scatter plot of the percentiles
 along X and their values along Y.}

@@ -439,6 +439,7 @@ concat_nums <- function(...) {
 #'
 #' @param num (Numeric) A vector.
 #' @param cuts (Numeric) A vector of percentiles to calculate.
+#' @param na.rm (Logical) If `TRUE`, `NA`s will be ignored.
 #' @param plot (Logical) If `FALSE` (default), returns a named numeric vector of
 #'    percentiles and their values. If `TRUE`, returns a scatter plot of the percentiles
 #'    along X and their values along Y.
