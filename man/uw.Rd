@@ -48,7 +48,7 @@ text <- "Here's an example of some text
 
 print(text)
 
-#> [1] "Here's an example of some text\\n        that you might want to break\\n        across many lines.\\n\\n        But this line should be separate."
+#> [1] "Here's an example of some text\\n        that you might want to break..."
 
 cat(text)
 
@@ -60,7 +60,7 @@ cat(text)
 
 uw(text)
 
-#> [1] "Here's an example of some text that you might want to break across many lines.\\nBut this line should be separate.
+#> [1] "Here's an example of some text that you might want to break across many..."
 
 cat(.Last.value)
 
