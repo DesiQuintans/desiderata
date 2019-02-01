@@ -35,6 +35,7 @@ abide by its terms.
     - Collapse a dataframe into a vector (`collapse_df()` - [example](#collapse-a-dataframe-into-a-vector))
     - Sort columns of a dataframe by name (`sort_cols()` - [example](#sort-columns-of-a-dataframe-by-name))
     - Drop invariant columns from a dataframe (`drop_invar_cols()` - [example](#drop-invariant-columns-from-a-dataframe))
+    - Count the number of unique values per column in a dataframe (`howmany_df()` - [example](#count-the-number-of-unique-values-per-column-in-a-dataframe))
     
     
 - **File system functions**
@@ -306,6 +307,31 @@ drop_invar_cols(df)
 #> 4        B    0.03
 #> 5        A    0.40
 ```
+
+### Count the number of unique values per column in a dataframe
+
+It's like `howmany()`, but for dataframes instead of vectors.
+
+``` r
+howmany_df(mtcars)
+#> mpg cyl disp hp drat wt qsec vs am gear carb
+#>  25   3   27 22   22 29   30  2  2    3    6
+
+howmany_df(mtcars, -mpg)
+#> cyl disp hp drat wt qsec vs am gear carb
+#>   3   27 22   22 29   30  2  2    3    6
+
+howmany_df(mtcars, drat)
+#> drat
+#>   22
+
+# Also tries to handle things that aren't dataframes, like tables.
+
+howmany_df(Titanic)
+#> Class Sex Age Survived Freq
+#>     4   2   2        2   22
+```
+
 
 
 ## File system functions

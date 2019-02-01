@@ -1,3 +1,12 @@
+# desiderata 0.26.0 (2019-02-01)
+
+- ADD - `howmany_df()` for quickly summarising the number of unique values in every column of a dataframe.
+- FIX - `percentile()` help file documents `na.rm` argument now.
+- FIX - Forgot to specify the packages for some non-base functions.
+- FIX - The example long-lines in `uw()` documentation were too long.
+
+
+
 # desiderata 0.25.0 (2019-01-25)
 
 - ADD - `quick_lm()` for fast data exploration using plots of `x ~ y` linear models.
