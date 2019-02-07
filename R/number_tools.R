@@ -558,6 +558,8 @@ howmany <- function(...) {
 #'
 #' @param ... (Vectors) Vectors that will be concatenated together.
 #' @param sort (Logical) If `TRUE`, the results will be sorted by decreasing count.
+#' @param useNA (Character) Include NAs in the result? Set to `no`, `ifany`, or
+#'    `always`.
 #'
 #' @return A dataframe with two columns: `unique` which lists the unique value, and
 #'    `count` which shows how many times that unique value appeared in `...`.
@@ -577,9 +579,9 @@ howmany <- function(...) {
 #' #> 8       y      1
 #'
 #' @md
-count_unique <- function(..., sort = FALSE) {
+count_unique <- function(..., sort = FALSE, useNA = "ifany") {
     vec <- c(...)
-    counts <- table(vec)
+    counts <- table(vec, useNA = useNA)
     if (sort == TRUE) counts <- sort(counts, decreasing = TRUE)
 
     df <- as.data.frame(counts, stringsAsFactors = FALSE)

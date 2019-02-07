@@ -1,3 +1,9 @@
+# desiderata 0.27.0 (2019-02-07)
+
+- ADD - `useNA` argument to `count_unique()` so that NAs are also shown in the table.
+
+
+
 # desiderata 0.26.0 (2019-02-01)
 
 - ADD - `howmany_df()` for quickly summarising the number of unique values in every column of a dataframe.

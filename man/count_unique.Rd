@@ -4,12 +4,15 @@
 \alias{count_unique}
 \title{Count how many times each unique element in a vector is repeated}
 \usage{
-count_unique(..., sort = FALSE)
+count_unique(..., sort = FALSE, useNA = "ifany")
 }
 \arguments{
 \item{...}{(Vectors) Vectors that will be concatenated together.}
 
 \item{sort}{(Logical) If \code{TRUE}, the results will be sorted by decreasing count.}
+
+\item{useNA}{(Character) Include NAs in the result? Set to \code{no}, \code{ifany}, or
+\code{always}.}
 }
 \value{
 A dataframe with two columns: \code{unique} which lists the unique value, and
