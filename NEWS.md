@@ -1,6 +1,7 @@
 # desiderata 0.27.0 (2019-02-07)
 
 - ADD - `useNA` argument to `count_unique()` so that NAs are also shown in the table.
+- FIX - `clippy()` correctly copies `.Last.value` to the clipboard if no `x` argument is provided to it.
 
 
 

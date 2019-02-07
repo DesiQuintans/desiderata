@@ -226,7 +226,7 @@ cat_wrap <- function(text, width = 80, element_sep = "\n") {
 clippy <- function(x = NULL) {
     # Get the data to copy
     if (is.null(x)) {
-        result <- .Last.value
+        x <- .Last.value
     }
 
     result <- eval(quote(x))
