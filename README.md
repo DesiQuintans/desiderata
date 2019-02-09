@@ -86,6 +86,7 @@ abide by its terms.
     - Collapse vectors into a regex pattern (`vec_to_regex()` - [example](#collapse-vectors-into-a-regex-pattern))
     - Collapse a vector into a string (`collapse_vec()` - [example](#collapse-a-vector-into-a-string))
     - "Unwrap" hard-wrapped strings into a single line (`uw()` - [example](#unwrap-hard-wrapped-strings-into-a-single-line))
+    - Return the stem that is common to a set of strings (`breadcrumb()` [example](#return-the-stem-that-is-common-to-a-set-of-strings))
     
     
 - **R tools**
@@ -891,6 +892,19 @@ cat(.Last.value)
 #> Here's an example of some text that you might want to break across many lines.
 #> But this line should be separate.
 ```
+
+### Return the stem that is common to a set of strings
+
+``` r
+breadcrumb("volunteer", "volunteering", "voluntourism", "volunteers", na.rm = TRUE)
+#> [1] "volunt"
+
+# The function does not return substrings:
+
+breadcrumb("able", "wobble")
+#> character(0)
+```
+    
 
 
 ## R tools

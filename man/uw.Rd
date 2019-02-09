@@ -40,6 +40,13 @@ column is not unwrapped. Compare:\preformatted{   text <- "This will be
    be unwrapped by uw()."
 }
 }
+\section{Authors}{
+
+\itemize{
+\item Desi Quintans (\url{http://www.desiquintans.com})
+}
+}
+
 \examples{
 text <- "Here's an example of some text
         that you might want to break

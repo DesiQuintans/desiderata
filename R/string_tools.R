@@ -53,6 +53,9 @@ vec_to_regex <- function(..., sep = "|", wrap = c("(", ")")) {
 #' #> [1] "-Jan-, -Feb-, -Mar-, -Apr-, -May-, -Jun-, -Jul-, -Aug-, -Sep-, -Oct-, -Nov-, -Dec-"
 #' }
 #'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#'
 #' @md
 collapse_vec <- function(..., wrap = "'", collapse = ", ", unique = TRUE) {
     vec <- as.character(c(...))
@@ -127,6 +130,9 @@ collapse_vec <- function(..., wrap = "'", collapse = ", ", unique = TRUE) {
 #' #> Here's an example of some text that you might want to break across many lines.
 #' #> But this line should be separate.
 #'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#'
 #' @md
 uw <- function(..., collapse = " ") {
     no_hardwrap <-
@@ -141,4 +147,62 @@ uw <- function(..., collapse = " ") {
              perl = TRUE)
 
     return(no_space_after_n)
+}
+
+
+
+#' Return the stem that is common to a set of strings
+#'
+#' @param ... (Vectors) Vectors that will be coerced into Character and
+#'    appended together.
+#' @param na.rm (Logical) Should `NA` be removed from the input vectors?
+#'
+#' @return A string.
+#' @export
+#'
+#' @examples
+#' breadcrumb("volunteer", "volunteering", "voluntourism", "volunteers", na.rm = TRUE)
+#' #> [1] "volunt"
+#'
+#' # The function does not return substrings:
+#'
+#' breadcrumb("able", "wobble")
+#' #> character(0)
+#'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#'
+#' @md
+breadcrumb <- function(..., na.rm = FALSE) {
+    vec <- as.character(c(...))
+    if (na.rm == TRUE) { vec <- vec[!is.na(vec)] }
+
+    min_length  <- min(nchar(vec))
+    num_entries <- length(vec)
+
+    if (is.na(min_length) | min_length <= 0) {
+        stop("The shortest vector element must be at least 1 character long.")
+    }
+
+    # The strings get truncated to the length of the shortest element because the
+    # common substring between them can't be any longer than the shortest string.
+    # This also lets me break the vector into a rectangular matrix.
+    trunc <- strtrim(vec, min_length)
+    trunc <- strsplit(trunc, "")
+    trunc <- unlist(trunc)
+    mat   <- matrix(trunc, ncol = min_length, nrow = num_entries, byrow = TRUE)
+
+    output = character(0)
+
+    # I start from the left because the breadcrumb will probably end sooner rather
+    # than later.
+    for (i in 1:min_length) {
+        if (length(unique(mat[,i])) == 1) {
+            output <- paste0(output, mat[1,i])
+        } else {
+            break
+        }
+    }
+
+    return(output)
 }

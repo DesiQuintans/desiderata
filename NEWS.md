@@ -1,3 +1,9 @@
+# desiderata 0.28.0 (2019-02-09)
+
+- ADD - `breadcrumb()` for comparing several strings and returning the 'stem' (a range of characters from the first position to the first mismatch) that is common to all of them.
+
+
+
 # desiderata 0.27.0 (2019-02-07)
 
 - ADD - `useNA` argument to `count_unique()` so that NAs are also shown in the table.

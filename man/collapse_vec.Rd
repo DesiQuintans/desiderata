@@ -21,6 +21,13 @@ A string.
 \description{
 Take the elements of multiple vectors and concatenate them into one long string.
 }
+\section{Authors}{
+
+\itemize{
+\item Desi Quintans (\url{http://www.desiquintans.com})
+}
+}
+
 \examples{
 \dontrun{
 collapse_vec(month.abb, wrap = "-", collapse = ", ")
