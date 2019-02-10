@@ -4,15 +4,16 @@
 \alias{mirror_matrix}
 \title{Mirror a matrix horizontally}
 \usage{
-mirror_matrix(mat, ...)
+mirror_matrix(mat, MARGIN = 2)
 }
 \arguments{
 \item{mat}{(Matrix) A matrix object}
 
-\item{...}{Optional arguments that are passed to `as.data.frame()`.}
+\item{MARGIN}{(Integer) `1` mirrors the order of rows, `2` mirrors the order
+of columns.}
 }
 \value{
-A version of `mat` with its columns in reversed order.
+A version of `mat` with its columns or rows in reversed order.
 }
 \description{
 Mirror a matrix horizontally
@@ -26,7 +27,7 @@ m
 #> [2,]    2    5
 #> [3,]    3    6
 
-mirror_matrix(m)
+mirror_matrix(m, 2)
 
 #>      V2 V1
 #> [1,]  4  1

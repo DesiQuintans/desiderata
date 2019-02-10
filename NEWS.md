@@ -1,6 +1,8 @@
 # desiderata 0.28.0 (2019-02-09)
 
-- ADD - `breadcrumb()` for comparing several strings and returning the 'stem' (a range of characters from the first position to the first mismatch) that is common to all of them.
+- ADD - `common_stem()` for comparing several strings and returning the 'stem' (a range of characters from the first position to the first mismatch) that is common to all of them.
+- ADD - `str_rev()` for mirroring every string in a vector of strings.
+- FIX - `mirror_matrix()` now runs 45 times faster (!).
 
 
 

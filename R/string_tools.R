@@ -155,25 +155,32 @@ uw <- function(..., collapse = " ") {
 #'
 #' @param ... (Vectors) Vectors that will be coerced into Character and
 #'    appended together.
+#' @param side (Character) Search from the `left` or `right` side of the strings.
+#'    Also accepts `l` or `r` as shorthand.
 #' @param na.rm (Logical) Should `NA` be removed from the input vectors?
 #'
-#' @return A string.
+#' @return A string. If there is no common stem among all the words, an empty string
+#'    of length 1 ("") will be returned.
 #' @export
 #'
 #' @examples
-#' breadcrumb("volunteer", "volunteering", "voluntourism", "volunteers", na.rm = TRUE)
-#' #> [1] "volunt"
+#' vec <- c("exciting", "exceeding", "excepting")
+#'
+#' common_stem(vec)
+#' #> [1] "exc"
+#'
+#' common_stem(vec, side = "r")
+#' #> [1] "ing"
 #'
 #' # The function does not return substrings:
-#'
-#' breadcrumb("able", "wobble")
-#' #> character(0)
+#' common_stem("tableaux", "wobbles")
+#' #> ""
 #'
 #' @section Authors:
 #' - Desi Quintans (<http://www.desiquintans.com>)
 #'
 #' @md
-breadcrumb <- function(..., na.rm = FALSE) {
+common_stem <- function(..., side = "left", na.rm = FALSE) {
     vec <- as.character(c(...))
     if (na.rm == TRUE) { vec <- vec[!is.na(vec)] }
 
@@ -184,17 +191,29 @@ breadcrumb <- function(..., na.rm = FALSE) {
         stop("The shortest vector element must be at least 1 character long.")
     }
 
+    if (side == "l" || side == "left") {
+        stem_side <- "left"
+    } else if (side == "r" || side == "right") {
+        stem_side <- "right"
+    } else {
+        stop("The 'side' argument must be 'left' or 'right'.")
+    }
+
+    # If side = right, the string needs to be reversed now before truncating.
+    if (stem_side == "right") vec <- str_rev(vec)
+
     # The strings get truncated to the length of the shortest element because the
     # common substring between them can't be any longer than the shortest string.
     # This also lets me break the vector into a rectangular matrix.
     trunc <- strtrim(vec, min_length)
     trunc <- strsplit(trunc, "")
     trunc <- unlist(trunc)
+
     mat   <- matrix(trunc, ncol = min_length, nrow = num_entries, byrow = TRUE)
 
-    output = character(0)
+    output <- ""
 
-    # I start from the left because the breadcrumb will probably end sooner rather
+    # I start from the left because the stem will probably end sooner rather
     # than later.
     for (i in 1:min_length) {
         if (length(unique(mat[,i])) == 1) {
@@ -204,5 +223,39 @@ breadcrumb <- function(..., na.rm = FALSE) {
         }
     }
 
+    if (stem_side == "right") { output <- str_rev(output) }
+
     return(output)
+}
+
+
+
+#' Reverse every string in a vector of strings
+#'
+#' @param ... (Vectors) Vectors that will be coerced to Character and joined together.
+#' @param USE.NAMES (Logical) Should the output be a named vector, or unnamed?
+#'
+#' @return A Character vector where every element from the original vectors have been
+#'    reversed. NAs remain as NA.
+#' @export
+#'
+#' @examples
+#' vec <- c("Beret", "Clipper", "Cornet", NA)
+#' str_rev(vec)
+#'
+#' #> [1] "tereB"   "reppilC" "tenroC"
+#'
+#' @section Authors:
+#' - Kevin Ushey (<https://stackoverflow.com/users/1342082/kevin-ushey>)
+#'
+#' @section Source:
+#' <https://stackoverflow.com/a/14029000/5578429>
+#'
+#' @md
+str_rev <- function(..., USE.NAMES = FALSE) {
+    sapply(as.character(c(...)),
+           # Expand each element into its own vector of code points, then reverse
+           # that vector, then convert it from code points back to text.
+           function(x) intToUtf8(rev(utf8ToInt(x))),
+           USE.NAMES = USE.NAMES)
 }

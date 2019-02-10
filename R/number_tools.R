@@ -379,9 +379,10 @@ normalize_whole <- function(mat, from_zero = FALSE) {
 #' Mirror a matrix horizontally
 #'
 #' @param mat (Matrix) A matrix object
-#' @param ... Optional arguments that are passed to `as.data.frame()`.
+#' @param MARGIN (Integer) `1` mirrors the order of rows, `2` mirrors the order
+#'    of columns.
 #'
-#' @return A version of `mat` with its columns in reversed order.
+#' @return A version of `mat` with its columns or rows in reversed order.
 #' @export
 #'
 #' @examples
@@ -393,17 +394,26 @@ normalize_whole <- function(mat, from_zero = FALSE) {
 #' #> [2,]    2    5
 #' #> [3,]    3    6
 #'
-#' mirror_matrix(m)
+#' mirror_matrix(m, 2)
 #'
 #' #>      V2 V1
 #' #> [1,]  4  1
 #' #> [2,]  5  2
 #' #> [3,]  6  3
 #'
-mirror_matrix <- function(mat, ...) {
-    return(as.matrix(rev(as.data.frame(mat, ...))))
-}
+mirror_matrix <- function(mat, MARGIN = 2) {
+    new_order <- dim(mat)[MARGIN]:1
 
+    if (MARGIN == 2) {
+        # Columns in reverse order
+        mat[, new_order]
+    } else if (MARGIN == 1) {
+        # Rows in reverse order
+        mat[new_order, ]
+    } else {
+        stop("Argument 'MARGIN' must be set to either '1' (rows) or '2' (cols).")
+    }
+}
 
 
 #' Concatenate numbers together

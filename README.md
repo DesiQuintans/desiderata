@@ -86,7 +86,7 @@ abide by its terms.
     - Collapse vectors into a regex pattern (`vec_to_regex()` - [example](#collapse-vectors-into-a-regex-pattern))
     - Collapse a vector into a string (`collapse_vec()` - [example](#collapse-a-vector-into-a-string))
     - "Unwrap" hard-wrapped strings into a single line (`uw()` - [example](#unwrap-hard-wrapped-strings-into-a-single-line))
-    - Return the stem that is common to a set of strings (`breadcrumb()` [example](#return-the-stem-that-is-common-to-a-set-of-strings))
+    - Return the stem that is common to a set of strings (`common_stem()` [example](#return-the-stem-that-is-common-to-a-set-of-strings))
     
     
 - **R tools**
