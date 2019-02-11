@@ -15,6 +15,13 @@ Returns \code{TRUE} or \code{FALSE} randomly.
 \description{
 Randomly return TRUE or FALSE
 }
+\section{Authors}{
+
+\itemize{
+\item Desi Quintans (\url{http://www.desiquintans.com})
+}
+}
+
 \examples{
 coinflip()
 #> [1] FALSE

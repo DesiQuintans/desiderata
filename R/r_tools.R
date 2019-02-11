@@ -286,6 +286,9 @@ clippy <- function(x = NULL) {
 #' coinflip(5)
 #' #> [1] TRUE TRUE FALSE TRUE FALSE
 #'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#'
 #' @md
 coinflip <- function(n = 1) {
     sample(c(TRUE, FALSE), size = n, replace = TRUE)
