@@ -298,12 +298,10 @@ coinflip <- function(n = 1) {
 
 #' Return a value or expression if something is NA
 #'
-#' This is my take on a simpler alternative to `tidyr::replace_na()`. It runs 19
-#' times faster than `replace_na()` and 6 times faster than `ifelse()`. The trade-off
-#' is that it will only accept a vector of length 1, but that is perfectly fine for
-#' use in a `dplyr` pipeline.
+#' This is just shorthand for `ifelse(is.na(x), TRUE, FALSE)` because I like using
+#' that pattern in my `dplyr` pipelines.
 #'
-#' @param x (Vector) A vector of length 1 containing the thing to test.
+#' @param x (Vector) A vector to test.
 #' @param yes (Any) The value to return if `x` is `NA`. Can be an expression.
 #' @param no (Any) The value to return if `x` is **not** `NA`. Can be an expression.
 #'    Set this to `NULL` (its default setting) to return `x`.
@@ -312,14 +310,13 @@ coinflip <- function(n = 1) {
 #' @export
 #'
 #' @examples
-#' if_na(NA, "It's NA", "It's not NA")
-#' #> [1] "It's NA"
+#' vec <- c("hello", NA, "hi")
 #'
-#' if_na("Return x by default", "It's NA")
-#' #> [1] "Return x by default"
+#' if_na(vec, "REPLACED")
+#' #> [1] "hello"    "REPLACED" "hi"
 #'
-#' if_na(NA, sample(letters, 10))
-#' #> [1] "s" "v" "d" "l" "b" "a" "x" "e" "m" "g"
+#' if_na(vec, "Was NA", "Was not NA")
+#' #> [1] "Was not NA" "Was NA"     "Was not NA"
 #'
 #' @section Authors:
 #' - Desi Quintans (<http://www.desiquintans.com>)
@@ -329,11 +326,5 @@ if_na <- function(x, yes = TRUE, no = NULL) {
     # Keeping x by default means this can work like a simple tidyr::replace_na().
     if (is.null(no)) no <- x
 
-    # if () is faster than ifelse(), but it's just splitting hairs
-    # (the speed is counted in nanoseconds).
-    if (is.na(x)) {
-        yes
-    } else {
-        no
-    }
+    ifelse(is.na(x), yes, no)
 }

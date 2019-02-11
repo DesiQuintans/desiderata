@@ -7,7 +7,7 @@
 if_na(x, yes = TRUE, no = NULL)
 }
 \arguments{
-\item{x}{(Vector) A vector of length 1 containing the thing to test.}
+\item{x}{(Vector) A vector to test.}
 
 \item{yes}{(Any) The value to return if \code{x} is \code{NA}. Can be an expression.}
 
@@ -18,10 +18,8 @@ Set this to \code{NULL} (its default setting) to return \code{x}.}
 The object or expression in \code{yes} or \code{no}, depending on the outcome.
 }
 \description{
-This is my take on a simpler alternative to \code{tidyr::replace_na()}. It runs 19
-times faster than \code{replace_na()} and 6 times faster than \code{ifelse()}. The trade-off
-is that it will only accept a vector of length 1, but that is perfectly fine for
-use in a \code{dplyr} pipeline.
+This is just shorthand for \code{ifelse(is.na(x), TRUE, FALSE)} because I like using
+that pattern in my \code{dplyr} pipelines.
 }
 \section{Authors}{
 
@@ -31,13 +29,12 @@ use in a \code{dplyr} pipeline.
 }
 
 \examples{
-if_na(NA, "It's NA", "It's not NA")
-#> [1] "It's NA"
+vec <- c("hello", NA, "hi")
 
-if_na("Return x by default", "It's NA")
-#> [1] "Return x by default"
+if_na(vec, "REPLACED")
+#> [1] "hello"    "REPLACED" "hi"
 
-if_na(NA, sample(letters, 10))
-#> [1] "s" "v" "d" "l" "b" "a" "x" "e" "m" "g"
+if_na(vec, "Was NA", "Was not NA")
+#> [1] "Was not NA" "Was NA"     "Was not NA"
 
 }
