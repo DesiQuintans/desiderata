@@ -9,13 +9,13 @@ if_na(x, yes = TRUE, no = NULL)
 \arguments{
 \item{x}{(Vector) A vector to test.}
 
-\item{yes}{(Any) The value to return if \code{x} is \code{NA}. Can be an expression.}
+\item{yes}{(Any) The value to return if \code{x} is \code{NA}.}
 
-\item{no}{(Any) The value to return if \code{x} is \strong{not} \code{NA}. Can be an expression.
+\item{no}{(Any) The value to return if \code{x} is \strong{not} \code{NA}.
 Set this to \code{NULL} (its default setting) to return \code{x}.}
 }
 \value{
-The object or expression in \code{yes} or \code{no}, depending on the outcome.
+The object in \code{yes} or \code{no}, depending on the outcome.
 }
 \description{
 This is just shorthand for \code{ifelse(is.na(x), TRUE, FALSE)} because I like using

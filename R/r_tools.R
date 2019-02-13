@@ -302,11 +302,11 @@ coinflip <- function(n = 1) {
 #' that pattern in my `dplyr` pipelines.
 #'
 #' @param x (Vector) A vector to test.
-#' @param yes (Any) The value to return if `x` is `NA`. Can be an expression.
-#' @param no (Any) The value to return if `x` is **not** `NA`. Can be an expression.
+#' @param yes (Any) The value to return if `x` is `NA`.
+#' @param no (Any) The value to return if `x` is **not** `NA`.
 #'    Set this to `NULL` (its default setting) to return `x`.
 #'
-#' @return The object or expression in `yes` or `no`, depending on the outcome.
+#' @return The object in `yes` or `no`, depending on the outcome.
 #' @export
 #'
 #' @examples
