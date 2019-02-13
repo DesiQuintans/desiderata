@@ -4,7 +4,7 @@
 \alias{uw}
 \title{'Unwrap' strings by ignoring hard-wrapping from the source code}
 \usage{
-uw(..., collapse = " ")
+uw(..., collapse = " ", join = " ")
 }
 \arguments{
 \item{...}{(Character) Vectors that you want to collapse into a single string.
@@ -12,6 +12,8 @@ They will be coerced to \code{Character}.}
 
 \item{collapse}{(Character) All of the elements in \code{...} will be joined together,
 with \code{collapse} as the separator between them.}
+
+\item{join}{(Character) Separate lines will be joined with this string.}
 }
 \value{
 A string with all elements in \code{...} joined together and separated
@@ -19,25 +21,27 @@ with \code{collapse}. Linebreaks that \strong{are not} immediately followed by o
 more spaces will be kept.
 }
 \description{
-It is often necessary to break a very long string (e.g. a table caption) across
-several lines in your source code to keep it readable, but these linebreaks and
-spaces end up being printed in the final output. This function removes hard-wrap
-whitespace characters while preserving the ones you explicitly add with \code{\\n}.
+It is often necessary to break a very long string (e.g. a figure caption) across
+several lines in your source code to keep it readable. In base R, you do this by
+breaking the caption into several substrings and \code{paste()}ing them together, which
+is kind of clumsy. This function lets you write a single string that is visually
+hard-wrapped with newlines and spaces, but removes those whitespace characters
+from the final output.
 }
 \details{
 \code{uw()} will replace any linebreak that is followed by any number of
-spaces with a single space. This means that \strong{if you want to insert a linebreak
-\code{\\n} manually, then it should not have any spaces after it}. A \code{\\n} at the
-very end of the line will be kept, and this is the most sensible way to format
-the text anyway.
+spaces with a single space (or whatever string you specify in the \code{replace}
+argument). This means that \strong{if you want to insert a linebreak \code{\\n} manually,
+then it should not have any spaces after it}. A \code{\\n} that is at the very end
+of a line will be kept.
 
 Also note that since \code{uw()} uses the presence of indenting spaces to decide
-whether a piece of text is hard-wrapped, text that merely goes to the 0th
-column is not unwrapped. Compare:\preformatted{   text <- "This will be
-           unwrapped by uw()."
+whether a piece of text is hard-wrapped, text that merely goes to the 0th column
+is not unwrapped. Compare:\preformatted{text <- "This will be
+        unwrapped by uw()."
 
-   text <- "This will NOT
-   be unwrapped by uw()."
+text <- "This will NOT
+be unwrapped by uw()."
 }
 }
 \section{Authors}{
@@ -73,5 +77,12 @@ cat(.Last.value)
 
 #> Here's an example of some text that you might want to break across many lines.
 #> But this line should be separate.
+
+uw(text, join = "/")
+#> [1] "Here's an example of some text/that you might want to break/across many..."
+
+cat(.Last.value)
+#> Here's an example of some text/that you might want to break/across many lines.
+#> /But this line should be separate.
 
 }

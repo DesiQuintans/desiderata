@@ -72,31 +72,34 @@ collapse_vec <- function(..., wrap = "'", collapse = ", ", unique = TRUE) {
 
 #' 'Unwrap' strings by ignoring hard-wrapping from the source code
 #'
-#' It is often necessary to break a very long string (e.g. a table caption) across
-#' several lines in your source code to keep it readable, but these linebreaks and
-#' spaces end up being printed in the final output. This function removes hard-wrap
-#' whitespace characters while preserving the ones you explicitly add with `\\n`.
+#' It is often necessary to break a very long string (e.g. a figure caption) across
+#' several lines in your source code to keep it readable. In base R, you do this by
+#' breaking the caption into several substrings and `paste()`ing them together, which
+#' is kind of clumsy. This function lets you write a single string that is visually
+#' hard-wrapped with newlines and spaces, but removes those whitespace characters
+#' from the final output.
 #'
 #' @details `uw()` will replace any linebreak that is followed by any number of
-#'    spaces with a single space. This means that **if you want to insert a linebreak
-#'    `\\n` manually, then it should not have any spaces after it**. A `\\n` at the
-#'    very end of the line will be kept, and this is the most sensible way to format
-#'    the text anyway.
+#'   spaces with a single space (or whatever string you specify in the `replace`
+#'   argument). This means that **if you want to insert a linebreak `\\n` manually,
+#'   then it should not have any spaces after it**. A `\\n` that is at the very end
+#'   of a line will be kept.
 #'
-#'    Also note that since `uw()` uses the presence of indenting spaces to decide
-#'    whether a piece of text is hard-wrapped, text that merely goes to the 0th
-#'    column is not unwrapped. Compare:
+#'   Also note that since `uw()` uses the presence of indenting spaces to decide
+#'   whether a piece of text is hard-wrapped, text that merely goes to the 0th column
+#'   is not unwrapped. Compare:
 #'
-#'        text <- "This will be
-#'                unwrapped by uw()."
+#'     text <- "This will be
+#'             unwrapped by uw()."
 #'
-#'        text <- "This will NOT
-#'        be unwrapped by uw()."
+#'     text <- "This will NOT
+#'     be unwrapped by uw()."
 #'
 #' @param ... (Character) Vectors that you want to collapse into a single string.
 #'    They will be coerced to `Character`.
 #' @param collapse (Character) All of the elements in `...` will be joined together,
 #'    with `collapse` as the separator between them.
+#' @param join (Character) Separate lines will be joined with this string.
 #'
 #' @return A string with all elements in `...` joined together and separated
 #'    with `collapse`. Linebreaks that **are not** immediately followed by one or
@@ -130,13 +133,20 @@ collapse_vec <- function(..., wrap = "'", collapse = ", ", unique = TRUE) {
 #' #> Here's an example of some text that you might want to break across many lines.
 #' #> But this line should be separate.
 #'
+#' uw(text, join = "/")
+#' #> [1] "Here's an example of some text/that you might want to break/across many..."
+#'
+#' cat(.Last.value)
+#' #> Here's an example of some text/that you might want to break/across many lines.
+#' #> /But this line should be separate.
+#'
 #' @section Authors:
 #' - Desi Quintans (<http://www.desiquintans.com>)
 #'
 #' @md
-uw <- function(..., collapse = " ") {
+uw <- function(..., collapse = " ", join = " ") {
     no_hardwrap <-
-        gsub("\\h?\\R{1}\\h+", " ",  # Trim newline/whitespace from hard-wrapping.
+        gsub("\\h?\\R{1}\\h+", join,  # Trim newline/whitespace from hard-wrapping.
              paste(c(...), collapse = collapse),
              perl = TRUE)  # Perl for \h and \R.
 
