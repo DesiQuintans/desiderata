@@ -2,6 +2,7 @@
 
 - ADD - `common_stem()` for comparing several strings and returning the 'stem' (a range of characters from the first position to the first mismatch) that is common to all of them.
 - ADD - `str_rev()` for mirroring every string in a vector of strings.
+- MOD - `mirror_matrix()` now supports mirroring of both column order and row order.
 - FIX - `mirror_matrix()` now runs 45 times faster (!).
 - MOD - `join` argument added to `uw()`. Gives you control over how separate hard-wrapped lines should be joined together.
 

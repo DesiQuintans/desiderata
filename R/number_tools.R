@@ -382,7 +382,8 @@ normalize_whole <- function(mat, from_zero = FALSE) {
 #' @param MARGIN (Integer) `1` mirrors the order of rows, `2` mirrors the order
 #'    of columns.
 #'
-#' @return A version of `mat` with its columns or rows in reversed order.
+#' @return A version of `mat` with its columns or rows in reversed order. Names are
+#'    preserved if the matrix has any.
 #' @export
 #'
 #' @examples
@@ -394,12 +395,21 @@ normalize_whole <- function(mat, from_zero = FALSE) {
 #' #> [2,]    2    5
 #' #> [3,]    3    6
 #'
+#' # Just like apply(), MARGIN = 1 is rows and MARGIN = 2 is cols.
+#'
 #' mirror_matrix(m, 2)
 #'
-#' #>      V2 V1
-#' #> [1,]  4  1
-#' #> [2,]  5  2
-#' #> [3,]  6  3
+#' #>      [,1] [,2]
+#' #> [1,]    4    1
+#' #> [2,]    5    2
+#' #> [3,]    6    3
+#'
+#' mirror_matrix(m, 1)
+#'
+#' #>      [,1] [,2]
+#' #> [1,]    3    6
+#' #> [2,]    2    5
+#' #> [3,]    1    4
 #'
 mirror_matrix <- function(mat, MARGIN = 2) {
     new_order <- dim(mat)[MARGIN]:1
