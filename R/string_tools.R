@@ -238,20 +238,24 @@ common_stem <- function(..., side = "left", na.rm = FALSE) {
 
 
 
-#' Reverse every string in a vector of strings
+#' Reverse every element of a vector
+#'
+#' This reverses the individual elements (makes words go backwards, for example),
+#' but does not change the order of those elements in the vector.
 #'
 #' @param ... (Vectors) Vectors that will be coerced to Character and joined together.
 #' @param USE.NAMES (Logical) Should the output be a named vector, or unnamed?
 #'
-#' @return A Character vector where every element from the original vectors have been
-#'    reversed. NAs remain as NA.
+#' @return A Character vector where every element from the original vectors has been
+#'    reversed, but the order of the elements within that vector is still the same.
+#'    NAs remain as NA.
 #' @export
 #'
 #' @examples
 #' vec <- c("Beret", "Clipper", "Cornet", NA)
 #' str_rev(vec)
 #'
-#' #> [1] "tereB"   "reppilC" "tenroC"
+#' #> [1] "tereB"   "reppilC" "tenroC"  NA
 #'
 #' @section Authors:
 #' - Kevin Ushey (<https://stackoverflow.com/users/1342082/kevin-ushey>)

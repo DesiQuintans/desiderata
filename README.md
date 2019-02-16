@@ -87,6 +87,7 @@ abide by its terms.
     - Collapse a vector into a string (`collapse_vec()` - [example](#collapse-a-vector-into-a-string))
     - "Unwrap" hard-wrapped strings into a single line (`uw()` - [example](#unwrap-hard-wrapped-strings-into-a-single-line))
     - Return the stem that is common to a set of strings (`common_stem()` [example](#return-the-stem-that-is-common-to-a-set-of-strings))
+    - Reverse the elements in a vector (`str_rev()` [example](#reverse-the-elements-in-a-vector))
     
     
 - **R tools**
@@ -922,6 +923,18 @@ breadcrumb("volunteer", "volunteering", "voluntourism", "volunteers", na.rm = TR
 
 breadcrumb("able", "wobble")
 #> character(0)
+```
+
+
+### Reverse the elements in a vector
+
+This reverses the individual elements (makes words go backwards, for example), but does not change the order of those elements in the vector.
+
+```r
+vec <- c("Beret", "Clipper", "Cornet", NA)
+str_rev(vec)
+
+#> [1] "tereB"   "reppilC" "tenroC"  NA
 ```
     
 

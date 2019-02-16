@@ -2,7 +2,7 @@
 % Please edit documentation in R/string_tools.R
 \name{str_rev}
 \alias{str_rev}
-\title{Reverse every string in a vector of strings}
+\title{Reverse every element of a vector}
 \usage{
 str_rev(..., USE.NAMES = FALSE)
 }
@@ -12,11 +12,13 @@ str_rev(..., USE.NAMES = FALSE)
 \item{USE.NAMES}{(Logical) Should the output be a named vector, or unnamed?}
 }
 \value{
-A Character vector where every element from the original vectors have been
-reversed. NAs remain as NA.
+A Character vector where every element from the original vectors has been
+reversed, but the order of the elements within that vector is still the same.
+NAs remain as NA.
 }
 \description{
-Reverse every string in a vector of strings
+This reverses the individual elements (makes words go backwards, for example),
+but does not change the order of those elements in the vector.
 }
 \section{Authors}{
 
@@ -34,6 +36,6 @@ Reverse every string in a vector of strings
 vec <- c("Beret", "Clipper", "Cornet", NA)
 str_rev(vec)
 
-#> [1] "tereB"   "reppilC" "tenroC"
+#> [1] "tereB"   "reppilC" "tenroC"  NA
 
 }
