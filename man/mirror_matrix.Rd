@@ -13,7 +13,8 @@ mirror_matrix(mat, MARGIN = 2)
 of columns.}
 }
 \value{
-A version of `mat` with its columns or rows in reversed order.
+A version of `mat` with its columns or rows in reversed order. Names are
+   preserved if the matrix has any.
 }
 \description{
 Mirror a matrix horizontally
@@ -27,11 +28,20 @@ m
 #> [2,]    2    5
 #> [3,]    3    6
 
+# Just like apply(), MARGIN = 1 is rows and MARGIN = 2 is cols.
+
 mirror_matrix(m, 2)
 
-#>      V2 V1
-#> [1,]  4  1
-#> [2,]  5  2
-#> [3,]  6  3
+#>      [,1] [,2]
+#> [1,]    4    1
+#> [2,]    5    2
+#> [3,]    6    3
+
+mirror_matrix(m, 1)
+
+#>      [,1] [,2]
+#> [1,]    3    6
+#> [2,]    2    5
+#> [3,]    1    4
 
 }
