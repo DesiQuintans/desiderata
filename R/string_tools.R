@@ -79,8 +79,8 @@ collapse_vec <- function(..., wrap = "'", collapse = ", ", unique = TRUE) {
 #' hard-wrapped with newlines and spaces, but removes those whitespace characters
 #' from the final output.
 #'
-#' @details `uw()` will replace any linebreak that is followed by any number of
-#'   spaces with a single space (or whatever string you specify in the `replace`
+#' @details `uw()` will take any linebreak that is followed by any number of spaces
+#'   and replace it with a single space (or whatever string you specify in the `join`
 #'   argument). This means that **if you want to insert a linebreak `\\n` manually,
 #'   then it should not have any spaces after it**. A `\\n` that is at the very end
 #'   of a line will be kept.
@@ -107,38 +107,36 @@ collapse_vec <- function(..., wrap = "'", collapse = ", ", unique = TRUE) {
 #' @export
 #'
 #' @examples
-#' text <- "Here's an example of some text
-#'         that you might want to break
-#'         across many lines.\n
-#'         But this line should be separate."
+#' text <- "Here's some
+#'          multi-line text.\n
+#'          This is on a new line."
 #'
 #' print(text)
 #'
-#' #> [1] "Here's an example of some text\n        that you might want to break..."
+#' #> [1] "Here's some\n         multi-line text.\n\n         This is on a new line."
 #'
 #' cat(text)
 #'
-#' #> Here's an example of some text
-#' #>         that you might want to break
-#' #>         across multiple lines.
+#' #> Here's some
+#' #>          multi-line text.
 #' #>
-#' #>         But this line should be separate.
+#' #>          This is on a new line.
 #'
 #' uw(text)
 #'
-#' #> [1] "Here's an example of some text that you might want to break across many..."
+#' #> [1] "Here's some multi-line text.\nThis is on a new line."
 #'
 #' cat(.Last.value)
 #'
-#' #> Here's an example of some text that you might want to break across many lines.
-#' #> But this line should be separate.
+#' #> Here's some multi-line text.
+#' #> This is on a new line.
 #'
-#' uw(text, join = "/")
-#' #> [1] "Here's an example of some text/that you might want to break/across many..."
+#' uw(text, join = "##")
+#' #> [1] "Here's some##multi-line text.\n##This is on a new line."
 #'
 #' cat(.Last.value)
-#' #> Here's an example of some text/that you might want to break/across many lines.
-#' #> /But this line should be separate.
+#' #> Here's some##multi-line text.
+#' #> ##This is on a new line.
 #'
 #' @section Authors:
 #' - Desi Quintans (<http://www.desiquintans.com>)

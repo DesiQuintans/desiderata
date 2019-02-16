@@ -855,7 +855,7 @@ collapse_vec(month.abb, month.name, wrap = "-", collapse = ", ")
 
 It is often necessary to break a very long string (e.g. a table caption) across several lines in your source code to keep it readable, but these linebreaks and spaces end up being printed in the final output. This function removes hard-wrap whitespace characters while preserving the ones you explicitly add with `\n`.
 
-`uw()` will replace any linebreak that is followed by any number of spaces with a single space. This means that **if you want to insert a linebreak `\n` manually, then it should not have any spaces after it**. A `\n` at the very end of the line will be kept, and this is the most sensible way to format the text anyway. 
+`uw()` will take any linebreak that is followed by any number of spaces and replace it with a single space (or whatever string you specify in the `join` argument). This means that **if you want to insert a linebreak `\n` manually, then it should not have any spaces after it**. A `\n` at the very end of the line will be kept, and this is the most sensible way to format the text anyway. 
 
 Also note that since `uw()` uses the presence of indenting spaces to decide whether a piece of text is hard-wrapped, text that merely goes to the 0th column is not unwrapped. Compare:
 
@@ -866,32 +866,42 @@ Also note that since `uw()` uses the presence of indenting spaces to decide whet
     be unwrapped by uw()."
 
 ```r
-text <- "Here's an example of some text
-        that you might want to break
-        across many lines.\n
-        But this line should be separate."
+text <- "Here's some
+         multi-line text.\n
+         This is on a new line."
 
 print(text)
 
-#> [1] "Here's an example of some text\n        that you might want to break\n        across many lines.\n\n     But this line should be separate."
+#> [1] "Here's some\n         multi-line text.\n\n         This is on a new line."
 
 cat(text)
 
-#> Here's an example of some text
-#>         that you might want to break
-#>         across multiple lines.
+#> Here's some
+#>          multi-line text.
 #>
-#>         But this line should be separate.
+#>          This is on a new line.
 
 uw(text)
 
-#> [1] "Here's an example of some text that you might want to break across many lines.\nBut this line should be arate.
+#> [1] "Here's some multi-line text.\nThis is on a new line."
 
 cat(.Last.value)
 
-#> Here's an example of some text that you might want to break across many lines.
-#> But this line should be separate.
+#> Here's some multi-line text.
+#> This is on a new line.
 ```
+
+There may be some situations where you don't want the lines to be joined with a space. For example, if you're writing a very long regular expression and you want to split it. The `join` argument lets you control this.
+
+```r
+uw(text, join = "##")
+#> [1] "Here's some##multi-line text.\n##This is on a new line."
+
+cat(.Last.value)
+#> Here's some##multi-line text.
+#> ##This is on a new line.
+```
+
 
 ### Return the stem that is common to a set of strings
 
