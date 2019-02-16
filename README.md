@@ -916,13 +916,17 @@ cat(.Last.value)
 ### Return the stem that is common to a set of strings
 
 ``` r
-breadcrumb("volunteer", "volunteering", "voluntourism", "volunteers", na.rm = TRUE)
-#> [1] "volunt"
+vec <- c("exciting", "exceeding", "excepting")
+
+common_stem(vec)
+#> [1] "exc"
+
+common_stem(vec, side = "r")  # right OR r, left OR l
+#> [1] "ing"
 
 # The function does not return substrings:
-
-breadcrumb("able", "wobble")
-#> character(0)
+common_stem("tableaux", "wobbles")
+#> ""
 ```
 
 
