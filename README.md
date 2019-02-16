@@ -739,8 +739,6 @@ build_palette(c("#000000", "#FFFF00", "#1CE6FF", "#FF34FF", "#FF4A46"), alpha = 
 #> [1] "#00000080" "#FFFF0080" "#1CE6FF80" "#FF34FF80" "#FF4A4680"
 ```
 
-    - 
-    -  (`palette_builtin()` - [example](#a-palette-of-rs-502-distinct-built-in-colours))
 
 #### A palette of R's 502 distinct built-in colours
 
