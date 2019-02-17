@@ -115,42 +115,6 @@ geomean <- function(x, na.rm = TRUE) {
 
 
 
-
-#' Round a number to a fixed decimal place length
-#'
-#' R's `round()` and `signif()` functions drop trailing zeros because they are not
-#' significant, but it's sometimes important to keep them for formatting i.e. tables and
-#' graphs. This function does that.
-#'
-#' @param num (Numeric) A vector of numbers.
-#' @param places (Numeric) The number of decimal places to keep.
-#'
-#' @return A Character vector of rounded numbers.
-#' @export
-#'
-#' @examples
-#' vec <- c(1.739006, 2, -1.4, 1.05, 1.90, 3.826)
-#' rounded_vec <- round_to_places(vec, 2)
-#'
-#' str(rounded_vec)
-#' #> chr [1:6] "1.70" "2.00" "-1.40" "1.00" "1.90" "3.80"
-#'
-#' @section Authors:
-#' - Kristine Yu (<https://kmyu.wordpress.com>)
-#'
-#' @section Source:
-#' <https://kmyu.wordpress.com/2011/01/11/formatting-numbers-for-printing-in-r-rounding-and-trailing-zeroes/>
-#'
-#' @md
-round_to_places <- function(num, places = 2) {
-    warning("round_to_places() is deprecated.\nInstead, use the base function round() with 'digits' arg.")
-    return(
-        round(num, digits = places)
-    )
-}
-
-
-
 #' Round numbers to a nearest "pretty" value
 #'
 #' It's sometimes useful to round numbers to a predictable range, e.g. when preparing
@@ -543,33 +507,6 @@ se_mean <- function(vec, na.rm = FALSE) {
     }
 
     return(stats::sd(vec) / sqrt(length(vec)))
-}
-
-
-
-#' Number of unique entries in a vector
-#'
-#' Shorthand for `length(unique(x))`.
-#'
-#' @param ... (Vector) Multiple vectors will be concatenated.
-#'
-#' @return The number of unique values in `...`.
-#' @export
-#'
-#' @examples
-#' my_vec <- sample(month.abb, 10, replace = TRUE)
-#' #> [1] "Sep" "Nov" "Nov" "Jul" "Oct" "May" "Jun" "Nov" "Apr" "Jan"
-#'
-#' howmany(my_vec)
-#' #> 6
-#'
-#' howmany(letters, LETTERS)
-#' #> 52
-#' @md
-howmany <- function(...) {
-    return(
-        length(unique(c(...)))
-    )
 }
 
 
