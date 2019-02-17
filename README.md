@@ -26,6 +26,9 @@ abide by its terms.
 
 ## Functions included
 
+- **Generic functions**
+    - Count the number of unique values (dataframe, table, vector) (`howmany()` - [example](#count-the-number-of-unique-values))
+
 - **Dataframe functions**
     - Find and mark the longest run of TRUEs in a boolean vector (`mark_longest_run()` - [example](#find-and-mark-the-longest-run-of-trues-in-a-boolean-vector))
     - Mark the location of the last maximum value (peak) in a vector (`mark_last_peak()` - [example](#mark-the-location-of-the-last-maximum-value-peak-in-a-vector))
@@ -35,7 +38,6 @@ abide by its terms.
     - Collapse a dataframe into a vector (`collapse_df()` - [example](#collapse-a-dataframe-into-a-vector))
     - Sort columns of a dataframe by name (`sort_cols()` - [example](#sort-columns-of-a-dataframe-by-name))
     - Drop invariant columns from a dataframe (`drop_invar_cols()` - [example](#drop-invariant-columns-from-a-dataframe))
-    - Count the number of unique values per column in a dataframe (`howmany_df()` - [example](#count-the-number-of-unique-values-per-column-in-a-dataframe))
     
     
 - **File system functions**
@@ -48,7 +50,6 @@ abide by its terms.
     - Find the mode(s) of a numeric/character/factor vector (`Mode()` - [example](#find-the-modes-of-a-numericcharacterfactor-vector))
     - Geometric mean of a vector (`geomean()` - [example](#geometric-mean-of-a-vector))
     - Standard error of the mean (`se_mean()` - [example](#standard-error-of-the-mean))
-    - Round a number to a fixed decimal place length (`round_to_places()` - [example](#round-a-number-to-a-fixed-decimal-place-length))
     - Round numbers to the nearest "pretty" value (`round_to_nearest()` - [example](#round-numbers-to-the-nearest-pretty-value))
     - Seed the random number generator with a character string (or any object) (`set_seed_any()` - [example](#seed-the-random-number-generator-with-a-character-string-or-any-object))
     - Calculate degree-days (`degreedays()` - [example](#calculate-degree-days))
@@ -57,7 +58,6 @@ abide by its terms.
     - Concatenate numbers together (`concat_nums()` - [example](#concatenate-numbers-together))
     - Quick percentile overview (`percentile()` - [example](#quick-percentile-overview))
     - Mirror a matrix horizontally (`mirror_matrix()` - [example](#mirror-a-matrix-horizontally))
-    - Count the number of unique values in vectors (`howmany()` - [example](#count-the-number-of-unique-values-in-vectors))
     - Count how many times each unique element in a vector is repeated (`count_unique()` - [example](#count-how-many-times-each-unique-element-in-a-vector-is-repeated))
     - Is a number prime? (`is.prime()` - [example](#is-a-number-prime))
     - Divide a vector into groups (`split_n` - [example](#divide-a-vector-into-groups))
@@ -102,7 +102,56 @@ abide by its terms.
 
 - The names of 197 common colours: red, green, cyan, etc. (`data(basic_color_names)` - [example](#the-names-of-197-common-colours-red-green-cyan-etc))
 
+
+
 ------------------------------------------------------------------------------------------
+
+
+## Generic functions
+
+### Count the number of unique values
+
+``` r
+## --- Default method ---
+
+howmany(rep(letters, 3))
+#> 26
+
+howmany(letters, LETTERS)
+#> 52
+
+
+
+## --- Data.frame method ---
+
+howmany(mtcars)
+
+#> mpg cyl disp hp drat wt qsec vs am gear carb
+#>  25   3   27 22   22 29   30  2  2    3    6
+
+howmany(mtcars, -(mpg:disp))
+
+#> hp drat wt qsec vs am gear carb
+#> 22   22 29   30  2  2    3    6
+
+howmany(mtcars, drat)
+
+#> drat
+#>   22
+
+
+
+## --- Table method ---
+
+class(Titanic)
+#> [1] "table"
+
+howmany(Titanic)
+
+#> Class Sex Age Survived Freq
+#>     4   2   2        2   22
+```
+
 
 ## Dataframe functions
 
@@ -436,18 +485,6 @@ se_mean(c(1, 2, 3, 4, NA_integer_))
 
 se_mean(c(1, 2, 3, 4, NA_integer_), na.rm = TRUE)
 #> [1] 0.6454972
-```
-
-### Round a number to a fixed decimal place length
-
-This is deprecated as of 2018-11-20. Use `round(x, digits = 2)` instead, it's much faster.
-
-``` r
-vec <- c(1.739006, 2, -1.4, 1.05, 1.90, 3.826)
-rounded_vec <- round_to_places(vec, 2)
-
-str(rounded_vec)
-#> chr [1:6] "1.70" "2.00" "-1.40" "1.00" "1.90" "3.80"
 ```
 
 ### Round numbers to the nearest "pretty" value

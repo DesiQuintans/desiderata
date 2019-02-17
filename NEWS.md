@@ -1,3 +1,11 @@
+# desiderata 0.29.0 (2019-02-17)
+
+- ADD - `howmany()` is now a generic function that includes methods for dataframes, tables, and vectors.
+- REM - `howmany_df()` is defunct. Now, just pass the dataframe to `howmany()` and it will choose the right method.
+- REM - `round_to_places()` is defunct.
+
+
+
 # desiderata 0.28.0 (2019-02-13)
 
 - ADD - `common_stem()` for comparing several strings and returning the 'stem' (a range of characters from the first position to the first mismatch) that is common to all of them.
