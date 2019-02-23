@@ -14,7 +14,9 @@ quick_lm(formula, data, ...)
 \item{...}{(Args) Arguments that will be passed to \code{plot()}.}
 }
 \value{
-A plot that shows a fit line and lists intercept, slope, and adjusted r-squared.
+A plot that shows a fit line and lists intercept, slope, and r-square,
+adjusted r-squared, etc. Invisibly returns the \code{lm} fit object so that it can
+be inspected.
 }
 \description{
 Fit and plot a two-term linear model quickly

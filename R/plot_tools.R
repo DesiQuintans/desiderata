@@ -34,7 +34,9 @@ theme_desi_base <- function() {
 #' @param data (Dataframe) The dataframe to use for fitting and plotting.
 #' @param ... (Args) Arguments that will be passed to `plot()`.
 #'
-#' @return A plot that shows a fit line and lists intercept, slope, and adjusted r-squared.
+#' @return A plot that shows a fit line and lists intercept, slope, and r-square,
+#'    adjusted r-squared, etc. Invisibly returns the `lm` fit object so that it can
+#'    be inspected.
 #' @export
 #'
 #' @examples
@@ -45,17 +47,34 @@ theme_desi_base <- function() {
 #'
 #' @md
 quick_lm <- function(formula, data, ...) {
-    fit <- stats::lm(formula = formula, data = data)
+    fit  <- stats::lm(formula = formula, data = data)
+    summ <- summary(fit)
 
-    intercept <- round(stats::coef(fit)[[1]], 4)
-    slope     <- round(stats::coef(fit)[[2]], 4)
-    adjrsq    <- round(summary(fit)$adj.r.squared, 4)
+    intercept <- signif(stats::coef(fit)[[1]], 3)
+    slope     <- signif(stats::coef(fit)[[2]], 3)
+    rsq       <- signif(summ$r.squared, 3)
+    adjrsq    <- signif(summ$adj.r.squared, 3)
+    fstat     <- signif(summ$fstatistic[[1]], 3)
+    dof       <- summ$fstatistic[[3]]
+
+    # http://r.789695.n4.nabble.com/Extract-p-value-from-lm-for-the-whole-model-tp1470479p1470527.html
+    pval      <- pf(summ$fstatistic[1], summ$fstatistic[2], summ$fstatistic[3],
+                    lower.tail=FALSE)
+    pval      <- signif(pval, 4)
 
     graphics::plot(formula, data = data, ...)
-    graphics::title(sub = paste0("int = ", intercept, "    slope = ", slope, "    adj r^2 = ", adjrsq))
+    graphics::title(main = paste0("int = ", intercept,
+                                 "    slope = ", slope,
+                                 "    r^2 = ", rsq,
+                                 "\n",
+                                 "adj r^2 = ", adjrsq,
+                                 "    f = ", fstat,
+                                 "    dof = ", dof,
+                                 "    p = ", pval))
     graphics::abline(fit)
-}
 
+    return(invisible(fit))
+}
 
 
 # Plotting functions ----------------------------------------------------------------
