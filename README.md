@@ -444,20 +444,17 @@ Mode(vec)
 Mode(vec, na.rm = TRUE)
 #> [1] 3 4
 
-Mode(vec, na.rm = FALSE, mean = TRUE)
+Mode(vec, break_ties = "mean", na.rm = FALSE)
 #> [1] NA
 
-Mode(vec, na.rm = TRUE, mean = TRUE)
+Mode(vec, break_ties = "mean", na.rm = TRUE)
 #> [1] 3.5
 
 Mode(1:4)
 #> [1] 1 2 3 4
 
-Mode(1:4, ties = FALSE)
-#> [1] 1
-
-Mode(1:4, mean = TRUE)
-#> [1] 2.5
+Mode(1:4, break_ties = "random")
+#> [1] 3
 ```
 
 ### Geometric mean of a vector

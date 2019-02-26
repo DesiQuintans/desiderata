@@ -4,31 +4,39 @@
 \alias{Mode}
 \title{Mode of a vector (numeric/character/factor)}
 \usage{
-Mode(x, na.rm = FALSE, ties = FALSE, mean = FALSE)
+Mode(x, break_ties = "no", na.rm = FALSE, ties = NULL, mean = NULL)
 }
 \arguments{
 \item{x}{(Char/Numeric/Factor) A vector.}
 
+\item{break_ties}{(Character) If more than one mode is found, how should the
+tie be broken?
+\itemize{
+\item \code{"no"} or \code{FALSE}: Return a vector of all of the modes that were found.
+\item \code{"random"}: Randomly choose one of the modes to return.
+\item \code{"mean"}: Return the average of all of the modes (for numeric vectors).
+\item \code{"first"}: Return the first mode found.
+\item \code{"last"}: Return the last mode found.
+}}
+
 \item{na.rm}{(Logical) If \code{TRUE}, NAs will be silently removed.}
 
-\item{ties}{(Logical) If \code{TRUE} and \code{x} has multiple modes (e.g. \code{c(2, 2, 1, 1)}),
-return all of modes that were found (\code{2, 1}). If \code{FALSE}, only the first mode
-(the one first appearing in \code{x}) will be returned (\code{2}).}
+\item{ties}{Deprecated (2019-02-26). Use \code{break_ties} instead.}
 
-\item{mean}{(Logical) If \code{TRUE}, return the average of all the modes. Only makes sense
-for a numeric vector. Only the first mode is returned if \code{ties == FALSE},}
+\item{mean}{Deprecated (2019-02-26). Use \code{break_ties} instead.}
 }
 \value{
 A vector of the mode value(s).
 }
 \description{
-There is no built-in function to find the mode of something. This function can find
-the mode of a numeric, character, or factor vector. It will return multiple values in
-the case of a multi-modal dataset. In the case of a numeric vector, it can return a
-single value that is the mean of the modes.
+There is no built-in function to find the mode of something. This function
+can find the mode of a numeric, character, or factor vector. By default it
+will return multiple values in a multi-modal dataset, but there are several
+methods of tie-breaking included.
 }
 \details{
-If all values are unique, it will return \strong{all} of the values.
+If all values are unique, it will return \strong{all} of the values unless you
+choose to break the tie.
 }
 \section{Authors}{
 
@@ -54,19 +62,16 @@ Mode(vec)
 Mode(vec, na.rm = TRUE)
 #> [1] 3 4
 
-Mode(vec, na.rm = FALSE, mean = TRUE)
+Mode(vec, break_ties = "mean", na.rm = FALSE)
 #> [1] NA
 
-Mode(vec, na.rm = TRUE, mean = TRUE)
+Mode(vec, break_ties = "mean", na.rm = TRUE)
 #> [1] 3.5
 
 Mode(1:4)
 #> [1] 1 2 3 4
 
-Mode(1:4, ties = FALSE)
-#> [1] 1
-
-Mode(1:4, mean = TRUE)
-#> [1] 2.5
+Mode(1:4, break_ties = "random")
+#> [1] 3
 
 }

@@ -3,20 +3,25 @@
 
 #' Mode of a vector (numeric/character/factor)
 #'
-#' There is no built-in function to find the mode of something. This function can find
-#' the mode of a numeric, character, or factor vector. It will return multiple values in
-#' the case of a multi-modal dataset. In the case of a numeric vector, it can return a
-#' single value that is the mean of the modes.
+#' There is no built-in function to find the mode of something. This function
+#' can find the mode of a numeric, character, or factor vector. By default it
+#' will return multiple values in a multi-modal dataset, but there are several
+#' methods of tie-breaking included.
 #'
-#' If all values are unique, it will return **all** of the values.
+#' If all values are unique, it will return **all** of the values unless you
+#' choose to break the tie.
 #'
 #' @param x (Char/Numeric/Factor) A vector.
+#' @param break_ties (Character) If more than one mode is found, how should the
+#'    tie be broken?
+#'    - `"no"` or `FALSE`: Return a vector of all of the modes that were found.
+#'    - `"random"`: Randomly choose one of the modes to return.
+#'    - `"mean"`: Return the average of all of the modes (for numeric vectors).
+#'    - `"first"`: Return the first mode found.
+#'    - `"last"`: Return the last mode found.
 #' @param na.rm (Logical) If `TRUE`, NAs will be silently removed.
-#' @param ties (Logical) If `TRUE` and `x` has multiple modes (e.g. `c(2, 2, 1, 1)`),
-#'    return all of modes that were found (`2, 1`). If `FALSE`, only the first mode
-#'    (the one first appearing in `x`) will be returned (`2`).
-#' @param mean (Logical) If `TRUE`, return the average of all the modes. Only makes sense
-#'   for a numeric vector. Only the first mode is returned if `ties == FALSE`,
+#' @param ties Deprecated (2019-02-26). Use `break_ties` instead.
+#' @param mean Deprecated (2019-02-26). Use `break_ties` instead.
 #'
 #' @return A vector of the mode value(s).
 #' @export
@@ -30,20 +35,17 @@
 #' Mode(vec, na.rm = TRUE)
 #' #> [1] 3 4
 #'
-#' Mode(vec, na.rm = FALSE, mean = TRUE)
+#' Mode(vec, break_ties = "mean", na.rm = FALSE)
 #' #> [1] NA
 #'
-#' Mode(vec, na.rm = TRUE, mean = TRUE)
+#' Mode(vec, break_ties = "mean", na.rm = TRUE)
 #' #> [1] 3.5
 #'
 #' Mode(1:4)
 #' #> [1] 1 2 3 4
 #'
-#' Mode(1:4, ties = FALSE)
-#' #> [1] 1
-#'
-#' Mode(1:4, mean = TRUE)
-#' #> [1] 2.5
+#' Mode(1:4, break_ties = "random")
+#' #> [1] 3
 #'
 #' @section Authors:
 #' - Ken Williams (<https://stackoverflow.com/users/169947/ken-williams>)
@@ -55,7 +57,7 @@
 #' <https://stackoverflow.com/a/8189441/5578429>
 #'
 #' @md
-Mode <- function(x, na.rm = FALSE, ties = FALSE, mean = FALSE) {
+Mode <- function(x, break_ties = "no", na.rm = FALSE, ties = NULL, mean = NULL) {
     if (na.rm) {
         x = x[!is.na(x)]
     }
@@ -64,14 +66,39 @@ Mode <- function(x, na.rm = FALSE, ties = FALSE, mean = FALSE) {
     tab <- tabulate(match(x, ux))
     result <- ux[tab == max(tab)]
 
-    if (mean == TRUE) {
-        result <- mean(result)
+    if (is.null(mean) == FALSE) {
+        # Deprecation began on 2019-02-26.
+        .Deprecated(msg = "The 'mean' argument in Mode() is deprecated. Use 'break_ties' instead.")
     }
-
-    if (ties == FALSE) {
-        result <- result[1]
+    
+    if (is.null(ties) == FALSE) {
+        if (mean == TRUE) {
+            break_ties <- "mean"
+        } else {
+            if (ties == TRUE) {
+                break_ties <- "first"
+            } else {
+                break_ties <- "no"
+            }
+        }
+        
+        msg <- uw("The 'ties' argument in Mode() is deprecated. Use 'break_ties' instead.\n
+                  Based on your arguments, Mode() will default to break_ties = '", 
+                  break_ties, "'.",
+                  collapse = "", join = "")
+                 
+        # Deprecation began on 2019-02-26.
+        .Deprecated(msg = msg)
     }
-
+    
+    switch(break_ties,
+           first  = return(result[1]),
+           last   = return(result[length(result)]),
+           random = return(sample(result, 1)),
+           mean   = return(mean(result, na.rm = na.rm))
+    )
+    
+    # break_ties == "no" | break_ties == FALSE
     return(result)
 }
 
