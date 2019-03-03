@@ -21,6 +21,13 @@ names. The names are the original R colour names that were provided in \code{vec
 \description{
 Convert R's built-in named colours to hex codes
 }
+\section{Authors}{
+
+\itemize{
+\item Desi Quintans (\url{http://www.desiquintans.com})
+}
+}
+
 \examples{
 rcols_as_hex(c("tomato", "steelblue"))
 #>    tomato steelblue

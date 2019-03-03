@@ -28,53 +28,106 @@ theme_desi_base <- function() {
 
 
 
-#' Fit and plot a two-term linear model quickly
+# Converting between colour representations -------------------------------
+
+#' Convert R's built-in named colours to hex codes
 #'
-#' @param formula (Formula) A two-term formula for both the linear model and the plot.
-#' @param data (Dataframe) The dataframe to use for fitting and plotting.
-#' @param ... (Args) Arguments that will be passed to `plot()`.
+#' @param vec (Character) A character vector of R's built-in named colours. If left `NULL`,
+#'    the entire contents of `grDevices::colours()` will be used.
+#' @param distinct (Logical) Should only distinct colours be returned? Distinct colours do
+#'    not share the same (0:255)^3 RGB space, and do not have the same hex code. Defaults
+#'    to `FALSE` so that you don't get unexpectedly-short vectors.
 #'
-#' @return A plot that shows a fit line and lists intercept, slope, and r-square,
-#'    adjusted r-squared, etc. Invisibly returns the `lm` fit object so that it can
-#'    be inspected.
+#' @return A named character vector of hex colours that were converted from R's built-in
+#'    names. The names are the original R colour names that were provided in `vec`.
 #' @export
 #'
 #' @examples
-#' quick_lm(Petal.Length ~ Sepal.Length, iris)
+#' rcols_as_hex(c("tomato", "steelblue"))
+#' #>    tomato steelblue
+#' #> "#FF6347" "#4682B4"
+#'
+#' rcols_as_hex()
+#' #>     white    aliceblue    antiquewhite    ... for all colours in colours()
+#' #> "#FFFFFF"    "#F0F8FF"    "#FAEBD7"       ... for all colours in colours()
+#'
+#' rcols_as_hex(distinct = TRUE)
+#' #>     white    aliceblue    antiquewhite    ... for all in colours(distinct = TRUE)
+#' #> "#FFFFFF"    "#F0F8FF"    "#FAEBD7"       ... for all in colours(distinct = TRUE)
+#'
+#' rcols_as_hex(c("snow", "snow1"))
+#' #>      snow     snow1
+#' #> "#FFFAFA" "#FFFAFA"
+#'
+#' rcols_as_hex(c("snow", "snow1"), distinct = TRUE)
+#' #>      snow
+#' #> "#FFFAFA"
 #'
 #' @section Authors:
 #' - Desi Quintans (<http://www.desiquintans.com>)
 #'
 #' @md
-quick_lm <- function(formula, data, ...) {
-    fit  <- stats::lm(formula = formula, data = data)
-    summ <- summary(fit)
-
-    intercept <- signif(stats::coef(fit)[[1]], 3)
-    slope     <- signif(stats::coef(fit)[[2]], 3)
-    rsq       <- signif(summ$r.squared, 3)
-    adjrsq    <- signif(summ$adj.r.squared, 3)
-    fstat     <- signif(summ$fstatistic[[1]], 3)
-    dof       <- summ$fstatistic[[3]]
-
-    # http://r.789695.n4.nabble.com/Extract-p-value-from-lm-for-the-whole-model-tp1470479p1470527.html
-    pval      <- pf(summ$fstatistic[1], summ$fstatistic[2], summ$fstatistic[3],
-                    lower.tail=FALSE)
-    pval      <- signif(pval, 4)
-
-    graphics::plot(formula, data = data, ...)
-    graphics::title(main = paste0("int = ", intercept,
-                                 "    slope = ", slope,
-                                 "    r^2 = ", rsq,
-                                 "\n",
-                                 "adj r^2 = ", adjrsq,
-                                 "    f = ", fstat,
-                                 "    dof = ", dof,
-                                 "    p = ", pval))
-    graphics::abline(fit)
-
-    return(invisible(fit))
+rcols_as_hex <- function(vec = NULL, distinct = FALSE) {
+    vec_is_null <- is.null(vec)
+    
+    if (vec_is_null)
+        vec <- grDevices::colours(distinct = distinct)
+    
+    if (distinct == TRUE & !vec_is_null) {  # !vec_is_null so this is not done twice to colours().
+        vec <- vec[!duplicated(t(grDevices::col2rgb(vec)))]
+    }
+    
+    # Keep the colour names by naming vec with itself.
+    names(vec) <- vec
+    
+    p <- grDevices::col2rgb(vec, alpha = FALSE)  # Convert named R colours to RGB.
+    hex <- grDevices::rgb(p["red",], p["green",], p["blue",],
+                          names = colnames(p), maxColorValue = 255)  # RGB to Hex
+    
+    if (distinct == TRUE)
+        hex <- hex[!duplicated(hex)]  # unique() does not keep the names of a vector.
+    
+    return(hex)
 }
+
+
+
+#' Convert Hex colours to HSV
+#'
+#' @param hexcol (Character) A vector of hex colours.
+#' @param which  (Character) Which variables to return. `"HSV"` will return Hue,
+#'    Saturation, and Value. Any combination of these letters will return those 
+#'    columns, so `"HV"` will return only Hue and Value.
+#'
+#' @return A dataframe if more than one column is requested in `which`, 
+#'    otherwise a numeric vector.
+#' @export
+#'
+#' @examples
+#' col2hsv(c("#FFD8B1", "#808000"))
+#' 
+#' #>          h         s         v
+#' #> 0.08333333 0.3058824 1.0000000
+#' #> 0.16666667 1.0000000 0.5019608
+#' 
+#' col2hsv(c("#FFD8B1", "#808000"), which = "hv")
+#' 
+#' #>          h         v
+#' #> 0.08333333 1.0000000
+#' #> 0.16666667 0.5019608
+#'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#' 
+#' @md
+col2hsv <- function(hexcol, which = "hsv") {
+    hsv <- as.data.frame(t(rgb2hsv(col2rgb(hexcol))))
+    
+    columns <- unlist(strsplit(which, ""))
+    
+    return(hsv[, columns])
+}
+
 
 
 # Plotting functions ----------------------------------------------------------------
@@ -144,63 +197,53 @@ show_colours <- show_colors <- function(col_list, pad = "#FFFFFF", asp = NA, mai
 
 
 
-#' Convert R's built-in named colours to hex codes
+#' Fit and plot a two-term linear model quickly
 #'
-#' @param vec (Character) A character vector of R's built-in named colours. If left `NULL`,
-#'    the entire contents of `grDevices::colours()` will be used.
-#' @param distinct (Logical) Should only distinct colours be returned? Distinct colours do
-#'    not share the same (0:255)^3 RGB space, and do not have the same hex code. Defaults
-#'    to `FALSE` so that you don't get unexpectedly-short vectors.
+#' @param formula (Formula) A two-term formula for both the linear model and the plot.
+#' @param data (Dataframe) The dataframe to use for fitting and plotting.
+#' @param ... (Args) Arguments that will be passed to `plot()`.
 #'
-#' @return A named character vector of hex colours that were converted from R's built-in
-#'    names. The names are the original R colour names that were provided in `vec`.
+#' @return A plot that shows a fit line and lists intercept, slope, and r-square,
+#'    adjusted r-squared, etc. Invisibly returns the `lm` fit object so that it can
+#'    be inspected.
 #' @export
 #'
 #' @examples
-#' rcols_as_hex(c("tomato", "steelblue"))
-#' #>    tomato steelblue
-#' #> "#FF6347" "#4682B4"
+#' quick_lm(Petal.Length ~ Sepal.Length, iris)
 #'
-#' rcols_as_hex()
-#' #>     white    aliceblue    antiquewhite    ... for all colours in colours()
-#' #> "#FFFFFF"    "#F0F8FF"    "#FAEBD7"       ... for all colours in colours()
-#'
-#' rcols_as_hex(distinct = TRUE)
-#' #>     white    aliceblue    antiquewhite    ... for all in colours(distinct = TRUE)
-#' #> "#FFFFFF"    "#F0F8FF"    "#FAEBD7"       ... for all in colours(distinct = TRUE)
-#'
-#' rcols_as_hex(c("snow", "snow1"))
-#' #>      snow     snow1
-#' #> "#FFFAFA" "#FFFAFA"
-#'
-#' rcols_as_hex(c("snow", "snow1"), distinct = TRUE)
-#' #>      snow
-#' #> "#FFFAFA"
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
 #'
 #' @md
-rcols_as_hex <- function(vec = NULL, distinct = FALSE) {
-    vec_is_null <- is.null(vec)
-
-    if (vec_is_null)
-        vec <- grDevices::colours(distinct = distinct)
-
-    if (distinct == TRUE & !vec_is_null) {  # !vec_is_null so this is not done twice to colours().
-        vec <- vec[!duplicated(t(grDevices::col2rgb(vec)))]
-    }
-
-    # Keep the colour names by naming vec with itself.
-    names(vec) <- vec
-
-    p <- grDevices::col2rgb(vec, alpha = FALSE)  # Convert named R colours to RGB.
-    hex <- grDevices::rgb(p["red",], p["green",], p["blue",],
-                          names = colnames(p), maxColorValue = 255)  # RGB to Hex
-
-    if (distinct == TRUE)
-        hex <- hex[!duplicated(hex)]  # unique() does not keep the names of a vector.
-
-    return(hex)
+quick_lm <- function(formula, data, ...) {
+    fit  <- stats::lm(formula = formula, data = data)
+    summ <- summary(fit)
+    
+    intercept <- signif(stats::coef(fit)[[1]], 3)
+    slope     <- signif(stats::coef(fit)[[2]], 3)
+    rsq       <- signif(summ$r.squared, 3)
+    adjrsq    <- signif(summ$adj.r.squared, 3)
+    fstat     <- signif(summ$fstatistic[[1]], 3)
+    dof       <- summ$fstatistic[[3]]
+    
+    # http://r.789695.n4.nabble.com/Extract-p-value-from-lm-for-the-whole-model-tp1470479p1470527.html
+    pval      <- pf(summ$fstatistic[1], summ$fstatistic[2], summ$fstatistic[3],
+                    lower.tail=FALSE)
+    pval      <- signif(pval, 4)
+    
+    graphics::plot(formula, data = data, ...)
+    graphics::title(main = paste0("int = ", intercept,
+                                  "    slope = ", slope,
+                                  "    r^2 = ", rsq,
+                                  "\n",
+                                  "adj r^2 = ", adjrsq,
+                                  "    f = ", fstat,
+                                  "    dof = ", dof,
+                                  "    p = ", pval))
+    graphics::abline(fit)
+    
+    return(invisible(fit))
 }
-
 
 
 # Colour palettes -------------------------------------------------------------------
@@ -544,6 +587,31 @@ palette_picked <- function(n = NULL, random = FALSE, spaced = FALSE, alpha = NUL
 
     build_palette(picked_colours, n = n, random = random, spaced = spaced, alpha = alpha)
 }
+
+
+
+#' @describeIn build_palette 48 distant colours from all palettes. This palette
+#'   is made by converting the hex colours from the other palettes to RGB and
+#'   HSV, rounding those values to the same range (e.g. rounding RGB values to
+#'   the nearest 50), and then keeping the unique values only. This is the same
+#'   way that `colours(distinct = TRUE)` defines its distinct colours.
+#'
+#' @export
+#' @md
+palette_distant <- function(n = NULL, random = FALSE, spaced = FALSE, alpha = NULL) {
+    cols <- c("#A24E3D", "#D1ACFE", "#40E0D0", "#AABC7A", "#3A9459", "#78C8EB", 
+              "#A37F46", "#8502AA", "#785715", "#874AA6", "#425218", "#E451D1", 
+              "#836BBA", "#3CB44B", "#457D8B", "#7DBF32", "#077D84", "#322EDF", 
+              "#C7847B", "#72A58C", "#62ACB7", "#DFFB71", "#B506D3", "#E704C4", 
+              "#CCE93A", "#77D796", "#FFE4E1", "#9B9EE2", "#C23000", "#7C8060", 
+              "#5875C1", "#014833", "#33A02C", "#A45B02", "#A4E804", "#E3AAE0", 
+              "#04F757", "#671190", "#6542D2", "#FDBF6F", "#5CACEE", "#DDBC62", 
+              "#17FCE4", "#CD853F", "#0568EC", "#469990", "#4B3A83", "#62E674")
+    
+    build_palette(cols, n = n, random = random, spaced = spaced, alpha = alpha)
+}
+
+
 
 # ggplot2 helper functions ----------------------------------------------------------
 

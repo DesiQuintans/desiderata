@@ -6,6 +6,7 @@
 \alias{palette_distinct}
 \alias{palette_mrmrs}
 \alias{palette_picked}
+\alias{palette_distant}
 \title{Build a palette of colours from a list of hex codes}
 \usage{
 build_palette(col_list, n = NULL, random = FALSE, spaced = FALSE,
@@ -21,6 +22,9 @@ palette_mrmrs(n = NULL, random = FALSE, spaced = FALSE,
   alpha = NULL)
 
 palette_picked(n = NULL, random = FALSE, spaced = FALSE,
+  alpha = NULL)
+
+palette_distant(n = NULL, random = FALSE, spaced = FALSE,
   alpha = NULL)
 }
 \arguments{
@@ -78,6 +82,12 @@ where putting an intermediate colour between them makes them look the same. I we
 through the preview plots manually, randomising the order of colours and deleting
 colours that were visually similar until I ended up with a list of colours that were
 easy to differentiate.
+
+\item \code{palette_distant}: 48 distant colours from all palettes. This palette
+is made by converting the hex colours from the other palettes to RGB and
+HSV, rounding those values to the same range (e.g. rounding RGB values to
+the nearest 50), and then keeping the unique values only. This is the same
+way that \code{colours(distinct = TRUE)} defines its distinct colours.
 }}
 
 \section{Authors}{
