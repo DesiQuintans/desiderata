@@ -99,35 +99,38 @@ quick_lm <- function(formula, data, ...) {
 #'
 #' @md
 show_colours <- show_colors <- function(col_list, pad = "#FFFFFF", asp = NA, main = NULL) {
-    list_name <- deparse(substitute(col_list))
-
-    # Plan a square grid.
-    dims  <- find_dims(col_list)
-    cells <- dims["x"] * dims["y"]
-
-    # Pad the colour list to the necessary number of cells by repeating the last value.
-    # Necessary because the matrix function will raise an error if the dims are not
-    # multiples of the vector's length.
-    pad_string <- ifelse(pad == "last", col_list[list_length], pad)
-    list_length <- length(col_list)
-
-    if (list_length < cells) {
-        col_list <- append(col_list, rep(pad_string, cells - list_length))
+    list_name   <- deparse(substitute(col_list))
+    
+    # image() must a rectangular matrix, so the colour list needs to be padded
+    # to a length that allows it to be split evenly between rows and columns.
+    orig_length <- length(col_list)
+    
+    if (orig_length < 4) {
+        # Vectors < 4 can't be rectangular, so make them 2 x 2.
+        grid <- find_dims(1:4)
+    } else {
+        grid <- find_dims(col_list)
     }
+    
+    new_length <- grid["x"] * grid["y"]
+
+    # Pad the colour list to the necessary number of cells. Necessary because
+    # the matrix function will raise an error if the dims are not multiples of
+    # the vector's length.
+    pad_string <- ifelse(pad == "last", col_list[orig_length], pad)
+
+    col_list <- append(col_list, rep(pad_string, abs(new_length - orig_length)))
 
     # Build the matrix that is used by image(). image() rotates the matrix 90 degrees
     # anti-clockwise during filling, so the colours end up being placed in the wrong
-    # order. I couldn't fix this with any combination of t(), byrow, reversing the order
-    # of the col_list, or reversing the order of the numbers inside the matrix. However,
-    # I found this matrix-mirroring solution in Glenn Tattersall's `Thermimage` package.
-    # https://www.rdocumentation.org/packages/Thermimage/versions/3.1.1/topics/mirror.matrix
+    # order.
 
-    m <- matrix(1:cells, ncol = dims["x"], nrow = dims["y"], byrow = FALSE)
+    m <- matrix(1:new_length, ncol = grid["x"], nrow = grid["y"], byrow = FALSE)
     m <- mirror_matrix(m)
 
     # Make a plot title, if requested
     if (is.null(main) == TRUE) {
-        plot_title <- paste0("Showing ", list_length, " colours in '", list_name, "'")
+        plot_title <- paste0("Showing ", orig_length, " colours in '", list_name, "'")
     } else {
         plot_title <- main
     }

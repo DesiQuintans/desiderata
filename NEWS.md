@@ -1,3 +1,9 @@
+# desiderata 0.30.1 (2019-03-03)
+
+- FIX - `show_colours()` now correctly handles lists of colours shorter than 4.
+
+
+
 # desiderata 0.30.0 (2019-02-26)
 
 - MOD - Changed the interface of `Mode()` so that it is simpler to use and has more tie-breaking options. Old args `ties` and `mean` are deprecated and will throw warnings, but I have done my best to maintain their functionality so that this is not a breaking change.
