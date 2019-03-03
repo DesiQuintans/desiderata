@@ -121,7 +121,7 @@ rcols_as_hex <- function(vec = NULL, distinct = FALSE) {
 #' 
 #' @md
 col2hsv <- function(hexcol, which = "hsv") {
-    hsv <- as.data.frame(t(rgb2hsv(col2rgb(hexcol))))
+    hsv <- as.data.frame(t(grDevices::rgb2hsv(grDevices::col2rgb(hexcol))))
     
     columns <- unlist(strsplit(which, ""))
     
@@ -227,7 +227,7 @@ quick_lm <- function(formula, data, ...) {
     dof       <- summ$fstatistic[[3]]
     
     # http://r.789695.n4.nabble.com/Extract-p-value-from-lm-for-the-whole-model-tp1470479p1470527.html
-    pval      <- pf(summ$fstatistic[1], summ$fstatistic[2], summ$fstatistic[3],
+    pval      <- stats::pf(summ$fstatistic[1], summ$fstatistic[2], summ$fstatistic[3],
                     lower.tail=FALSE)
     pval      <- signif(pval, 4)
     

@@ -2,6 +2,7 @@
 
 - FIX - `show_colours()` now correctly handles lists of colours shorter than 4.
 - ADD - `palette_distant()` which has 48 colours that are not located adjacent to each other along the RGB and HSV codings.
+- ADD - `top_tail()` which retrieves first and last rows from a dataframe.
 
 
 

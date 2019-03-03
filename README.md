@@ -38,6 +38,7 @@ abide by its terms.
     - Collapse a dataframe into a vector (`collapse_df()` - [example](#collapse-a-dataframe-into-a-vector))
     - Sort columns of a dataframe by name (`sort_cols()` - [example](#sort-columns-of-a-dataframe-by-name))
     - Drop invariant columns from a dataframe (`drop_invar_cols()` - [example](#drop-invariant-columns-from-a-dataframe))
+    - First and last rows of a dataframe (`top_tail()` - [example](#first-and-last-rows-of-a-dataframe))
     
     
 - **File system functions**
@@ -359,28 +360,19 @@ drop_invar_cols(df)
 #> 5        A    0.40
 ```
 
-### Count the number of unique values per column in a dataframe
 
-It's like `howmany()`, but for dataframes instead of vectors.
+### First and last rows of a dataframe
 
 ``` r
-howmany_df(mtcars)
-#> mpg cyl disp hp drat wt qsec vs am gear carb
-#>  25   3   27 22   22 29   30  2  2    3    6
+top_tail(iris, top = 3, tail = 3)
 
-howmany_df(mtcars, -mpg)
-#> cyl disp hp drat wt qsec vs am gear carb
-#>   3   27 22   22 29   30  2  2    3    6
-
-howmany_df(mtcars, drat)
-#> drat
-#>   22
-
-# Also tries to handle things that aren't dataframes, like tables.
-
-howmany_df(Titanic)
-#> Class Sex Age Survived Freq
-#>     4   2   2        2   22
+#>     Sepal.Length Sepal.Width Petal.Length Petal.Width   Species
+#> 1            5.1         3.5          1.4         0.2    setosa
+#> 2            4.9         3.0          1.4         0.2    setosa
+#> 3            4.7         3.2          1.3         0.2    setosa
+#> 148          6.5         3.0          5.2         2.0 virginica
+#> 149          6.2         3.4          5.4         2.3 virginica
+#> 150          5.9         3.0          5.1         1.8 virginica
 ```
 
 

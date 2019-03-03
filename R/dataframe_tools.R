@@ -464,3 +464,48 @@ drop_invar_cols <- function(df, from = 1, to = NULL, cols = NULL,
             return(TRUE)
         }, sub_df)
 }
+
+
+
+#' First and last rows of a dataframe
+#'
+#' @param df (Dataframe) A dataframe.
+#' @param top (Integer) The number of rows to get from the start of `df`.
+#' @param tail (Integer) The number of rows to get from the end of `df`.
+#'
+#' @details `0` can be provided for the top and tail, in which case it will behave like 
+#'    `head()` and `tail()` respectively.
+#'
+#' @return A dataframe.
+#' @export
+#'
+#' @examples
+#' # Returns 6 rows by default, just like head() does.
+#' top_tail(iris)
+#' 
+#' #>     Sepal.Length Sepal.Width Petal.Length Petal.Width   Species
+#' #> 1            5.1         3.5          1.4         0.2    setosa
+#' #> 2            4.9         3.0          1.4         0.2    setosa
+#' #> 3            4.7         3.2          1.3         0.2    setosa
+#' #> 148          6.5         3.0          5.2         2.0 virginica
+#' #> 149          6.2         3.4          5.4         2.3 virginica
+#' #> 150          5.9         3.0          5.1         1.8 virginica
+#' 
+#' top_tail(iris, top = 1, tail = 2)
+#'
+#' #>     Sepal.Length Sepal.Width Petal.Length Petal.Width   Species
+#' #> 1            5.1         3.5          1.4         0.2    setosa
+#' #> 149          6.2         3.4          5.4         2.3 virginica
+#' #> 150          5.9         3.0          5.1         1.8 virginica
+#'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#' 
+#' @md
+top_tail <- function(df, top = 3, tail = 3) {
+    rows <- nrow(df)
+    if (top <= 0)  top_range <- 0  else top_range  <- 1:top
+    if (tail <= 0) tail_range <- 0 else tail_range <- (rows - (tail - 1)):rows
+    
+    df[unique(c(top_range, tail_range)), ]
+}
