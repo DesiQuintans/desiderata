@@ -1,8 +1,15 @@
+# desiderata 0.31.0 (2019-03-04)
+
+- ADD - `palette_distant()` which has 48 colours that are not located adjacent to each other along the RGB and HSV codings.
+- ADD - `top_tail()` which retrieves first and last rows from a dataframe.
+- ADD - `try_seed()` for running an expression with a new random generator seed each time. The seed is announced in the console so 
+that when you find one that you like, you can copy it use it in `set.seed()` in your script.
+
+
+
 # desiderata 0.30.1 (2019-03-03)
 
 - FIX - `show_colours()` now correctly handles lists of colours shorter than 4.
-- ADD - `palette_distant()` which has 48 colours that are not located adjacent to each other along the RGB and HSV codings.
-- ADD - `top_tail()` which retrieves first and last rows from a dataframe.
 
 
 

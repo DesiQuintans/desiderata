@@ -328,3 +328,52 @@ if_na <- function(x, yes = TRUE, no = NULL) {
 
     ifelse(is.na(x), yes, no)
 }
+
+
+
+#' Generate random seeds to preview their effects
+#'
+#' This should not be used in scripts, it is for interactive use only. It will throw an
+#' error if it is run non-interactively (e.g. if it is found inside an Rmarkdown document
+#' that is being knitted, or an R script that is being executed from the command line).
+#' This is because `try_seed()` changes the random seed, which could affect the rest
+#' of your script.
+#'
+#' This function picks a random seed, announces what that seed is, and then uses it to
+#' evaluate an expression. For example, if you are creating a network graph whose layout
+#' is calculated from randomly-chosen starting positions, `try_seed()` lets you run that
+#' plotting function over and over with a new seed each time, until you find a layout that
+#' you would like to keep. At that point, you would copy the announced seed from the
+#' console and manually `set.seed()` in your script.
+#'
+#' @param expr (Expression) An expression.
+#'
+#' @return The evaluated `expr`.
+#' @export
+#'
+#' @examples
+#' try_seed(runif(5))
+#'
+#' #> Seed is: 1915981367
+#' #> [1] 0.29910233 0.79275922 0.04287227 0.51237626 0.10189918
+#' #>
+#'
+#' set.seed(1915981367)  # The announced seed
+#' runif(5)
+#'
+#' #> [1] 0.29910233 0.79275922 0.04287227 0.51237626 0.10189918
+#'
+#' @section Authors: - Desi Quintans (<http://www.desiquintans.com>)
+#'
+#' @md
+try_seed <- function(expr) {
+    if (interactive() == FALSE) {
+        stop("try_seed() is not allowed to run in a script. See '?try_seed'.")
+    }
+    
+    new_seed <- sample(0:.Machine$integer.max, 1)
+    message("Seed is: ", new_seed)
+    
+    set.seed(new_seed)
+    eval(expr)
+}
