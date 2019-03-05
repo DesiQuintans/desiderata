@@ -352,7 +352,7 @@ if_na <- function(x, yes = TRUE, no = NULL) {
 #' @export
 #'
 #' @examples
-#' try_seed(runif(5))
+#' try.seed(runif(5))
 #'
 #' #> Seed is: 1915981367
 #' #> [1] 0.29910233 0.79275922 0.04287227 0.51237626 0.10189918
@@ -366,7 +366,7 @@ if_na <- function(x, yes = TRUE, no = NULL) {
 #' @section Authors: - Desi Quintans (<http://www.desiquintans.com>)
 #'
 #' @md
-try_seed <- function(expr) {
+try.seed <- function(expr) {
     if (interactive() == FALSE) {
         stop("try_seed() is not allowed to run in a script. See '?try_seed'.")
     }

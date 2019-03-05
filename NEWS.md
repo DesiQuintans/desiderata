@@ -2,7 +2,7 @@
 
 - ADD - `palette_distant()` which has 48 colours that are not located adjacent to each other along the RGB and HSV codings.
 - ADD - `top_tail()` which retrieves first and last rows from a dataframe.
-- ADD - `try_seed()` for running an expression with a new random generator seed each time. The seed is announced in the console so 
+- ADD - `try.seed()` for running an expression with a new random generator seed each time. The seed is announced in the console so 
 that when you find one that you like, you can copy it use it in `set.seed()` in your script.
 
 

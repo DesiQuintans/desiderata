@@ -98,7 +98,7 @@ abide by its terms.
     - Print to console, wrapping the text to a specific line width (`cat_wrap()` - [example](#print-to-console-wrapping-the-text-to-a-specific-line-width))
     - Copy a dataframe, vector, or the result of an expression to the clipboard (`clippy()` - [example](#copy-a-dataframe-vector-or-the-result-of-an-expression-to-the-clipboard))
     - Randomly return `TRUE` or `FALSE` (`coinflip()` - [example](#randomly-return-true-or-false))
-    - Generate random seeds to preview their effects (`try_seed()` - [example](#generate-random-seeds-to-preview-their-effects))
+    - Generate random seeds to preview their effects (`try.seed()` - [example](#generate-random-seeds-to-preview-their-effects))
 
 ## Data included
 
@@ -1086,12 +1086,12 @@ coinflip(5)
 
 ### Generate random seeds to preview their effects
 
-This should not be used in scripts, it is for interactive use only. It will throw an error if it is run non-interactively (e.g. if it is found inside an Rmarkdown document that is being knitted, or an R script that is being executed from the command line). This is because `try_seed()` changes the random seed, which could affect the rest of your script.
+This should not be used in scripts, it is for interactive use only. It will throw an error if it is run non-interactively (e.g. if it is found inside an Rmarkdown document that is being knitted, or an R script that is being executed from the command line). This is because `try.seed()` changes the random seed, which could affect the rest of your script.
 
-This function picks a random seed, announces what that seed is, and then uses it to evaluate an expression. For example, if you are creating a network graph whose layout is calculated from randomly-chosen starting positions, `try_seed()` lets you run that plotting function over and over with a new seed each time until you find a layout that you would like to keep. At that point, you would copy the announced seed from the console and manually `set.seed()` in your script.
+This function picks a random seed, announces what that seed is, and then uses it to evaluate an expression. For example, if you are creating a network graph whose layout is calculated from randomly-chosen starting positions, `try.seed()` lets you run that plotting function over and over with a new seed each time until you find a layout that you would like to keep. At that point, you would copy the announced seed from the console and manually `set.seed()` in your script.
 
 ``` r
-try_seed(runif(5))
+try.seed(runif(5))
 
 #> Seed is: 1915981367
 #> [1] 0.29910233 0.79275922 0.04287227 0.51237626 0.10189918
