@@ -368,11 +368,11 @@ if_na <- function(x, yes = TRUE, no = NULL) {
 #' @md
 try.seed <- function(expr) {
     if (interactive() == FALSE) {
-        stop("try_seed() is not allowed to run in a script. See '?try_seed'.")
+        stop("try.seed() is not allowed to run in a script. See '?try.seed'.")
     }
     
     new_seed <- sample(0:.Machine$integer.max, 1)
-    message("Seed is: ", new_seed)
+    message("Trying:\nset.seed(", new_seed, ")")
     
     set.seed(new_seed)
     eval(expr)
