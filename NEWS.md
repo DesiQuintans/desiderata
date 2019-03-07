@@ -1,9 +1,14 @@
+# desiderata 0.32.0 (2019-03-07)
+
+- ADD - `plot_arrange()` arranges base R plots into a grid. It's like `gridExtra::grid.arrange()`, but for base R plots.
+
+
+
 # desiderata 0.31.0 (2019-03-04)
 
 - ADD - `palette_distant()` which has 48 colours that are not located adjacent to each other along the RGB and HSV codings.
 - ADD - `top_tail()` which retrieves first and last rows from a dataframe.
-- ADD - `try.seed()` for running an expression with a new random generator seed each time. The seed is announced in the console so 
-that when you find one that you like, you can copy it use it in `set.seed()` in your script.
+- ADD - `try.seed()` for running an expression with a new random generator seed each time. The seed is announced in the console so that when you find one that you like, you can copy it use it in `set.seed()` in your script.
 
 
 

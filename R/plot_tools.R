@@ -246,6 +246,40 @@ quick_lm <- function(formula, data, ...) {
 }
 
 
+
+#' Arrange base R plots on a grid
+#'
+#' This is similar to `gridExtra::grid.arrange()`, but it works on base R
+#' plots instead of ggplot objects.
+#'
+#' @param ... (Expressions) Functions that create plots.
+#' @param nrow (Integer) Number of rows to arrange plots into.
+#' @param ncol (Integer) Number of columns to arrange plots into.
+#' @param par_args (List) A `list()` of arguments to pass into `par()`.
+#'
+#' @return Plots arranged in a grid.
+#' @export
+#'
+#' @examples
+#' plot_arrange(plot(Sepal.Length ~ Sepal.Width,  data = iris),
+#'              plot(Petal.Length ~ Petal.Width,  data = iris),
+#'              plot(Petal.Length ~ Sepal.Length, data = iris),
+#'              plot(Petal.Width  ~ Sepal.Width,  data = iris),
+#'              nrow = 2, ncol = 2)
+#'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#' 
+#' @md
+plot_arrange <- function(..., nrow, ncol, par_args = character(0)) {
+    initial_par <- par()
+    shush(do.call(par, args = append(list(mfrow = c(nrow, ncol)), par_args)))
+    sapply(list(...), eval)
+    shush(do.call(par, args = initial_par))
+}
+
+
+
 # Colour palettes -------------------------------------------------------------------
 
 #' Build a palette of colours from a list of hex codes

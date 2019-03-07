@@ -67,6 +67,7 @@ abide by its terms.
 - **Plotting functions**
     - Desi's `ggplot2` minimal base theme (`theme_desi_base()` - [example](#desis-ggplot2-minimal-base-theme))
     - Fit and plot a two-term linear model quickly (`quick_lm()` - [example](#fit-and-plot-a-two-term-linear-model-quickly))
+    - Arrange base R plots on a grid (`plot_arrange()` - [example](#arrange-base-r-plots-on-a-grid))
     - Plot colours as tiles (`show_colours()` - [example](#plot-colours-as-tiles))
     - Convert R's built-in named colours to hex codes (`rcols_as_hex()` - [example](#convert-rs-built-in-named-colours-to-hex-codes))
     - Manipulate a list of hex colours (`build_palette()` - [example](#manipulate-a-list-of-hex-colours))
@@ -690,6 +691,20 @@ quick_lm(Petal.Length ~ Sepal.Length, iris)
 ```
 
 ![](images/quick_lm.png)
+
+### Arrange base R plots on a grid
+
+This is similar to `gridExtra::grid.arrange()`, but it works on base R plots instead of ggplot objects.
+
+``` r
+plot_arrange(plot(Sepal.Length ~ Sepal.Width,  data = iris),
+             plot(Petal.Length ~ Petal.Width,  data = iris),
+             plot(Petal.Length ~ Sepal.Length, data = iris),
+             plot(Petal.Width  ~ Sepal.Width,  data = iris),
+             nrow = 2, ncol = 2)
+```
+
+![](images/plot.arrange.png)
 
 
 ### Plot colours as tiles
