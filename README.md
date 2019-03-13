@@ -90,6 +90,7 @@ abide by its terms.
     - "Unwrap" hard-wrapped strings into a single line (`uw()` - [example](#unwrap-hard-wrapped-strings-into-a-single-line))
     - Return the stem that is common to a set of strings (`common_stem()` [example](#return-the-stem-that-is-common-to-a-set-of-strings))
     - Reverse the elements in a vector (`str_rev()` [example](#reverse-the-elements-in-a-vector))
+    - Get the nth word from a string (`nth_word()` [example](#get-the-nth-word-from-a-string))
     
     
 - **R tools**
@@ -980,7 +981,32 @@ str_rev(vec)
 
 #> [1] "tereB"   "reppilC" "tenroC"  NA
 ```
-    
+
+
+### Get the nth word from a string
+
+```r
+vec <- c("Lorem ipsum dolor",
+         "sit amet, consectetur",
+         "adipiscing elit, sed",
+         "do eiusmod tempor",
+         "incididunt ut labore",
+         "et dolore magna",
+         "aliqua.")
+
+nth_word(vec, n = 1)
+
+#> [1] "Lorem"  "sit"  "adipiscing"  "do"  "incididunt"  "et"  "aliqua"
+
+nth_word(vec, n = -1)
+
+#> [1] "dolor"  "consectetur"  "sed"  "tempor"  "labore"  "magna"  "aliqua" 
+
+nth_word("any_delimited_string_works", n = 2, split = "_")  
+
+#> [1] "delimited"
+```
+
 
 
 ## R tools

@@ -1,6 +1,7 @@
 # desiderata 0.32.0 (2019-03-07)
 
 - ADD - `plot_arrange()` arranges base R plots into a grid. It's like `gridExtra::grid.arrange()`, but for base R plots.
+- ADD - `nth_word()` which grabs the nth part of a string that is delimited by a regular expression.
 
 
 
