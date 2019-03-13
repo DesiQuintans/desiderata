@@ -19,6 +19,7 @@
 #'    - `"mean"`: Return the average of all of the modes (for numeric vectors).
 #'    - `"first"`: Return the first mode found.
 #'    - `"last"`: Return the last mode found.
+#'    - `"NA"`: Return NA. Useful if you only want one clear winner.
 #' @param na.rm (Logical) If `TRUE`, NAs will be silently removed.
 #' @param ties Deprecated (2019-02-26). Use `break_ties` instead.
 #' @param mean Deprecated (2019-02-26). Use `break_ties` instead.
@@ -91,15 +92,17 @@ Mode <- function(x, break_ties = "no", na.rm = FALSE, ties = NULL, mean = NULL) 
         .Deprecated(msg = msg)
     }
     
-    switch(break_ties,
-           first  = return(result[1]),
-           last   = return(result[length(result)]),
-           random = return(sample(result, 1)),
-           mean   = return(mean(result, na.rm = na.rm))
-    )
-    
-    # break_ties == "no" | break_ties == FALSE
-    return(result)
+    if (length(result) > 1) {
+        switch(break_ties,
+               "first"  = return(result[1]),
+               "last"   = return(result[length(result)]),
+               "random" = return(sample(result, 1)),
+               "mean"   = return(mean(result, na.rm = na.rm)),
+               "NA"     = return(as(NA, class(x)))
+        )
+    } else {
+        return(result)
+    }
 }
 
 

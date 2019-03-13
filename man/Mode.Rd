@@ -17,6 +17,7 @@ tie be broken?
 \item \code{"mean"}: Return the average of all of the modes (for numeric vectors).
 \item \code{"first"}: Return the first mode found.
 \item \code{"last"}: Return the last mode found.
+\item \code{"NA"}: Return NA. Useful if you only want one clear winner.
 }}
 
 \item{na.rm}{(Logical) If \code{TRUE}, NAs will be silently removed.}

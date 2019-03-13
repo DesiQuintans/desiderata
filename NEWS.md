@@ -2,6 +2,7 @@
 
 - ADD - `plot_arrange()` arranges base R plots into a grid. It's like `gridExtra::grid.arrange()`, but for base R plots.
 - ADD - `nth_word()` which grabs the nth part of a string that is delimited by a regular expression.
+- MOD - `Mode()` has a new argument value, `break_ties = "NA"`. If more than one mode is found in the input, it will return `NA` instead of having to choose between them.
 
 
 
