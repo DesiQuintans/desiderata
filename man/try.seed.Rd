@@ -4,43 +4,51 @@
 \alias{try.seed}
 \title{Generate random seeds to preview their effects}
 \usage{
-try.seed(expr)
+try.seed(expr, seed = NULL)
 }
 \arguments{
 \item{expr}{(Expression) An expression.}
+
+\item{seed}{(Integer or \code{NULL}) If \code{NULL}, generate and set a new seed. If you provide
+a seed in this argument, that seed will be used and no new seed will be generated.}
 }
 \value{
 The evaluated \code{expr}.
 }
 \description{
-This should not be used in scripts, it is for interactive use only. It will throw an
-error if it is run non-interactively (e.g. if it is found inside an Rmarkdown document
-that is being knitted, or an R script that is being executed from the command line).
-This is because \code{try_seed()} changes the random seed, which could affect the rest
-of your script.
+This function will throw an error if you try to generate a new seed non-interactively
+(e.g. in an Rmarkdown document that is being knitted, or an R script that is being
+executed from the command line). This is because \code{try.seed()} changes the random seed,
+and that could affect the rest of your script in ways that you don't want. It is
+allowed to run non-interactively if you set the \code{seed} argument to a non-\code{NULL} number.
 }
 \details{
 This function picks a random seed, announces what that seed is, and then uses it to
 evaluate an expression. For example, if you are creating a network graph whose layout
-is calculated from randomly-chosen starting positions, \code{try_seed()} lets you run that
+is calculated from randomly-chosen starting positions, \code{try.seed()} lets you run that
 plotting function over and over with a new seed each time, until you find a layout that
-you would like to keep. At that point, you would copy the announced seed from the
-console and manually \code{set.seed()} in your script.
+you would like to keep.
+
+When you find a seed that you want to keep, you should copy it from the console and
+provide it as the \code{seed} argument.
 }
 \section{Authors}{
- - Desi Quintans (\url{http://www.desiquintans.com})
+
+\itemize{
+\item Desi Quintans (\url{http://www.desiquintans.com})
+}
 }
 
 \examples{
 try.seed(runif(5))
 
-#> Seed is: 1915981367
-#> [1] 0.29910233 0.79275922 0.04287227 0.51237626 0.10189918
+#> Seed is: 1605125467
+#> [1] 0.2582169 0.9739978 0.4126912 0.1326866 0.1336819
 #>
 
-set.seed(1915981367)  # The announced seed
-runif(5)
+try.seed(runif(5),
+         seed = 1605125467)  # The announced seed
 
-#> [1] 0.29910233 0.79275922 0.04287227 0.51237626 0.10189918
+#> [1] 0.2582169 0.9739978 0.4126912 0.1326866 0.1336819
 
 }

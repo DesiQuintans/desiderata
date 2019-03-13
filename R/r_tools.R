@@ -333,20 +333,24 @@ if_na <- function(x, yes = TRUE, no = NULL) {
 
 #' Generate random seeds to preview their effects
 #'
-#' This should not be used in scripts, it is for interactive use only. It will throw an
-#' error if it is run non-interactively (e.g. if it is found inside an Rmarkdown document
-#' that is being knitted, or an R script that is being executed from the command line).
-#' This is because `try_seed()` changes the random seed, which could affect the rest
-#' of your script.
+#' This function will throw an error if you try to generate a new seed non-interactively 
+#' (e.g. in an Rmarkdown document that is being knitted, or an R script that is being 
+#' executed from the command line). This is because `try.seed()` changes the random seed, 
+#' and that could affect the rest of your script in ways that you don't want. It is 
+#' allowed to run non-interactively if you set the `seed` argument to a non-`NULL` number.
 #'
 #' This function picks a random seed, announces what that seed is, and then uses it to
 #' evaluate an expression. For example, if you are creating a network graph whose layout
-#' is calculated from randomly-chosen starting positions, `try_seed()` lets you run that
+#' is calculated from randomly-chosen starting positions, `try.seed()` lets you run that
 #' plotting function over and over with a new seed each time, until you find a layout that
-#' you would like to keep. At that point, you would copy the announced seed from the
-#' console and manually `set.seed()` in your script.
+#' you would like to keep. 
+#' 
+#' When you find a seed that you want to keep, you should copy it from the console and 
+#' provide it as the `seed` argument.
 #'
 #' @param expr (Expression) An expression.
+#' @param seed (Integer or `NULL`) If `NULL`, generate and set a new seed. If you provide
+#'    a seed in this argument, that seed will be used and no new seed will be generated.
 #'
 #' @return The evaluated `expr`.
 #' @export
@@ -354,26 +358,30 @@ if_na <- function(x, yes = TRUE, no = NULL) {
 #' @examples
 #' try.seed(runif(5))
 #'
-#' #> Seed is: 1915981367
-#' #> [1] 0.29910233 0.79275922 0.04287227 0.51237626 0.10189918
+#' #> Seed is: 1605125467
+#' #> [1] 0.2582169 0.9739978 0.4126912 0.1326866 0.1336819
 #' #>
+#' 
+#' try.seed(runif(5),
+#'          seed = 1605125467)  # The announced seed
 #'
-#' set.seed(1915981367)  # The announced seed
-#' runif(5)
+#' #> [1] 0.2582169 0.9739978 0.4126912 0.1326866 0.1336819
 #'
-#' #> [1] 0.29910233 0.79275922 0.04287227 0.51237626 0.10189918
-#'
-#' @section Authors: - Desi Quintans (<http://www.desiquintans.com>)
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
 #'
 #' @md
-try.seed <- function(expr) {
-    if (interactive() == FALSE) {
-        stop("try.seed() is not allowed to run in a script. See '?try.seed'.")
+try.seed <- function(expr, seed = NULL) {
+    if (is.null(seed)) {
+        if (interactive() == FALSE) {
+            stop("try.seed() is not allowed to generate new seeds in a script. See '?try.seed'.")
+        }
+        
+        seed <- sample(0:.Machine$integer.max, 1)
+        message("Trying seed: ", seed)
     }
     
-    new_seed <- sample(0:.Machine$integer.max, 1)
-    message("Trying:\nset.seed(", new_seed, ")")
+    set.seed(seed)
     
-    set.seed(new_seed)
     eval(expr)
 }

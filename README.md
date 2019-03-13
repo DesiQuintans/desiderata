@@ -1134,14 +1134,13 @@ This function picks a random seed, announces what that seed is, and then uses it
 ``` r
 try.seed(runif(5))
 
-#> Seed is: 1915981367
-#> [1] 0.29910233 0.79275922 0.04287227 0.51237626 0.10189918
-#>
+#> Seed is: 1605125467
+#> [1] 0.2582169 0.9739978 0.4126912 0.1326866 0.1336819
 
-set.seed(1915981367)  # The announced seed
-runif(5)
-
-#> [1] 0.29910233 0.79275922 0.04287227 0.51237626 0.10189918
+try.seed(runif(5),
+         seed = 1605125467)  # The announced seed
+         
+#> [1] 0.2582169 0.9739978 0.4126912 0.1326866 0.1336819
 ```
 
 
