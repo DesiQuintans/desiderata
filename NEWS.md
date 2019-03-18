@@ -1,3 +1,9 @@
+# desiderata 0.32.1 (2019-03-18)
+
+- FIX - `Mode()` with `break_ties = "no"` explicitly set now returns the correct result.
+
+
+
 # desiderata 0.32.0 (2019-03-07)
 
 - ADD - `plot_arrange()` arranges base R plots into a grid. It's like `gridExtra::grid.arrange()`, but for base R plots.

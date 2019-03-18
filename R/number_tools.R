@@ -98,7 +98,8 @@ Mode <- function(x, break_ties = "no", na.rm = FALSE, ties = NULL, mean = NULL) 
                "last"   = return(result[length(result)]),
                "random" = return(sample(result, 1)),
                "mean"   = return(mean(result, na.rm = na.rm)),
-               "NA"     = return(as(NA, class(x)))
+               "NA"     = return(as(NA, class(x))),
+               "no"     = return(result)
         )
     } else {
         return(result)
