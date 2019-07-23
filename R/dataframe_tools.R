@@ -509,3 +509,94 @@ top_tail <- function(df, top = 3, tail = 3) {
     
     df[unique(c(top_range, tail_range)), ]
 }
+
+
+
+#' Add a 'group size' column to a dataframe
+#'
+#' @param df (Dataframe) The dataframe.
+#' @param ... (Names) Bare names of the columns of `df` that will for the groups for
+#'   `dplyr::group_by()`.
+#' @param .id (Character) The name of the new column. If `NA` (default), the name
+#'   will be generated from the columns in `...`.
+#' @param na.rm (Logical or Character) If `TRUE`, runs `tidyr::drop_na(df)` before
+#'   grouping. If a `Character` vector that has column names, runs
+#'   `tidyr::drop_na(df, ...)` where `...` is the column names that will be
+#'   considered for dropping.
+#'
+#' @return An ungrouped dataframe `df` with a new column containing the group size,
+#'   duplicated at each row. By default, the new column's name is generated from the
+#'   groups in `...` (see examples).
+#' @export
+#'
+#' @examples
+#' sw_subset <- dplyr::select(dplyr::starwars, -(films:starships))
+#' 
+#' test <- add_group_size(sw_subset, species, homeworld, 
+#'                        .id = "my_colname", na.rm = FALSE)
+#' dplyr::glimpse(test)
+#'
+#' #> Observations: 87
+#' #> Variables: 11
+#' #> $ name       <chr> "Luke Skywalker", "C-3PO", "R2-D2", "Darth Vader", "Le...
+#' #> $ height     <int> 172, 167, 96, 202, 150, 178, 165, 97, 183, 182, 188, 1...
+#' #> $ mass       <dbl> 77.0, 75.0, 32.0, 136.0, 49.0, 120.0, 75.0, 32.0, 84.0...
+#' #> $ hair_color <chr> "blond", NA, NA, "none", "brown", "brown, grey", "brow...
+#' #> $ skin_color <chr> "fair", "gold", "white, blue", "white", "light", "ligh...
+#' #> $ eye_color  <chr> "blue", "yellow", "red", "yellow", "brown", "blue", "b...
+#' #> $ birth_year <dbl> 19.0, 112.0, 33.0, 41.9, 19.0, 52.0, 47.0, NA, 24.0, 5...
+#' #> $ gender     <chr> "male", NA, NA, "male", "female", "male", "female", NA...
+#' #> $ homeworld  <chr> "Tatooine", "Tatooine", "Naboo", "Tatooine", "Alderaan...
+#' #> $ species    <chr> "Human", "Droid", "Droid", "Human", "Human", "Human", ...
+#' #> $ my_colname <int> 8, 2, 1, 8, 3, 8, 8, 2, 8, 1, 8, 1, 2, 2, 1, 1, 2, 1, ...
+#'
+#' test2 <- add_group_size(sw_subset, eye_color, homeworld, 
+#'                         na.rm = c("hair_color", "gender"))
+#'
+#' # Note the automatic column names and the dropped NA rows.
+#' dplyr::glimpse(test2)
+#'
+#' #> Observations: 82
+#' #> Variables: 11
+#' #> $ name                        <chr> "Luke Skywalker", "Darth Vader", "Lei...
+#' #> $ height                      <int> 172, 202, 150, 178, 165, 183, 182, 18...
+#' #> $ mass                        <dbl> 77.0, 136.0, 49.0, 120.0, 75.0, 84.0,...
+#' #> $ hair_color                  <chr> "blond", "none", "brown", "brown, gre...
+#' #> $ skin_color                  <chr> "fair", "white", "light", "light", "l...
+#' #> $ eye_color                   <chr> "blue", "yellow", "brown", "blue", "b...
+#' #> $ birth_year                  <dbl> 19.0, 41.9, 19.0, 52.0, 47.0, 24.0, 5...
+#' #> $ gender                      <chr> "male", "male", "female", "male", "fe...
+#' #> $ homeworld                   <chr> "Tatooine", "Tatooine", "Alderaan", "...
+#' #> $ species                     <chr> "Human", "Human", "Human", "Human", "...
+#' #> $ grpsize_eye_color_homeworld <int> 5, 1, 3, 5, 5, 2, 1, 5, 1, 2, 1, 1, 1...
+#'
+#'
+#' @section Authors: - Desi Quintans (<http://www.desiquintans.com>)
+#'
+#' @importFrom rlang :=
+#' @md
+add_group_size <- function(df, ..., .id = NA, na.rm = FALSE) {
+    
+    if (is.na(.id)) {
+        colname <- paste0("grpsize_", dots_char(..., collapse = "_"))
+    } else {
+        colname <- as.character(.id)
+    }
+    
+    if (typeof(na.rm) == "character") {
+        if (length(na.rm) == 0) {
+            stop("Argument 'na.rm' must be TRUE, FALSE, or a character vector of 
+                 column names.")
+        }
+        
+        df <- do.call(tidyr::drop_na, list(data = df, ... = na.rm))
+    } else if (na.rm == TRUE) {
+        df <- tidyr::drop_na(df)
+    }
+    
+    res <- dplyr::group_by(df, ...)
+    res <- dplyr::mutate(res, !!colname := dplyr::n())
+    res <- dplyr::ungroup(res)
+    
+    return(res)
+}

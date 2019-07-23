@@ -331,3 +331,41 @@ nth_word <- function(vec, n = 1, split = "(\\.|!|\\?){0,}( |$)") {
     
     unlist(lapply(strsplit(vec, split), get_word, n))
 }
+
+
+
+#' Reverse the order of words in a string
+#'
+#' @param vec (Character) The vector to reverse.
+#' @param split (Character) A regular expression that determines where `vec` will be 
+#'    split into separate words. By default, splits at spaces and underscores.
+#' @param join (Character) A string that will be inserted between the words.
+#'
+#' @return A character vector that is the same length as `vec`.
+#' @export
+#'
+#' @examples
+#' vec <- c("Lorem ipsum dolor",
+#'          "sit amet, consectetur",
+#'          "adipiscing elit, sed",
+#'          "do eiusmod tempor",
+#'          "incididunt ut labore",
+#'          "et dolore magna",
+#'          "aliqua.")
+#' 
+#' rev_sentence(vec)
+#' 
+#' ## [1] "dolor ipsum Lorem"  "consectetur amet, sit"  "sed elit, adipiscing"  
+#' ## [4] "tempor eiusmod do"  "labore ut incididunt"  "magna dolore et"  "aliqua."   
+#' 
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#' 
+#' @md
+rev_sentence <- function(vec, split = " |_", join = " ") {
+    res <- strsplit(vec, split)
+    res <- sapply(res, rev)
+    res <- sapply(res, paste, collapse = join)
+    
+    return(res)
+}

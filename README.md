@@ -39,6 +39,7 @@ abide by its terms.
     - Sort columns of a dataframe by name (`sort_cols()` - [example](#sort-columns-of-a-dataframe-by-name))
     - Drop invariant columns from a dataframe (`drop_invar_cols()` - [example](#drop-invariant-columns-from-a-dataframe))
     - First and last rows of a dataframe (`top_tail()` - [example](#first-and-last-rows-of-a-dataframe))
+    - Add group size as a column (`add_group_size()` - [example](#add-group-size-as-a-column))
     
     
 - **File system functions**
@@ -91,6 +92,7 @@ abide by its terms.
     - Return the stem that is common to a set of strings (`common_stem()` [example](#return-the-stem-that-is-common-to-a-set-of-strings))
     - Reverse the elements in a vector (`str_rev()` [example](#reverse-the-elements-in-a-vector))
     - Get the nth word from a string (`nth_word()` [example](#get-the-nth-word-from-a-string))
+    - Reverse the order of words in a string (`rev_sentence()` [example](#reverse-the-order-of-words-in-a-string))
     
     
 - **R tools**
@@ -101,6 +103,9 @@ abide by its terms.
     - Copy a dataframe, vector, or the result of an expression to the clipboard (`clippy()` - [example](#copy-a-dataframe-vector-or-the-result-of-an-expression-to-the-clipboard))
     - Randomly return `TRUE` or `FALSE` (`coinflip()` - [example](#randomly-return-true-or-false))
     - Generate random seeds to preview their effects (`try.seed()` - [example](#generate-random-seeds-to-preview-their-effects))
+    - Convert dots to a character vector or a string (`dots_char()` - [example](#convert-dots-to-a-character-vector-or-string))
+    - Remove NAs from vectors, lists, matrices, and dataframes (`na_rm()` - [example](#remove-nas-from-vectors-lists-matrices-and-dataframes))
+
 
 ## Data included
 
@@ -376,6 +381,51 @@ top_tail(iris, top = 3, tail = 3)
 #> 148          6.5         3.0          5.2         2.0 virginica
 #> 149          6.2         3.4          5.4         2.3 virginica
 #> 150          5.9         3.0          5.1         1.8 virginica
+```
+
+
+### Add group size as a column
+
+``` r
+sw_subset <- dplyr::select(dplyr::starwars, -(films:starships))
+
+test <- add_group_size(sw_subset, species, homeworld, 
+                       .id = "my_colname", na.rm = FALSE)
+dplyr::glimpse(test)
+
+#> Observations: 87
+#> Variables: 11
+#> $ name       <chr> "Luke Skywalker", "C-3PO", "R2-D2", "Darth Vader", "Le...
+#> $ height     <int> 172, 167, 96, 202, 150, 178, 165, 97, 183, 182, 188, 1...
+#> $ mass       <dbl> 77.0, 75.0, 32.0, 136.0, 49.0, 120.0, 75.0, 32.0, 84.0...
+#> $ hair_color <chr> "blond", NA, NA, "none", "brown", "brown, grey", "brow...
+#> $ skin_color <chr> "fair", "gold", "white, blue", "white", "light", "ligh...
+#> $ eye_color  <chr> "blue", "yellow", "red", "yellow", "brown", "blue", "b...
+#> $ birth_year <dbl> 19.0, 112.0, 33.0, 41.9, 19.0, 52.0, 47.0, NA, 24.0, 5...
+#> $ gender     <chr> "male", NA, NA, "male", "female", "male", "female", NA...
+#> $ homeworld  <chr> "Tatooine", "Tatooine", "Naboo", "Tatooine", "Alderaan...
+#> $ species    <chr> "Human", "Droid", "Droid", "Human", "Human", "Human", ...
+#> $ my_colname <int> 8, 2, 1, 8, 3, 8, 8, 2, 8, 1, 8, 1, 2, 2, 1, 1, 2, 1, ...
+
+test2 <- add_group_size(sw_subset, eye_color, homeworld, 
+                        na.rm = c("hair_color", "gender"))
+
+# Note the automatic column names and the dropped NA rows.
+dplyr::glimpse(test2)
+
+#> Observations: 82
+#> Variables: 11
+#> $ name                        <chr> "Luke Skywalker", "Darth Vader", "Lei...
+#> $ height                      <int> 172, 202, 150, 178, 165, 183, 182, 18...
+#> $ mass                        <dbl> 77.0, 136.0, 49.0, 120.0, 75.0, 84.0,...
+#> $ hair_color                  <chr> "blond", "none", "brown", "brown, gre...
+#> $ skin_color                  <chr> "fair", "white", "light", "light", "l...
+#> $ eye_color                   <chr> "blue", "yellow", "brown", "blue", "b...
+#> $ birth_year                  <dbl> 19.0, 41.9, 19.0, 52.0, 47.0, 24.0, 5...
+#> $ gender                      <chr> "male", "male", "female", "male", "fe...
+#> $ homeworld                   <chr> "Tatooine", "Tatooine", "Alderaan", "...
+#> $ species                     <chr> "Human", "Human", "Human", "Human", "...
+#> $ grpsize_eye_color_homeworld <int> 5, 1, 3, 5, 5, 2, 1, 5, 1, 2, 1, 1, 1...
 ```
 
 
@@ -1008,6 +1058,24 @@ nth_word("any_delimited_string_works", n = 2, split = "_")
 ```
 
 
+### Reverse the order of words in a string
+
+```r
+vec <- c("Lorem ipsum dolor",
+         "sit amet, consectetur",
+         "adipiscing elit, sed",
+         "do eiusmod tempor",
+         "incididunt ut labore",
+         "et dolore magna",
+         "aliqua.")
+
+rev_sentence(vec)
+
+#> [1] "dolor ipsum Lorem"  "consectetur amet, sit"  "sed elit, adipiscing"  
+#> [4] "tempor eiusmod do"  "labore ut incididunt"  "magna dolore et"  "aliqua."   
+```
+
+
 
 ## R tools
 
@@ -1141,6 +1209,36 @@ try.seed(runif(5),
          seed = 1605125467)  # The announced seed
          
 #> [1] 0.2582169 0.9739978 0.4126912 0.1326866 0.1336819
+```
+
+
+### Convert dots to a character vector or a string
+
+``` r
+dots_char(return, this, as, a, vector)
+
+#> [1] "return" "this" "as" "a" "vector" 
+
+dots_char(return, this, as, a, single, string, collapse = "_")
+
+#> [1] "return_this_as_a_single_string"
+```
+
+
+### Remove NAs from vectors, lists, matrices, and dataframes
+
+``` r
+na_rm(c("a", NA, "b", NA, "c", "d"))
+
+#> [1] "a" "b" "c" "d"
+
+
+na_rm(data.frame(col1 = 1:5, col2 = c("a", NA, "c", "d", NA)))
+
+#>   col1 col2
+#> 1    1    a
+#> 3    3    c
+#> 4    4    d
 ```
 
 

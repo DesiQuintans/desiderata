@@ -40,14 +40,18 @@ provide it as the \code{seed} argument.
 }
 
 \examples{
+\dontrun{
 try.seed(runif(5))
+}
 
 #> Seed is: 1605125467
 #> [1] 0.2582169 0.9739978 0.4126912 0.1326866 0.1336819
 #>
 
+\dontrun{
 try.seed(runif(5),
          seed = 1605125467)  # The announced seed
+}
 
 #> [1] 0.2582169 0.9739978 0.4126912 0.1326866 0.1336819
 

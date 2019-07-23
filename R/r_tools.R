@@ -356,14 +356,18 @@ if_na <- function(x, yes = TRUE, no = NULL) {
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' try.seed(runif(5))
+#' }
 #'
 #' #> Seed is: 1605125467
 #' #> [1] 0.2582169 0.9739978 0.4126912 0.1326866 0.1336819
 #' #>
 #' 
+#' \dontrun{
 #' try.seed(runif(5),
 #'          seed = 1605125467)  # The announced seed
+#' }
 #'
 #' #> [1] 0.2582169 0.9739978 0.4126912 0.1326866 0.1336819
 #'
@@ -384,4 +388,82 @@ try.seed <- function(expr, seed = NULL) {
     set.seed(seed)
     
     eval(expr)
+}
+
+
+
+#' Convert dots (...) to a character vector or a string
+#'
+#' @param ... (Dots) Elements in dots.
+#' @param collapse (Character or `NULL`) The elements of `...` will be `paste`d
+#'   together with this string between them.
+#'
+#' @return A character vector. If `collapse = NULL`, returns each separate item in
+#'   `...` as a separate element of a character vector. If `collapse = "-"`, for
+#'   example, returns a single string where all items in `...` are joined together
+#'   with `-`.
+#' @export
+#'
+#' @examples
+#' dots_char(return, this, as, a, vector)
+#' 
+#' #> [1] "return" "this" "as" "a" "vector" 
+#' 
+#' dots_char(return, this, as, a, single, string, collapse = "_")
+#' 
+#' #> [1] "return_this_as_a_single_string"
+#'
+#' @md
+dots_char <- function(..., collapse = NULL) {
+    paste(as.character(eval(substitute(alist(...)))), 
+          collapse = collapse)
+}
+
+
+
+#' Remove NAs from vectors, lists, matrices, and dataframes
+#'
+#' This is a wrapper around `stats::na_omit()` which hides its annoying printing 
+#' behaviour when applied to a vector.
+#'
+#' @param obj (Vector/List/Matrix/Dataframe) The thing to remove `NA`s from.
+#'
+#' @return A copy of `obj` without NAs.
+#' @export
+#'
+#' @examples
+#' na_rm(c("a", NA, "b", NA, "c", "d"))
+#' 
+#' #> [1] "a" "b" "c" "d"
+#' 
+#' 
+#' na_rm(data.frame(col1 = 1:5, col2 = c("a", NA, "c", "d", NA)))
+#' 
+#' #>   col1 col2
+#' #> 1    1    a
+#' #> 3    3    c
+#' #> 4    4    d
+#'
+#' @md
+na_rm <- function(obj) {
+    na_removed <- stats::na.omit(obj)
+    
+    if (is.vector(obj)) {
+        # The na.omit() method for a vector prints a lot of guff:
+        #
+        #     # > y <- na.omit(c("a", NA, "b", NA, NA, "c"))
+        #     # > y
+        #     # [1] "a" "b" "c"
+        #     # attr(,"na.action")
+        #     # [1] 2 4 5
+        #     # attr(,"class")
+        #     # [1] "omit"
+        #
+        # By setting the resulting object's attributes to NULL, it converts the
+        # output into a regular ol' vector. This does not affect the output for a 
+        # list that is run through this function.
+        attributes(na_removed) <- NULL  
+    }
+    
+    return(na_removed)
 }

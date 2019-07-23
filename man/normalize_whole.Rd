@@ -2,12 +2,12 @@
 % Please edit documentation in R/number_tools.R
 \name{normalize_whole}
 \alias{normalize_whole}
-\title{Normalise a whole matrix between 0 and 1}
+\title{Normalise a whole matrix or vector between 0 and 1}
 \usage{
 normalize_whole(mat, from_zero = FALSE)
 }
 \arguments{
-\item{mat}{(Numeric) A matrix.}
+\item{mat}{(Numeric) A matrix or a vector.}
 
 \item{from_zero}{(Logical, default \code{FALSE}) If \code{FALSE}, the smallest value in the
 matrix will be set to 0. If \code{TRUE}, the smallest value in the matrix will be
@@ -17,7 +17,7 @@ somewhere between 0 and 1.}
 A matrix.
 }
 \description{
-Normalise a whole matrix between 0 and 1
+Normalise a whole matrix or vector between 0 and 1
 }
 \section{Authors}{
 

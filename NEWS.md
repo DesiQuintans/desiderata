@@ -1,3 +1,14 @@
+# desiderata 0.33.0 (2019-07-15)
+
+- ADD - `na_rm()` which wraps `stats::na.omit()` and hides its annoying printing side-effects when applied to a vector.
+- ADD - `add_group_size()` adds the size of a grouped dataframe's groups (i.e. `dplyr::n()` under `dplyr::group_by()`) to the dataframe as a new column. Useful for complicated filtering operations such as "Only keep a genus if it has at least 3 species, and each species occurs in at least 4 sites within each region."
+- ADD - `dots_char()` takes `...` and returns its elements as a character vector (or a string).
+- ADD - `rev_sentence()` reverses the order of whole words in a string.
+- REM - `howmany_df()` fully removed.
+- REM - `round_to_places()` fully removed.
+
+
+
 # desiderata 0.32.1 (2019-03-18)
 
 - FIX - `Mode()` with `break_ties = "no"` explicitly set now returns the correct result.

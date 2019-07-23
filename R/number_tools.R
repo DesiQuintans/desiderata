@@ -98,7 +98,7 @@ Mode <- function(x, break_ties = "no", na.rm = FALSE, ties = NULL, mean = NULL) 
                "last"   = return(result[length(result)]),
                "random" = return(sample(result, 1)),
                "mean"   = return(mean(result, na.rm = na.rm)),
-               "NA"     = return(as(NA, class(x))),
+               "NA"     = return(methods::as(NA, class(x))),
                "no"     = return(result)
         )
     } else {
@@ -326,9 +326,9 @@ normalize_colwise <- function(mat) {
 }
 
 
-#' Normalise a whole matrix between 0 and 1
+#' Normalise a whole matrix or vector between 0 and 1
 #'
-#' @param mat (Numeric) A matrix.
+#' @param mat (Numeric) A matrix or a vector.
 #' @param from_zero (Logical, default `FALSE`) If `FALSE`, the smallest value in the
 #'    matrix will be set to 0. If `TRUE`, the smallest value in the matrix will be
 #'    somewhere between 0 and 1.

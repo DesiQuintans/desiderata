@@ -272,10 +272,10 @@ quick_lm <- function(formula, data, ...) {
 #' 
 #' @md
 plot_arrange <- function(..., nrow, ncol, par_args = character(0)) {
-    initial_par <- par()
-    shush(do.call(par, args = append(list(mfrow = c(nrow, ncol)), par_args)))
+    initial_par <- graphics::par()
+    shush(do.call(graphics::par, args = append(list(mfrow = c(nrow, ncol)), par_args)))
     sapply(list(...), eval)
-    shush(do.call(par, args = initial_par))
+    shush(do.call(graphics::par, args = initial_par))
 }
 
 
