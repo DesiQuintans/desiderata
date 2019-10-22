@@ -134,6 +134,8 @@ col2hsv <- function(hexcol, which = "hsv") {
 
 #' Preview a list of colours as a grid
 #'
+#' @aliases show_colors
+#' 
 #' @param col_list (Character) A vector of colours in RGB Hex or RGBA Hex format.
 #' @param pad (Character) If there are too few colours to fill all of the spaces in
 #'    the grid, what colour should be used to pad it out? `pad = "last"` repeats the
@@ -151,7 +153,7 @@ col2hsv <- function(hexcol, which = "hsv") {
 #' show_colours(colours(distinct = TRUE))
 #'
 #' @md
-show_colours <- show_colors <- function(col_list, pad = "#FFFFFF", asp = NA, main = NULL) {
+show_colours <- function(col_list, pad = "#FFFFFF", asp = NA, main = NULL) {
     list_name   <- deparse(substitute(col_list))
     
     # image() must a rectangular matrix, so the colour list needs to be padded
@@ -194,6 +196,10 @@ show_colours <- show_colors <- function(col_list, pad = "#FFFFFF", asp = NA, mai
                     main = plot_title
     )
 }
+
+#' @rdname show_colours
+#' @export
+show_colors <- show_colours
 
 
 
