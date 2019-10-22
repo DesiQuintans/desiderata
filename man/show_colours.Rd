@@ -2,9 +2,12 @@
 % Please edit documentation in R/plot_tools.R
 \name{show_colours}
 \alias{show_colours}
+\alias{show_colors}
 \title{Preview a list of colours as a grid}
 \usage{
 show_colours(col_list, pad = "#FFFFFF", asp = NA, main = NULL)
+
+show_colors(col_list, pad = "#FFFFFF", asp = NA, main = NULL)
 }
 \arguments{
 \item{col_list}{(Character) A vector of colours in RGB Hex or RGBA Hex format.}
