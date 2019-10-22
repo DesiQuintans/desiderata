@@ -17,6 +17,8 @@ tie be broken?
 \item \code{"mean"}: Return the average of all of the modes (for numeric vectors).
 \item \code{"first"}: Return the first mode found.
 \item \code{"last"}: Return the last mode found.
+\item \code{"median"}: Return the median value of all of the modes.
+\item \code{"median l"} or \code{"median r"}: Return the mode to the left or right of the median.
 \item \code{"NA"}: Return NA. Useful if you only want one clear winner.
 }}
 
@@ -57,10 +59,10 @@ choose to break the tie.
 \examples{
 vec <- c(1, 2, 3, 4, 4, 4, 3, 3, NA, NA, NA)
 
-Mode(vec)
+Mode(vec, break_ties = "no")
 #> [1]  3  4 NA
 
-Mode(vec, na.rm = TRUE)
+Mode(vec, break_ties = "no", na.rm = TRUE)
 #> [1] 3 4
 
 Mode(vec, break_ties = "mean", na.rm = FALSE)
@@ -69,10 +71,19 @@ Mode(vec, break_ties = "mean", na.rm = FALSE)
 Mode(vec, break_ties = "mean", na.rm = TRUE)
 #> [1] 3.5
 
-Mode(1:4)
-#> [1] 1 2 3 4
-
-Mode(1:4, break_ties = "random")
+Mode(vec, break_ties = "median", na.rm = TRUE)
 #> [1] 3
+
+Mode(letters[1:4], break_ties = "no")
+#> [1] "a" "b" "c" "d"
+
+Mode(letters[1:4], break_ties = "median l")
+#> "b"
+
+Mode(letters[1:4], break_ties = "median r")
+#> "c"
+
+Mode(letters[1:4], break_ties = "random")
+#> [1] "a"
 
 }

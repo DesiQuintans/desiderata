@@ -19,6 +19,8 @@
 #'    - `"mean"`: Return the average of all of the modes (for numeric vectors).
 #'    - `"first"`: Return the first mode found.
 #'    - `"last"`: Return the last mode found.
+#'    - `"median"`: Return the median value of all of the modes.
+#'    - `"median l"` or `"median r"`: Return the mode to the left or right of the median.
 #'    - `"NA"`: Return NA. Useful if you only want one clear winner.
 #' @param na.rm (Logical) If `TRUE`, NAs will be silently removed.
 #' @param ties Deprecated (2019-02-26). Use `break_ties` instead.
@@ -30,10 +32,10 @@
 #' @examples
 #' vec <- c(1, 2, 3, 4, 4, 4, 3, 3, NA, NA, NA)
 #'
-#' Mode(vec)
+#' Mode(vec, break_ties = "no")
 #' #> [1]  3  4 NA
 #'
-#' Mode(vec, na.rm = TRUE)
+#' Mode(vec, break_ties = "no", na.rm = TRUE)
 #' #> [1] 3 4
 #'
 #' Mode(vec, break_ties = "mean", na.rm = FALSE)
@@ -42,11 +44,20 @@
 #' Mode(vec, break_ties = "mean", na.rm = TRUE)
 #' #> [1] 3.5
 #'
-#' Mode(1:4)
-#' #> [1] 1 2 3 4
-#'
-#' Mode(1:4, break_ties = "random")
+#' Mode(vec, break_ties = "median", na.rm = TRUE)
 #' #> [1] 3
+#'
+#' Mode(letters[1:4], break_ties = "no")
+#' #> [1] "a" "b" "c" "d"
+#' 
+#' Mode(letters[1:4], break_ties = "median l")
+#' #> "b"
+#' 
+#' Mode(letters[1:4], break_ties = "median r")
+#' #> "c"
+#' 
+#' Mode(letters[1:4], break_ties = "random")
+#' #> [1] "a"
 #'
 #' @section Authors:
 #' - Ken Williams (<https://stackoverflow.com/users/169947/ken-williams>)
@@ -94,12 +105,15 @@ Mode <- function(x, break_ties = "no", na.rm = FALSE, ties = NULL, mean = NULL) 
     
     if (length(result) > 1) {
         switch(break_ties,
-               "first"  = return(result[1]),
-               "last"   = return(result[length(result)]),
-               "random" = return(sample(result, 1)),
-               "mean"   = return(mean(result, na.rm = na.rm)),
-               "NA"     = return(methods::as(NA, class(x))),
-               "no"     = return(result)
+               "first"    = return(result[1]),
+               "last"     = return(result[length(result)]),
+               "random"   = return(sample(result, 1)),
+               "mean"     = return(mean(result, na.rm = na.rm)),
+               "NA"       = return(methods::as(NA, class(x))),
+               "median"   = return(result[        median(seq_along(result))]),
+               "median l" = return(result[floor(  median(seq_along(result)))]),
+               "median r" = return(result[ceiling(median(seq_along(result)))]),
+               "no"       = return(result)
         )
     } else {
         return(result)
