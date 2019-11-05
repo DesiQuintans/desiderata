@@ -1,3 +1,8 @@
+# desiderata 0.34.1 (2019-11-05)
+
+- MOD - `percentile()` argument `cuts` has two new default levels (0.025 and 0.9975) for easy observation of possible 95 % CI cut-offs.
+
+
 # desiderata 0.34.0 (2019-10-22)
 
 - ADD - `Mode()` has new accepted values for the `break_ties` argument: `median`, `median l`, and `median r`. These return the median of all of the modes, or in the case of an even number of modes (e.g. `c(1, 2, 3, 4)`), the mode to the left or right of the median (e.g. `2` or `3`).
