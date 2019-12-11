@@ -369,3 +369,33 @@ rev_sentence <- function(vec, split = " |_", join = " ") {
     
     return(res)
 }
+
+
+
+#' Interleave one string with another
+#' 
+#' Interleave a string with another string. By default, interleaves newlines (`\\n`) 
+#' between each letter to help format a compact letter display.
+#'
+#' @param str (Character) The string to be split into sections.
+#' @param split (Character) Regular expression to split `str` by. If its length is
+#'     zero (the default), it will split at every character.
+#' @param insert (Character) The string to be inserted between sections.
+#'
+#' @return A Character vector.
+#' @export
+#'
+#' @examples
+#' interleave(c("hello", "hey"), "-")
+#' 
+#' ## [1] "h-e-l-l-o" "h-e-y" 
+#' 
+#' interleave(c(1234, 9876), "-")
+#' 
+#' ## [1] "1-2-3-4" "9-8-7-6"
+#' 
+#' @md
+interleave <- function(str, insert = "\n", split = character(0)) {
+    sapply(strsplit(as.character(str), as.character(split)), 
+           paste, collapse = as.character(insert))
+}

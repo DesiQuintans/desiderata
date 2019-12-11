@@ -1,125 +1,4 @@
-# Extra functions that do more maths and number-related things.
-
-
-#' Mode of a vector (numeric/character/factor)
-#'
-#' There is no built-in function to find the mode of something. This function
-#' can find the mode of a numeric, character, or factor vector. By default it
-#' will return multiple values in a multi-modal dataset, but there are several
-#' methods of tie-breaking included.
-#'
-#' If all values are unique, it will return **all** of the values unless you
-#' choose to break the tie.
-#'
-#' @param x (Char/Numeric/Factor) A vector.
-#' @param break_ties (Character) If more than one mode is found, how should the
-#'    tie be broken?
-#'    - `"no"` or `FALSE`: Return a vector of all of the modes that were found.
-#'    - `"random"`: Randomly choose one of the modes to return.
-#'    - `"mean"`: Return the average of all of the modes (for numeric vectors).
-#'    - `"first"`: Return the first mode found.
-#'    - `"last"`: Return the last mode found.
-#'    - `"median"`: Return the median value of all of the modes.
-#'    - `"median l"` or `"median r"`: Return the mode to the left or right of the median.
-#'    - `"NA"`: Return NA. Useful if you only want one clear winner.
-#' @param na.rm (Logical) If `TRUE`, NAs will be silently removed.
-#' @param ties Deprecated (2019-02-26). Use `break_ties` instead.
-#' @param mean Deprecated (2019-02-26). Use `break_ties` instead.
-#'
-#' @return A vector of the mode value(s).
-#' @export
-#'
-#' @examples
-#' vec <- c(1, 2, 3, 4, 4, 4, 3, 3, NA, NA, NA)
-#'
-#' Mode(vec, break_ties = "no")
-#' #> [1]  3  4 NA
-#'
-#' Mode(vec, break_ties = "no", na.rm = TRUE)
-#' #> [1] 3 4
-#'
-#' Mode(vec, break_ties = "mean", na.rm = FALSE)
-#' #> [1] NA
-#'
-#' Mode(vec, break_ties = "mean", na.rm = TRUE)
-#' #> [1] 3.5
-#'
-#' Mode(vec, break_ties = "median", na.rm = TRUE)
-#' #> [1] 3
-#'
-#' Mode(letters[1:4], break_ties = "no")
-#' #> [1] "a" "b" "c" "d"
-#' 
-#' Mode(letters[1:4], break_ties = "median l")
-#' #> "b"
-#' 
-#' Mode(letters[1:4], break_ties = "median r")
-#' #> "c"
-#' 
-#' Mode(letters[1:4], break_ties = "random")
-#' #> [1] "a"
-#'
-#' @section Authors:
-#' - Ken Williams (<https://stackoverflow.com/users/169947/ken-williams>)
-#' - jprockbelly (<https://stackoverflow.com/users/1502898/jprockbelly>)
-#' - digEmAll (<https://stackoverflow.com/users/316644/digemall>)
-#' - Desi Quintans (<http://www.desiquintans.com>)
-#'
-#' @section Source:
-#' <https://stackoverflow.com/a/8189441/5578429>
-#'
-#' @md
-Mode <- function(x, break_ties = "no", na.rm = FALSE, ties = NULL, mean = NULL) {
-    if (na.rm) {
-        x = x[!is.na(x)]
-    }
-
-    ux <- unique(x)
-    tab <- tabulate(match(x, ux))
-    result <- ux[tab == max(tab)]
-
-    if (is.null(mean) == FALSE) {
-        # Deprecation began on 2019-02-26.
-        .Deprecated(msg = "The 'mean' argument in Mode() is deprecated. Use 'break_ties' instead.")
-    }
-    
-    if (is.null(ties) == FALSE) {
-        if (mean == TRUE) {
-            break_ties <- "mean"
-        } else {
-            if (ties == TRUE) {
-                break_ties <- "first"
-            } else {
-                break_ties <- "no"
-            }
-        }
-        
-        msg <- uw("The 'ties' argument in Mode() is deprecated. Use 'break_ties' instead.\n
-                  Based on your arguments, Mode() will default to break_ties = '", 
-                  break_ties, "'.",
-                  collapse = "", join = "")
-                 
-        # Deprecation began on 2019-02-26.
-        .Deprecated(msg = msg)
-    }
-    
-    if (length(result) > 1) {
-        switch(break_ties,
-               "first"    = return(result[1]),
-               "last"     = return(result[length(result)]),
-               "random"   = return(sample(result, 1)),
-               "mean"     = return(mean(result, na.rm = na.rm)),
-               "NA"       = return(methods::as(NA, class(x))),
-               "median"   = return(result[        median(seq_along(result))]),
-               "median l" = return(result[floor(  median(seq_along(result)))]),
-               "median r" = return(result[ceiling(median(seq_along(result)))]),
-               "no"       = return(result)
-        )
-    } else {
-        return(result)
-    }
-}
-
+# Functions that work on numeric vectors only.
 
 
 #' Geometric mean of a vector
@@ -156,6 +35,35 @@ Mode <- function(x, break_ties = "no", na.rm = FALSE, ties = NULL, mean = NULL) 
 #' @md
 geomean <- function(x, na.rm = TRUE) {
     exp(sum(log(x[x > 0]), na.rm = na.rm) / length(x))
+}
+
+
+
+#' Standard error of the mean
+#'
+#' The standard error of the mean is how the estimated mean changes with multiple
+#' measurements (i.e. how far away the mean of each sampling event or observation is from
+#' the true population mean). SE drops as sample size grows because as you take more
+#' mreasurements, the sampling means cluster more closely to the true mean.
+#'
+#' @param vec (Numeric) A vector.
+#' @param na.rm (Logical) If `TRUE`, remove `NA`s from `vec`.
+#'
+#' @return The standard error of the mean of `vec`.
+#' @export
+#'
+#' @examples
+#' se_mean(c(1, 2, 3, 4, NA_integer_))
+#' #> NA
+#'
+#' se_mean(c(1, 2, 3, 4, NA_integer_), na.rm = TRUE)
+#' #> [1] 0.6454972
+se_mean <- function(vec, na.rm = FALSE) {
+    if (na.rm == TRUE) {
+        vec <- vec[!is.na(vec)]
+    }
+    
+    return(stats::sd(vec) / sqrt(length(vec)))
 }
 
 
@@ -200,49 +108,11 @@ round_to_nearest <- function(num, to, dir = NULL) {
 
 
 
-
-#' Seed the random number generator with a character string (or any object)
-#'
-#' Set the random number generator's seed using a string if you want to be extra cute and
-#' use your cats' names like I do. This function can actually generate a seed from any R
-#' object, so you could even feed it a whole dataframe if you felt like it. (Requires the
-#' ['digest'](https://cran.r-project.org/web/packages/digest/index.html) package.)
-#'
-#' @param seed (Any) Any object.
-#'
-#' @return `NULL`.
-#' @export
-#'
-#' @examples
-#' # set_seed_any("Snake... Do you think love can bloom, even on a battlefield?")
-#'
-#' # set_seed_any(iris)
-#'
-#' @section Authors:
-#' - Ben Bolker (<https://stackoverflow.com/users/190277/ben-bolker>)
-#'
-#' @section Source:
-#' <https://stackoverflow.com/a/10913336/5578429>
-#'
-#' @md
-set_seed_any <- function(seed) {
-    digest_installed <- "digest" %in% rownames(utils::installed.packages())
-    if (digest_installed == FALSE) {
-        stop("The 'digest' package needs to be installed.")
-    }
-
-    hexval <- paste0("0x", digest::digest(seed, "crc32"))
-    intval <- utils::type.convert(hexval) %% .Machine$integer.max
-    set.seed(intval)
-}
-
-
-
 #' Calculate degree-days
 #'
-#' > "In a nutshell: heating degree days are a measure of how much (in degrees), and for
-#' how long (in days), the air temperature was below a certain level."
-#' > --- Martin Bromley, <http://www.degreedays.net/introduction>
+#' "In a nutshell: heating degree days are a measure of how much (in degrees), and for
+#' how long (in days), the air temperature was below a certain level." --- Martin 
+#' Bromley, <http://www.degreedays.net/introduction>
 #'
 #' This function exposes two calculation methods that were taken from
 #'
@@ -252,20 +122,18 @@ set_seed_any <- function(seed) {
 #'
 #' **Average method (`avg`)**
 #'
-#' > "If the maximum temperature for the day never rises above the base temperature, then
+#' "If the maximum temperature for the day never rises above the base temperature, then
 #' no development occurs, and zero degree-days accumulate (we don't calculate negative
 #' degree-day values since the development of organisms does not reverse when it is
-#' cold)."
-#' > --- Daniel A. Herms
+#' cold)." --- Daniel A. Herms
 #'
 #' **Modified Average (`modavg`)**
 #'
-#' > "When the daily temperature fluctuates above and below the base temperature (as it
+#' "When the daily temperature fluctuates above and below the base temperature (as it
 #' does frequently in the spring), the Average Method can underestimate the number of
 #' degree-days actually experienced by a plant or insect. In this situation, the Modified
 #' Average Method will calculate a higher number of degree-days, and thus can be more
-#' accurate for predicting pest activity than the Average Method."
-#' >  --- Daniel A. Herms
+#' accurate for predicting pest activity than the Average Method." --- Daniel A. Herms
 #'
 #' @param min (Numeric) The lowest temperature in the day.
 #' @param max (Numeric) The highest temperature in the day.
@@ -310,6 +178,7 @@ degreedays <- function(min, max, base, method = "modavg") {
 }
 
 
+
 #' Normalise a matrix column-wise between 0 and 1
 #'
 #' @param mat (Numeric) A numeric matrix.
@@ -338,6 +207,7 @@ normalize_colwise <- function(mat) {
     x <- sweep(mat, 2, apply(mat, 2, min))
     sweep(mat, 2, apply(mat, 2, max), "/")
 }
+
 
 
 #' Normalise a whole matrix or vector between 0 and 1
@@ -461,6 +331,7 @@ concat_nums <- function(...) {
 }
 
 
+
 #' Quick percentile overview
 #'
 #' Break down a vector into useful percentiles. If the 25th percentile is 10.5, for
@@ -527,73 +398,6 @@ percentile <- function(num, cuts = c(0, 0.025, 0.10, 0.20, 0.25, 0.33, 0.50, 0.6
 
 
 
-#' Standard error of the mean
-#'
-#' The standard error of the mean is how the estimated mean changes with multiple
-#' measurements (i.e. how far away the mean of each sampling event or observation is from
-#' the true population mean). SE drops as sample size grows because as you take more
-#' mreasurements, the sampling means cluster more closely to the true mean.
-#'
-#' @param vec (Numeric) A vector.
-#' @param na.rm (Logical) If `TRUE`, remove `NA`s from `vec`.
-#'
-#' @return The standard error of the mean of `vec`.
-#' @export
-#'
-#' @examples
-#' se_mean(c(1, 2, 3, 4, NA_integer_))
-#' #> NA
-#'
-#' se_mean(c(1, 2, 3, 4, NA_integer_), na.rm = TRUE)
-#' #> [1] 0.6454972
-se_mean <- function(vec, na.rm = FALSE) {
-    if (na.rm == TRUE) {
-        vec <- vec[!is.na(vec)]
-    }
-
-    return(stats::sd(vec) / sqrt(length(vec)))
-}
-
-
-
-#' Count how many times each unique element in a vector is repeated
-#'
-#' @param ... (Vectors) Vectors that will be concatenated together.
-#' @param sort (Logical) If `TRUE`, the results will be sorted by decreasing count.
-#' @param useNA (Character) Include NAs in the result? Set to `no`, `ifany`, or
-#'    `always`.
-#'
-#' @return A dataframe with two columns: `unique` which lists the unique value, and
-#'    `count` which shows how many times that unique value appeared in `...`.
-#' @export
-#'
-#' @examples
-#' count_unique(sample(letters, size = 10, replace = TRUE))
-#'
-#' #>    unique  count
-#' #> 1       e      1
-#' #> 2       g      1
-#' #> 3       i      2
-#' #> 4       m      1
-#' #> 5       n      1
-#' #> 6       o      1
-#' #> 7       p      2
-#' #> 8       y      1
-#'
-#' @md
-count_unique <- function(..., sort = FALSE, useNA = "ifany") {
-    vec <- c(...)
-    counts <- table(vec, useNA = useNA)
-    if (sort == TRUE) counts <- sort(counts, decreasing = TRUE)
-
-    df <- as.data.frame(counts, stringsAsFactors = FALSE)
-    names(df) <- c("unique", "count")
-
-    return(df)
-}
-
-
-
 #' Check if an integer is a prime number
 #'
 #' @param num (Numeric) An integer.
@@ -635,43 +439,165 @@ is.prime <- function(num) {
 
 
 
-#' Split a vector into n groups
+#' Cumulative percentage
 #'
-#' @param vec (Numeric or Character) A vector. It will be sorted with `sort()` for grouping,
-#'    but returned in the original order.
-#' @param g (Integer) The maximum number of groups to split `vec` into (for some group
-#'    sizes, the maximum will not be used).
-#' @param balance (Logical) If `TRUE`, try to have equal numbers of observations per group.
+#' @param nums (Numeric) A vector of numbers that will be used in the order they 
+#'    are provided.
 #'
-#' @return A vector of integers.
+#' @return A Numeric vector.
 #' @export
 #'
 #' @examples
-#' testvec <- c(0.7685, 0.4116, 0.1416, 0.8450, 0.9021, 0.4965, 0.8341, 0.0438)
+#' cumpct(rep(1, 10))
+#' 
+#' ## [1] 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0
+#' 
+#' @md
+cumpct <- function(nums) {
+    cumsum(nums) / sum(nums)
+}
+
+
+
+# Mark outliers in a vector according to the percentile method
+# https://stackoverflow.com/a/49090426/5578429
+#' Mark outliers using the 1.5 * IQR method
 #'
-#' order(testvec)
-#' #> [1] 8 3 2 6 1 7 4 5
+#' @param x (Numeric) Vector to analyse.
+#' @param multi (Numeric) Multiplication factor for the IQR. `1.5` by default.
 #'
-#' split_n(testvec, 4)
-#' #> [1] 4 2 1 3 1 4 2 3
+#' @return A Numeric vector that contains elements of `x` that are outliers.
+#' @export
 #'
-#' split_n(testvec, 7, balance = TRUE)  # The range of groups is limited
-#' #> [1] 4 2 1 3 1 4 2 3
+#' @examples
+#' IQR_outliers(c(-3000, 1:100, 1000))
+#' 
+#' ## [1] -3000  1000
 #'
-#' split_n(testvec, 7, balance = FALSE)  # Try to use the whole range
-#' #> [1] 7 2 1 5 1 6 3 4
+#' @section Authors:
+#' - 42- (https://stackoverflow.com/users/1855677/42)
 #'
-#' split_n(testvec, 3)  # Sometimes unbalanced groups are inevitable
-#' #> [1] 3 1 1 2 1 3 2 2
+#' @section Source:
+#' <https://stackoverflow.com/a/49090426/5578429>
+#' 
+#' @md
+IQR_outliers <- function(x, multi = 1.5) {
+    if(any(is.na(x)))
+        stop("x is missing values")
+    
+    if(!is.numeric(x))
+        stop("x is not numeric")
+    
+    Q3 <- stats::quantile(x, 0.75)
+    Q1 <- stats::quantile(x, 0.25)
+    IQR   <- (Q3 - Q1)
+    left  <- (Q1 - (multi * IQR))
+    right <- (Q3 + (multi * IQR))
+    
+    c(x[x < left], x[x > right])
+}
+
+
+
+#' Replace p-values with significance codes
+#'
+#' @param p (Numeric) A vector of p-values.
+#' @param codes (Character) A vector of 6 codes to use if `p <= threshold`. The 
+#'    thresholds (in order) are: 0.0001, 0.001, 0.01, 0.05, 0.10, and 1.
+#'
+#' @return A Character vector.
+#' @export
+#'
+#' @examples
+#' encode_signif(c(0, 0.001, 0.01, 0.05, 0.10))
+#' 
+#' ## [1] "****" "***"  "**"   "*"    ""
+#' 
+#' @md
+encode_signif <- function(p, codes = c("****", "***", "**", "*", "^", "")) {
+    dplyr::case_when(p <= 0.0001 ~ codes[1],
+                     p <= 0.001  ~ codes[2],
+                     p <= 0.01   ~ codes[3],
+                     p <= 0.05   ~ codes[4],
+                     p <  0.10   ~ codes[5], 
+                          TRUE   ~ codes[6])
+}
+
+
+
+#' Find and mark the longest run of TRUEs in a boolean vector
+#'
+#' @param vec (Logical) A vector.
+#'
+#' @return A new logical vector of the same length as `vec`, where the longest run of
+#'   TRUEs is marked with TRUE and all other values are marked FALSE. If there are two
+#'   runs of TRUE with equal length in `vec`, both will be reported in the results.
+#'
+#' @export
+#'
+#' @examples
+#' input <- c(TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE)
+#' mark_longest_run(input)
+#'
+#' #> [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE
+#'
+#' @section Authors:
+#' - docendo discimus (<https://stackoverflow.com/users/3521006>)
+#'
+#' @section Source:
+#' <https://stackoverflow.com/a/37447844>
 #'
 #' @md
-split_n <- function(vec, g, balance = TRUE) {
-    n <- length(vec)
+mark_longest_run <- function(vec) {
+    return(with(rle(vec), rep(lengths == max(lengths[values]) & values, lengths)))
+}
 
-    num_repeats <- ifelse(balance == TRUE, ceiling(n/g), round(n/g))
 
-    splits <- rep(1:g, each = num_repeats, length.out = n)
 
-    # https://stackoverflow.com/a/1569203/5578429
-    return(sort(splits)[order(vec)])
+#' Mark the location of the last maximum value in a vector
+#'
+#' @param vec (Numeric) A vector.
+#' @param threshold (Numeric or NULL) The smallest acceptable peak value. NULL means no
+#'    threshold.
+#'
+#' @return A bool vector of the same length as `vec`, with the last maximum marked with
+#'    a TRUE.
+#' @export
+#'
+#' @examples
+#' input <- c(1, 2, 3, 3, 1)
+#' mark_last_peak(input, threshold = NULL)
+#'
+#' #> [1] FALSE FALSE FALSE  TRUE FALSE
+#'
+#' mark_last_peak(input, threshold = 4)
+#'
+#' #> [1] FALSE FALSE FALSE FALSE FALSE
+#'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#'
+#' @md
+mark_last_peak <- function(vec, threshold = NULL) {
+    maxVal <- max(vec)  # Find highest value in the vector.
+    
+    boolVec <- vec == maxVal  # Get the position of this value in the original vector.
+    
+    if (!is.null(threshold)) {
+        # If the maximum number in the vector is not >= the threshold value, return a
+        # vector of FALSEs.
+        if (maxVal < threshold) {
+            boolVec[] <- FALSE
+            return(boolVec)
+        }
+    }
+    
+    # If the highest value occurs many times, only return the last one.
+    lastPeak <- max(which(boolVec == TRUE))
+    boolVec[] <- FALSE
+    boolVec[lastPeak] <- TRUE  # Set every entry to FALSE except the last peak.
+    
+    # boolVec
+    
+    return(boolVec)
 }

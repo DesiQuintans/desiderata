@@ -3,7 +3,6 @@
 \docType{package}
 \name{desiderata}
 \alias{desiderata}
-\alias{desiderata-package}
 \title{desiderata - A pack of personal functions}
 \description{
 desiderata - A pack of personal functions

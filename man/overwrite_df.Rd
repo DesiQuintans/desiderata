@@ -4,8 +4,12 @@
 \alias{overwrite_df}
 \title{Replace all matching values in a dataframe with something else}
 \usage{
-overwrite_df(df, find = "^(NA||\\\\s+|0|-+|_+)$", replace = "",
-  replace_na = TRUE)
+overwrite_df(
+  df,
+  find = "^(NA||\\\\s+|0|-+|_+)$",
+  replace = "",
+  replace_na = TRUE
+)
 }
 \arguments{
 \item{df}{(Dataframe) A dataframe.}

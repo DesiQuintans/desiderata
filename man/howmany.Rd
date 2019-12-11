@@ -18,11 +18,7 @@ howmany(x, ...)
 \arguments{
 \item{x}{(Object) The object to count.}
 
-\item{...}{\code{default:} Additional vectors that will be combined with \code{x} using \code{c()}.}
-
-\item{...}{\code{data.frame:} Column names or positions that are passed to \code{dplyr::select()}.}
-
-\item{...}{\code{table:} Column names or positions that are passed to \code{dplyr::select()}.}
+\item{...}{\verb{table:} Column names or positions that are passed to \code{dplyr::select()}.}
 }
 \description{
 Count the number of unique values

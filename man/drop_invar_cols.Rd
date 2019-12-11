@@ -4,15 +4,21 @@
 \alias{drop_invar_cols}
 \title{Drop invariant columns from a dataframe}
 \usage{
-drop_invar_cols(df, from = 1, to = NULL, cols = NULL,
-  nearest = NULL, dir = NULL)
+drop_invar_cols(
+  df,
+  from = 1,
+  to = NULL,
+  cols = NULL,
+  nearest = NULL,
+  dir = NULL
+)
 }
 \arguments{
 \item{df}{(Dataframe) A dataframe.}
 
 \item{from, to}{(Numeric or \code{NULL}) The start and end of a continuous range of columns
 that will be used. If \code{to} is \code{NULL}, it defaults to the last column in \code{df} so
-that \code{from = 2, to = NULL} is the same as \code{2:length(df)}.}
+that \verb{from = 2, to = NULL} is the same as \code{2:length(df)}.}
 
 \item{cols}{(Numeric or \code{NULL}) A numeric vector of the columns to consider. This
 allows you to select non-contiguous columns. If the \code{cols} argument is being used

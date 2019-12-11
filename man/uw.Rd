@@ -31,8 +31,8 @@ from the final output.
 \details{
 \code{uw()} will take any linebreak that is followed by any number of spaces
 and replace it with a single space (or whatever string you specify in the \code{join}
-argument). This means that \strong{if you want to insert a linebreak \code{\\n} manually,
-then it should not have any spaces after it}. A \code{\\n} that is at the very end
+argument). This means that \strong{if you want to insert a linebreak \verb{\\\\n} manually,
+then it should not have any spaces after it}. A \verb{\\\\n} that is at the very end
 of a line will be kept.
 
 Also note that since \code{uw()} uses the presence of indenting spaces to decide
@@ -53,12 +53,12 @@ be unwrapped by uw()."
 
 \examples{
 text <- "Here's some
-         multi-line text.\\n
+         multi-line text.\n
          This is on a new line."
 
 print(text)
 
-#> [1] "Here's some\\n         multi-line text.\\n\\n         This is on a new line."
+#> [1] "Here's some\n         multi-line text.\n\n         This is on a new line."
 
 cat(text)
 
@@ -69,7 +69,7 @@ cat(text)
 
 uw(text)
 
-#> [1] "Here's some multi-line text.\\nThis is on a new line."
+#> [1] "Here's some multi-line text.\nThis is on a new line."
 
 cat(.Last.value)
 
@@ -77,7 +77,7 @@ cat(.Last.value)
 #> This is on a new line.
 
 uw(text, join = "##")
-#> [1] "Here's some##multi-line text.\\n##This is on a new line."
+#> [1] "Here's some##multi-line text.\n##This is on a new line."
 
 cat(.Last.value)
 #> Here's some##multi-line text.

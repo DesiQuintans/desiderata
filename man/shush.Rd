@@ -33,7 +33,7 @@ like they're supposed to. This function suppresses them to remove that clutter.
 \examples{
 loud_mean <- function(x) {
     print("This is from print().")
-    cat("This is from cat().\\n")
+    cat("This is from cat().\n")
     message("This is from message().")
     warning("This is from warning().")
     mean(x)

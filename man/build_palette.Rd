@@ -9,23 +9,17 @@
 \alias{palette_distant}
 \title{Build a palette of colours from a list of hex codes}
 \usage{
-build_palette(col_list, n = NULL, random = FALSE, spaced = FALSE,
-  alpha = NULL)
+build_palette(col_list, n = NULL, random = FALSE, spaced = FALSE, alpha = NULL)
 
-palette_builtin(n = NULL, random = FALSE, spaced = FALSE,
-  alpha = NULL)
+palette_builtin(n = NULL, random = FALSE, spaced = FALSE, alpha = NULL)
 
-palette_distinct(n = NULL, random = FALSE, spaced = FALSE,
-  alpha = NULL)
+palette_distinct(n = NULL, random = FALSE, spaced = FALSE, alpha = NULL)
 
-palette_mrmrs(n = NULL, random = FALSE, spaced = FALSE,
-  alpha = NULL)
+palette_mrmrs(n = NULL, random = FALSE, spaced = FALSE, alpha = NULL)
 
-palette_picked(n = NULL, random = FALSE, spaced = FALSE,
-  alpha = NULL)
+palette_picked(n = NULL, random = FALSE, spaced = FALSE, alpha = NULL)
 
-palette_distant(n = NULL, random = FALSE, spaced = FALSE,
-  alpha = NULL)
+palette_distant(n = NULL, random = FALSE, spaced = FALSE, alpha = NULL)
 }
 \arguments{
 \item{col_list}{(Character) A vector of colours in RGB Hex format without transparency.}

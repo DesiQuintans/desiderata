@@ -91,7 +91,7 @@ make_basic_color_names_list <- function() {
 
     basic_colour_names <- basic_color_names
 
-    devtools::use_data(basic_color_names, basic_colour_names, overwrite = TRUE)
+    usethis::use_data(basic_color_names, basic_colour_names, overwrite = TRUE)
 }
 
 
@@ -539,5 +539,5 @@ random_integer_list <- function() {
     
     random_integers <- as.integer(random_integers)
     
-    devtools::use_data(random_integers, overwrite = TRUE)
+    usethis::use_data(random_integers, overwrite = TRUE)
 }

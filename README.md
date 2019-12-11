@@ -26,99 +26,153 @@ abide by its terms.
 
 ## Functions included
 
-- **Generic functions**
-    - Count the number of unique values (dataframe, table, vector) (`howmany()` - [example](#count-the-number-of-unique-values))
+- **Functions that work on many types of data**
+    - `Mode()`         --- Find the mode(s) of a numeric/character/factor vector.                   [example](#find-the-modes-of-a-numericcharacterfactor-vector)
+    - `na_rm()`        --- Remove NAs from vectors, lists, matrices, and dataframes.                [example](#remove-nas-from-vectors-lists-matrices-and-dataframes)
+    - `howmany()`      --- Count the number of unique elements (dataframe, table, vector).          [example](#count-the-number-of-unique-elements)
+    - `count_unique()` --- Count how many times each unique element in a vector is repeated.        [example](#count-how-many-times-each-unique-element-in-a-vector-is-repeated)
+    - `unique_n()`     --- Keep the first `n` unique elements in a vector.                          [example](#keep-the-first-n-unique-elements-in-a-vector)
+    - `split_n`        --- Divide a vector into groups.                                             [example](#divide-a-vector-into-groups)
+    - `%notin%`        --- Flag vector elements that are not in another vector (inverse of `%in%`). [example](#flag-vector-elements-that-are-not-in-another-vector-inverse-of-in)
+    - `%pctin%`        --- Percentage of matching elements between two vectors.                     [example](#percentage-of-matching-elements-between-two-vectors)
 
 - **Dataframe functions**
-    - Find and mark the longest run of TRUEs in a boolean vector (`mark_longest_run()` - [example](#find-and-mark-the-longest-run-of-trues-in-a-boolean-vector))
-    - Mark the location of the last maximum value (peak) in a vector (`mark_last_peak()` - [example](#mark-the-location-of-the-last-maximum-value-peak-in-a-vector))
-    - Replace all matching values in a dataframe with something else (`overwrite_df()` - [example](#replace-all-matching-values-in-a-dataframe-with-something-else))
-    - Drop 'empty' columns in a dataframe (`drop_empty_cols()` - [example](#drop-empty-columns-in-a-dataframe))
-    - Drop 'empty' rows in a dataframe (`drop_empty_rows()` - [example](#drop-empty-rows-in-a-dataframe))
-    - Collapse a dataframe into a vector (`collapse_df()` - [example](#collapse-a-dataframe-into-a-vector))
-    - Sort columns of a dataframe by name (`sort_cols()` - [example](#sort-columns-of-a-dataframe-by-name))
-    - Drop invariant columns from a dataframe (`drop_invar_cols()` - [example](#drop-invariant-columns-from-a-dataframe))
-    - First and last rows of a dataframe (`top_tail()` - [example](#first-and-last-rows-of-a-dataframe))
-    - Add group size as a column (`add_group_size()` - [example](#add-group-size-as-a-column))
-    
-    
-- **File system functions**
-    - Load an RDS file and announce when it was created (`loadRDS()` - [example](#load-an-rds-file-and-announce-when-it-was-created))
-    - Build a path, creating subfolders if needed (`make_path()` - [example](#build-a-path-creating-subfolders-if-needed))
-    - Apply a function to every file in a folder that matches a regex pattern (`apply_to_files()` - [example](#apply-a-function-to-every-file-in-a-folder-that-matches-a-regex-pattern))
+    - `overwrite_df()`    --- Replace all matching values in a dataframe with something else. [example](#replace-all-matching-values-in-a-dataframe-with-something-else)
+    - `drop_empty_cols()` --- Drop 'empty' columns in a dataframe.                            [example](#drop-empty-columns-in-a-dataframe)
+    - `drop_empty_rows()` --- Drop 'empty' rows in a dataframe.                               [example](#drop-empty-rows-in-a-dataframe)
+    - `collapse_df()`     --- Collapse a dataframe into a vector.                             [example](#collapse-a-dataframe-into-a-vector)
+    - `sort_cols()`       --- Sort columns of a dataframe by name.                            [example](#sort-columns-of-a-dataframe-by-name)
+    - `drop_invar_cols()` --- Drop invariant columns from a dataframe.                        [example](#drop-invariant-columns-from-a-dataframe)
+    - `top_tail()`        --- First and last rows of a dataframe.                             [example](#first-and-last-rows-of-a-dataframe)
+    - `add_group_size()`  --- Add group size as a column.                                     [example](#add-group-size-as-a-column)
     
     
 - **Number functions**
-    - Find the mode(s) of a numeric/character/factor vector (`Mode()` - [example](#find-the-modes-of-a-numericcharacterfactor-vector))
-    - Geometric mean of a vector (`geomean()` - [example](#geometric-mean-of-a-vector))
-    - Standard error of the mean (`se_mean()` - [example](#standard-error-of-the-mean))
-    - Round numbers to the nearest "pretty" value (`round_to_nearest()` - [example](#round-numbers-to-the-nearest-pretty-value))
-    - Seed the random number generator with a character string (or any object) (`set_seed_any()` - [example](#seed-the-random-number-generator-with-a-character-string-or-any-object))
-    - Calculate degree-days (`degreedays()` - [example](#calculate-degree-days))
-    - Normalise a matrix column-wise between 0 and 1 (`normalize_colwise()` - [example](#normalise-a-matrix-column-wise-between-0-and-1))
-    - Normalise a whole matrix between 0 and 1 (`normalize_whole()` - [example](#normalise-a-whole-matrix-between-0-and-1))
-    - Concatenate numbers together (`concat_nums()` - [example](#concatenate-numbers-together))
-    - Quick percentile overview (`percentile()` - [example](#quick-percentile-overview))
-    - Mirror a matrix horizontally (`mirror_matrix()` - [example](#mirror-a-matrix-horizontally))
-    - Count how many times each unique element in a vector is repeated (`count_unique()` - [example](#count-how-many-times-each-unique-element-in-a-vector-is-repeated))
-    - Is a number prime? (`is.prime()` - [example](#is-a-number-prime))
-    - Divide a vector into groups (`split_n` - [example](#divide-a-vector-into-groups))
+    - `geomean()`           --- Geometric mean of a vector.                                     [example](#geometric-mean-of-a-vector)
+    - `se_mean()`           --- Standard error of the mean.                                     [example](#standard-error-of-the-mean)
+    - `round_to_nearest()`  --- Round numbers to the nearest "pretty" value.                    [example](#round-numbers-to-the-nearest-pretty-value)
+    - `degreedays()`        --- Calculate degree-days.                                          [example](#calculate-degree-days)
+    - `normalize_colwise()` --- Normalise a matrix column-wise between 0 and 1.                 [example](#normalise-a-matrix-column-wise-between-0-and-1)
+    - `normalize_whole()`   --- Normalise a whole matrix between 0 and 1.                       [example](#normalise-a-whole-matrix-between-0-and-1)
+    - `concat_nums()`       --- Concatenate numbers together.                                   [example](#concatenate-numbers-together)
+    - `percentile()`        --- Quick percentile overview.                                      [example](#quick-percentile-overview)
+    - `mirror_matrix()`     --- Mirror a matrix horizontally.                                   [example](#mirror-a-matrix-horizontally)
+    - `is.prime()`          --- Is a number prime?.                                             [example](#is-a-number-prime)
+    - `cumpct()`            --- Cumulative percentage.                                          [example](#cumulative-percentage)
+    - `IQR_outliers()`      --- Mark outliers in a vector according to the percentile method.   [example](#mark-outliers-in-a-vector-according-to-the-percentile-method)
+    - `encode_signif()`     --- Replace p-values with significance codes.                       [example](#replace-p-values-with-significance-codes)
+    - `mark_longest_run()`  --- Find and mark the longest run of `TRUE`s in a boolean vector.   [example](#find-and-mark-the-longest-run-of-trues-in-a-boolean-vector)
+    - `mark_last_peak()`    --- Mark the location of the last maximum value (peak) in a vector. [example](#mark-the-location-of-the-last-maximum-value-peak-in-a-vector)
+    
+    
+- **String functions**
+    - `vec_to_regex()` --- Collapse vectors into a regex pattern.              [example](#collapse-vectors-into-a-regex-pattern)
+    - `collapse_vec()` --- Collapse a vector into a string.                    [example](#collapse-a-vector-into-a-string)
+    - `uw()`           --- "Unwrap" hard-wrapped strings into a single line.   [example](#unwrap-hard-wrapped-strings-into-a-single-line)
+    - `common_stem()`  --- Return the stem that is common to a set of strings. [example](#return-the-stem-that-is-common-to-a-set-of-strings)
+    - `str_rev()`      --- Reverse the elements in a vector.                   [example](#reverse-the-elements-in-a-vector)
+    - `nth_word()`     --- Get the nth word from a string.                     [example](#get-the-nth-word-from-a-string)
+    - `rev_sentence()` --- Reverse the order of words in a string.             [example](#reverse-the-order-of-words-in-a-string)
+    
+    
+- **Datetime functions**
+    - `consecutive_month()` --- Find the current month number relative to a starting date. [example](#find-the-current-month-number-relative-to-a-starting-date)
     
     
 - **Plotting functions**
-    - Desi's `ggplot2` minimal base theme (`theme_desi_base()` - [example](#desis-ggplot2-minimal-base-theme))
-    - Fit and plot a two-term linear model quickly (`quick_lm()` - [example](#fit-and-plot-a-two-term-linear-model-quickly))
-    - Arrange base R plots on a grid (`plot_arrange()` - [example](#arrange-base-r-plots-on-a-grid))
-    - Plot colours as tiles (`show_colours()` - [example](#plot-colours-as-tiles))
-    - Convert R's built-in named colours to hex codes (`rcols_as_hex()` - [example](#convert-rs-built-in-named-colours-to-hex-codes))
-    - Manipulate a list of hex colours (`build_palette()` - [example](#manipulate-a-list-of-hex-colours))
-    - A palette of R's 502 distinct built-in colours (`palette_builtin()` - [example](#a-palette-of-rs-502-distinct-built-in-colours))
-    - A palette of 1,022 visually-distinct colours (`palette_distinct()` - [example](#a-palette-of-1022-visually-distinct-colours))
-    - A palette of Adam Morse's 16 web-safe colours (`palette_mrmrs()` - [example](#a-palette-of-adam-morses-16-web-safe-colours))
-    - A palette of 14 hand-picked distinct colours (`palette_picked()` - [example](#a-palette-of-14-hand-picked-distinct-colours))
-    - Rotate and align ggplot2 axis tick labels (`rotate_x_text()` and `rotate_y_text()` - [example](#rotate-and-align-ggplot2-axis-tick-labels))
-    - Horizontally align ggplot2 title and subtitle (`align_titles()` - [example](#horizontally-align-ggplot2-title-and-subtitle))
-    - Rotate and align ggplot2 facet labels (`rotate_x_facet_text()` and `rotate_y_facet_text()` - [example](#rotate-and-align-ggplot2-facet-labels))
+    - `show_colours()`          --- Plot colours as tiles.                           [example](#plot-colours-as-tiles)
+    - `build_palette()`         --- Manipulate a list of hex colours.                [example](#manipulate-a-list-of-hex-colours)
+        - `palette_builtin()`       --- A palette of R's 502 distinct built-in colours.  [example](#a-palette-of-rs-502-distinct-built-in-colours)
+        - `palette_distinct()`      --- A palette of 1,022 visually-distinct colours.    [example](#a-palette-of-1022-visually-distinct-colours)
+        - `palette_mrmrs()`         --- A palette of Adam Morse's 16 web-safe colours.   [example](#a-palette-of-adam-morses-16-web-safe-colours)
+        - `palette_picked()`        --- A palette of 14 hand-picked distinct colours.    [example](#a-palette-of-14-hand-picked-distinct-colours)
+    - `plot_arrange()`          --- Arrange base R plots on a grid.                  [example](#arrange-base-r-plots-on-a-grid)
+    - `rcols_as_hex()`          --- Convert R's built-in named colours to hex codes. [example](#convert-rs-built-in-named-colours-to-hex-codes)
+    - `quick_lm()`              --- Fit and plot a two-term linear model quickly.    [example](#fit-and-plot-a-two-term-linear-model-quickly)
+    - `theme_desi_base()`       --- Desi's `ggplot2` minimal base theme.             [example](#desis-ggplot2-minimal-base-theme)
+    - `align_titles()`          --- Horizontally align ggplot2 title and subtitle.   [example](#horizontally-align-ggplot2-title-and-subtitle)
+    - `rotate_x/y_text()`       --- Rotate and align ggplot2 axis tick labels.       [example](#rotate-and-align-ggplot2-axis-tick-labels)
+    - `rotate_x/y_facet_text()` --- and align ggplot2 facet labels.                  [example](#rotate-and-align-ggplot2-facet-labels)
     
     
-- **Datetime tools**
-    - Find the current month number relative to a starting date (`consecutive_month()` - [example](#find-the-current-month-number-relative-to-a-starting-date))
+- **File system functions**
+    - `loadRDS()`        --- Load an RDS file and announce when it was created.                       [example](#load-an-rds-file-and-announce-when-it-was-created)
+    - `make_path()`      --- Build a path, creating subfolders if needed.                             [example](#build-a-path-creating-subfolders-if-needed)
+    - `apply_to_files()` --- Apply a function to every file in a folder that matches a regex pattern. [example](#apply-a-function-to-every-file-in-a-folder-that-matches-a-regex-pattern)
     
     
-- **String tools**
-    - Collapse vectors into a regex pattern (`vec_to_regex()` - [example](#collapse-vectors-into-a-regex-pattern))
-    - Collapse a vector into a string (`collapse_vec()` - [example](#collapse-a-vector-into-a-string))
-    - "Unwrap" hard-wrapped strings into a single line (`uw()` - [example](#unwrap-hard-wrapped-strings-into-a-single-line))
-    - Return the stem that is common to a set of strings (`common_stem()` [example](#return-the-stem-that-is-common-to-a-set-of-strings))
-    - Reverse the elements in a vector (`str_rev()` [example](#reverse-the-elements-in-a-vector))
-    - Get the nth word from a string (`nth_word()` [example](#get-the-nth-word-from-a-string))
-    - Reverse the order of words in a string (`rev_sentence()` [example](#reverse-the-order-of-words-in-a-string))
-    
-    
-- **R tools**
-    - Suppress all console printing (`cat`, `print`, `warning`, `message`) (`shush()` - [example](#suppress-all-console-printing-cat-print-warning-message))
-    - Flag vector elements that are not in another vector (inverse of `%in%`) (`%notin%` - [example](#flag-vector-elements-that-are-not-in-another-vector-inverse-of-in))
-    - Percentage of matching elements between two vectors (`%pctin%` - [example](#percentage-of-matching-elements-between-two-vectors))
-    - Print to console, wrapping the text to a specific line width (`cat_wrap()` - [example](#print-to-console-wrapping-the-text-to-a-specific-line-width))
-    - Copy a dataframe, vector, or the result of an expression to the clipboard (`clippy()` - [example](#copy-a-dataframe-vector-or-the-result-of-an-expression-to-the-clipboard))
-    - Randomly return `TRUE` or `FALSE` (`coinflip()` - [example](#randomly-return-true-or-false))
-    - Generate random seeds to preview their effects (`try.seed()` - [example](#generate-random-seeds-to-preview-their-effects))
-    - Convert dots to a character vector or a string (`dots_char()` - [example](#convert-dots-to-a-character-vector-or-string))
-    - Remove NAs from vectors, lists, matrices, and dataframes (`na_rm()` - [example](#remove-nas-from-vectors-lists-matrices-and-dataframes))
+- **R functions**
+    - `shush()`        --- Suppress all console printing (`cat`, `print`, `warning`, `message`).      [example](#suppress-all-console-printing-cat-print-warning-message)
+    - `cat_wrap()`     --- Print to console, wrapping the text to a specific line width.              [example](#print-to-console-wrapping-the-text-to-a-specific-line-width)
+    - `clippy()`       --- Copy a dataframe, vector, or the result of an expression to the clipboard. [example](#copy-a-dataframe-vector-or-the-result-of-an-expression-to-the-clipboard)
+    - `coinflip()`     --- Randomly return `TRUE` or `FALSE`.                                         [example](#randomly-return-true-or-false)
+    - `dots_char()`    --- Convert dots to a character vector or a string.                            [example](#convert-dots-to-a-character-vector-or-string)
+    - `try.seed()`     --- Generate random seeds to preview their effects.                            [example](#generate-random-seeds-to-preview-their-effects)
+    - `set_seed_any()` --- Seed the random number generator with a character string (or any object).  [example](#seed-the-random-number-generator-with-a-character-string-or-any-object)
 
 
 ## Data included
 
-- The names of 197 common colours: red, green, cyan, etc. (`data(basic_color_names)` - [example](#the-names-of-197-common-colours-red-green-cyan-etc))
+- `data(basic_color_names)` --- The names of 197 common colours: red, green, cyan, etc. [example](#the-names-of-197-common-colours-red-green-cyan-etc)
+- `data(random_integers)`   --- 10,000 random integers between 0 and 100.               [example](#10000-random-integers-between-0-and-100)
 
 
 
 ------------------------------------------------------------------------------------------
 
 
-## Generic functions
+## Functions that work on many types of data
 
-### Count the number of unique values
+### Find the mode(s) of a numeric/character/factor vector
+
+``` r
+vec <- c(1, 2, 3, 4, 4, 4, 3, 3, NA, NA, NA)
+
+Mode(vec, break_ties = "no")
+#> [1]  3  4 NA
+
+Mode(vec, break_ties = "no", na.rm = TRUE)
+#> [1] 3 4
+
+Mode(vec, break_ties = "mean", na.rm = FALSE)
+#> [1] NA
+
+Mode(vec, break_ties = "mean", na.rm = TRUE)
+#> [1] 3.5
+
+Mode(vec, break_ties = "median", na.rm = TRUE)
+#> [1] 3
+
+Mode(letters[1:4], break_ties = "no")
+#> [1] "a" "b" "c" "d"
+
+Mode(letters[1:4], break_ties = "median l")
+#> "b"
+
+Mode(letters[1:4], break_ties = "median r")
+#> "c"
+
+Mode(letters[1:4], break_ties = "random")
+#> [1] "a"
+```
+
+### Remove NAs from vectors, lists, matrices, and dataframes
+
+``` r
+na_rm(c("a", NA, "b", NA, "c", "d"))
+
+#> [1] "a" "b" "c" "d"
+
+
+na_rm(data.frame(col1 = 1:5, col2 = c("a", NA, "c", "d", NA)))
+
+#>   col1 col2
+#> 1    1    a
+#> 3    3    c
+#> 4    4    d
+```
+
+### Count the number of unique elements
 
 ``` r
 ## --- Default method ---
@@ -161,30 +215,90 @@ howmany(Titanic)
 #>     4   2   2        2   22
 ```
 
+### Count how many times each unique element in a vector is repeated
+
+``` r
+count_unique(sample(letters, size = 10, replace = TRUE))
+
+#>    unique  count
+#> 1       e      1
+#> 2       g      1
+#> 3       i      2
+#> 4       m      1
+#> 5       n      1
+#> 6       o      1
+#> 7       p      2
+#> 8       y      1
+```
+
+### Keep the first `n` unique elements in a vector
+
+``` r
+set.seed(12345)
+lets <- sample(letters[1:10], 50, replace = TRUE)
+
+unique_n(lets, 10, sort = "no")
+
+## [1] "c" "j" "h" "b" "f" "g" "a" "d" "i" "e"
+
+unique_n(lets, 8, sort = "asc")
+
+## [1] "a" "b" "c" "d" "e" "f" "g" "h"
+
+unique_n(lets, 5, sort = "desc")
+
+## [1] "j" "i" "h" "g" "f"
+
+unique_n(1:5, 20)  # Asking for 20 elements, but there are only 5 uniques.
+
+## [1] 1 2 3 4 5
+```
+
+### Divide a vector into groups
+
+``` r
+testvec <- c(0.7685, 0.4116, 0.1416, 0.8450, 0.9021, 0.4965, 0.8341, 0.0438)
+
+order(testvec)
+#> [1] 8 3 2 6 1 7 4 5
+
+split_n(testvec, 4)
+#> [1] 4 2 1 3 1 4 2 3
+
+split_n(testvec, 7, balance = TRUE)  # The range of groups is limited
+#> [1] 4 2 1 3 1 4 2 3
+
+split_n(testvec, 7, balance = FALSE)  # Try to use the whole range
+#> [1] 7 2 1 5 1 6 3 4
+
+split_n(testvec, 3)  # Sometimes unbalanced groups are inevitable
+#> [1] 3 1 1 2 1 3 2 2
+```
+
+### Flag vector elements that are not in another vector (inverse of `%in%`)
+
+In base R, you find the opposite of `%in%` by negating it like `!(x %in% y)`. `%notin%` is simply `!(x %in% y)` in a more readable form.
+
+``` r
+c(1, 4, 21, 7, -3) %in% 0:10
+#> [1]  TRUE  TRUE FALSE  TRUE FALSE
+
+c(1, 4, 21, 7, -3) %notin% 0:10
+#> [1] FALSE FALSE  TRUE FALSE  TRUE
+```
+
+### Percentage of matching elements between two vectors
+
+``` r
+c(1, 4, 21, 7, -3) %in% 0:10
+#> [1]  TRUE  TRUE FALSE  TRUE FALSE
+
+c(1, 4, 21, 7, -3) %pctin% 0:10
+#> [1] 0.6
+```
+
 
 ## Dataframe functions
-
-### Find and mark the longest run of TRUEs in a boolean vector
-
-``` r
-x <- c(T,    T,    F,    F,    F,    F,    F,     T,    T,    T,    T,    T,    T,   F)
-mark_longest_run(x)
-
-#> [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE
-```
-
-### Mark the location of the last maximum value (peak) in a vector
-
-``` r
-input <- c(1, 2, 3, 3, 1)
-mark_last_peak(input, threshold = NULL)
-
-#> [1] FALSE FALSE FALSE  TRUE FALSE
-
-mark_last_peak(input, threshold = 4)
-
-#> [1] FALSE FALSE FALSE FALSE FALSE
-```
 
 ### Replace all matching values in a dataframe with something else
 
@@ -430,86 +544,7 @@ dplyr::glimpse(test2)
 
 
 
-## File system functions
-
-### Load an RDS file and announce when it was created
-
-``` r
-data <- loadRDS("path", "to", "data.rds")
-
-#> Loading data.rds
-#> It was compiled on 2018-05-16 11:36:05.
-```
-
-### Build a path, creating subfolders if needed
-
-``` r
-make_path("path", "to", "subfolder")
-
-#> [1] "path/to/subfolder"
-
-# And the path/to/subfolder/ folders were also created in the working directory.
-
-saveRDS(iris, make_path("subfolders/to/compiled/data/iris.rds"))
-
-# Writes iris.rds, creating the folders leading to it if they don't already exist.
-```
-
-### Apply a function to every file in a folder that matches a regex pattern
-
-``` r
-rain <- apply_to_files(path = "Raw data/Rainfall", pattern = "csv", 
-                       func = readr::read_csv, col_types = "Tiic", 
-                       recursive = FALSE, ignorecase = TRUE, 
-                       method = "row_bind")
-
-dplyr::sample_n(rain, 5)
-
-#> # A tibble: 5 x 5
-#> 
-#>   orig_source_file       Time                 Tips    mV Event 
-#>   <chr>                  <dttm>              <int> <int> <chr> 
-#> 1 BOW-BM-2016-01-15.csv  2015-12-17 03:58:00     0  4047 Normal
-#> 2 BOW-BM-2016-01-15.csv  2016-01-03 00:27:00     2  3962 Normal
-#> 3 BOW-BM-2016-01-15.csv  2015-11-27 12:06:00     0  4262 Normal
-#> 4 BIL-BPA-2018-01-24.csv 2015-11-15 10:00:00     0  4378 Normal
-#> 5 BOW-BM-2016-08-05.csv  2016-04-13 19:00:00     0  4447 Normal
-```
-
 ## Number functions
-
-### Find the mode(s) of a numeric/character/factor vector
-
-``` r
-vec <- c(1, 2, 3, 4, 4, 4, 3, 3, NA, NA, NA)
-
-Mode(vec, break_ties = "no")
-#> [1]  3  4 NA
-
-Mode(vec, break_ties = "no", na.rm = TRUE)
-#> [1] 3 4
-
-Mode(vec, break_ties = "mean", na.rm = FALSE)
-#> [1] NA
-
-Mode(vec, break_ties = "mean", na.rm = TRUE)
-#> [1] 3.5
-
-Mode(vec, break_ties = "median", na.rm = TRUE)
-#> [1] 3
-
-Mode(letters[1:4], break_ties = "no")
-#> [1] "a" "b" "c" "d"
-
-Mode(letters[1:4], break_ties = "median l")
-#> "b"
-
-Mode(letters[1:4], break_ties = "median r")
-#> "c"
-
-Mode(letters[1:4], break_ties = "random")
-#> [1] "a"
-```
 
 ### Geometric mean of a vector
 
@@ -545,14 +580,6 @@ vec <- c(1.739006, 2, -1.4, 1.05, 1.90, 3.826)
 round_to_nearest(vec, 0.5)
 
 #> [1]  1.5  2.0 -1.5  1.0  2.0  4.0
-```
-
-### Seed the random number generator with a character string (or any object)
-
-``` r
-set_seed_any("Snake... Do you think love can bloom, even on a battlefield?")
-
-set_seed_any(iris)
 ```
 
 ### Calculate degree-days
@@ -667,35 +694,6 @@ mirror_matrix(m, 1)
 #> [3,]    1    4
 ```
 
-### Count the number of unique values in vectors
-
-``` r
-my_vec <- sample(month.abb, 10, replace = TRUE)
-#> [1] "Sep" "Nov" "Nov" "Jul" "Oct" "May" "Jun" "Nov" "Apr" "Jan"
-
-howmany(my_vec)
-#> 6
-
-howmany(letters, LETTERS)
-#> 52
-```
-
-### Count how many times each unique element in a vector is repeated
-
-``` r
-count_unique(sample(letters, size = 10, replace = TRUE))
-
-#>    unique  count
-#> 1       e      1
-#> 2       g      1
-#> 3       i      2
-#> 4       m      1
-#> 5       n      1
-#> 6       o      1
-#> 7       p      2
-#> 8       y      1
-```
-
 ### Is a number prime?
 
 ``` r
@@ -712,234 +710,55 @@ is.prime(5)
 #> [1] TRUE
 ```
 
-### Divide a vector into groups
+### Cumulative percentage
 
 ``` r
-testvec <- c(0.7685, 0.4116, 0.1416, 0.8450, 0.9021, 0.4965, 0.8341, 0.0438)
+cumpct(rep(1, 10))
 
-order(testvec)
-#> [1] 8 3 2 6 1 7 4 5
-
-split_n(testvec, 4)
-#> [1] 4 2 1 3 1 4 2 3
-
-split_n(testvec, 7, balance = TRUE)  # The range of groups is limited
-#> [1] 4 2 1 3 1 4 2 3
-
-split_n(testvec, 7, balance = FALSE)  # Try to use the whole range
-#> [1] 7 2 1 5 1 6 3 4
-
-split_n(testvec, 3)  # Sometimes unbalanced groups are inevitable
-#> [1] 3 1 1 2 1 3 2 2
+## [1] 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0
 ```
 
-
-## Plotting functions
-
-### Desi's `ggplot2` minimal base theme
+### Mark outliers in a vector according to the percentile method
 
 ``` r
-ggplot(iris, aes(x = Petal.Length, y = Sepal.Length)) + geom_point() + theme_desi_base()
+IQR_outliers(c(-3000, 1:100, 1000))
+
+## [1] -3000  1000
 ```
 
-![](images/theme_desi_base.png)
-
-### Fit and plot a two-term linear model quickly
+### Replace p-values with significance codes
 
 ``` r
-quick_lm(Petal.Length ~ Sepal.Length, iris)
+encode_signif(c(0, 0.001, 0.01, 0.05, 0.10))
+
+## [1] "****" "***"  "**"   "*"    ""
 ```
 
-![](images/quick_lm.png)
-
-### Arrange base R plots on a grid
-
-This is similar to `gridExtra::grid.arrange()`, but it works on base R plots instead of ggplot objects.
+### Find and mark the longest run of TRUEs in a boolean vector
 
 ``` r
-plot_arrange(plot(Sepal.Length ~ Sepal.Width,  data = iris),
-             plot(Petal.Length ~ Petal.Width,  data = iris),
-             plot(Petal.Length ~ Sepal.Length, data = iris),
-             plot(Petal.Width  ~ Sepal.Width,  data = iris),
-             nrow = 2, ncol = 2)
+x <- c(T,    T,    F,    F,    F,    F,    F,     T,    T,    T,    T,    T,    T,   F)
+mark_longest_run(x)
+
+#> [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE
 ```
 
-![](images/plot.arrange.png)
-
-
-### Plot colours as tiles
+### Mark the location of the last maximum value (peak) in a vector
 
 ``` r
-show_colours(colours(distinct = TRUE))
-```
+input <- c(1, 2, 3, 3, 1)
+mark_last_peak(input, threshold = NULL)
 
-![](images/base_colours.png)
+#> [1] FALSE FALSE FALSE  TRUE FALSE
 
-### Convert R's built-in named colours to hex codes
+mark_last_peak(input, threshold = 4)
 
-``` r
-rcols_as_hex(c("tomato", "steelblue"))
-#>    tomato steelblue
-#> "#FF6347" "#4682B4"
-
-rcols_as_hex()
-#>     white    aliceblue    antiquewhite    ... for all colours in colours()
-#> "#FFFFFF"    "#F0F8FF"    "#FAEBD7"       ... for all colours in colours()
-
-rcols_as_hex(distinct = TRUE)
-#>     white    aliceblue    antiquewhite    ... for all in colours(distinct = TRUE)
-#> "#FFFFFF"    "#F0F8FF"    "#FAEBD7"       ... for all in colours(distinct = TRUE)
-
-rcols_as_hex(c("snow", "snow1"))
-#>      snow     snow1
-#> "#FFFAFA" "#FFFAFA"
-
-rcols_as_hex(c("snow", "snow1"), distinct = TRUE)
-#>      snow
-#> "#FFFAFA"
-```
-
-### Manipulate a list of hex colours
-
-`build_palette()` is a function that takes a vector of hex colours and lets you randomise and return subsets of those colours. All of the other `palette_...()` functions documented below use pre-compiled lists of hex colours (i.e. the `col_list` argument is already provided). All functions work identically and return the same kind of data.
-
-``` r
-# To see all of the colours (ordered left-to-right and top-to-bottom):
-show_colours(palette_builtin())
-
-# See the plots below.
-
-# To get the first 4 colours:
-palette_builtin(4)
-
-#>     white     aliceblue  antiquewhite    antiquewhite1
-#> "#FFFFFF"     "#F0F8FF"     "#FAEBD7"        "#FFEFDB"
-
-# To pick 4 colours randomly:
-palette_builtin(4, random = TRUE)
-
-#>    gray52       coral4    darkorchid2      orchid4
-#> "#858585"    "#8B3E2F"      "#B23AEE"    "#8B4789"
-
-# To pick 4 colours distributed evenly throughout the colour list:
-palette_builtin(4, spaced = TRUE)
-
-#>     white        gray32    mediumpurple3       yellow4
-#> "#FFFFFF"     "#525252"        "#8968CD"     "#8B8B00"
-
-# To make the colours 75 percent opaque (note that all args can work together):
-palette_builtin(4, random = TRUE, spaced = TRUE, alpha = 0.75)
-
-#>      gray35          gray7          plum2     peachpuff3
-#> "#595959BF"    "#121212BF"    "#EEAEEEBF"    "#CDAF95BF"
-
-# ------------
-
-# To use your own colour list, use build_palette():
-build_palette(c("#000000", "#FFFF00", "#1CE6FF", "#FF34FF", "#FF4A46"), alpha = 0.5)
-
-#> [1] "#00000080" "#FFFF0080" "#1CE6FF80" "#FF34FF80" "#FF4A4680"
+#> [1] FALSE FALSE FALSE FALSE FALSE
 ```
 
 
-#### A palette of R's 502 distinct built-in colours
 
-``` r
-show_colours(palette_builtin())
-```
-
-![](images/palette_builtin.png)
-
-
-#### A palette of 1,022 visually-distinct colours
-
-Many of these are not colorblind safe, and many of them have low contrast or are very similar (but should still be different enough to discriminate when they are side-by-side).
-
-``` r
-show_colours(palette_distinct())
-```
-
-![](images/palette_distinct.png)
-
-
-#### A palette of Adam Morse's 16 web-safe colours
-
-This is a palette by Adam Morse, sourced from <https://clrs.cc/>.
-
-``` r
-show_colours(palette_mrmrs())
-```
-
-![](images/palette_mrmrs.png)
-
-
-#### A palette of 14 hand-picked distinct colours
-
-The palette created by `desiderata::palette_distinct()` has a lot of colours that are either so dark or so light that it's difficult to differentiate them next to each other. In addition, many of the colours are affected by adjacency effects where they can be differentiated when they're next to each other, but not when they're next to a closely-related colour.
-
-I went through the preview plots manually, randomising the order of the colours each time and deleting any colours that were visually similar until I ended up with a list of colours that were easy to differentiate.
-
-``` r
-show_colours(palette_picked())
-```
-
-![](images/palette_picked.png)
-
-
-### Rotate and align ggplot2 axis tick labels
-
-``` r 
-library(ggplot2)
-
-ggplot(mpg, aes(manufacturer, cty)) + 
-    geom_boxplot() +
-    rotate_x_text() +
-    rotate_y_text()
-```
-![](images/rotate_axis_labels.png)
-
-### Horizontally align ggplot2 title and subtitle
-
-``` r 
-library(ggplot2)
-
-ggplot(mpg, aes(manufacturer, cty)) + geom_boxplot() +
-    labs(title = "This is a title", subtitle = "This is a subtitle") +
-    align_titles(align = 0.5)
-```
-![](images/align_title.png)
-
-### Rotate and align ggplot2 facet labels
-
-``` r
-plot <- ggplot(mpg, aes(cty, hwy)) + geom_point() + facet_grid(year ~ fl)
-
-plot +
-   rotate_x_facet_text(angle = 45, align = 0.5) +
-   rotate_y_facet_text(angle = 0, valign = 0.5)
-```
-
-![](images/rotate_facet_text.png)
-
-
-
-## Datetime tools
-
-### Find the current month number relative to a starting date
-
-``` r
-# These are the same thing.
-
-consecutive_month("2015-01-01", "2016-02-04")
-consecutive_month(2015,         "2016-02-04")
-#> [1] 14
-
-consecutive_month("2015-02-01", "2016-02-04")
-#> [1] 13
-```
-
-
-## String tools
+## String functions
 
 ### Collapse vectors into a regex pattern
 
@@ -1086,7 +905,260 @@ rev_sentence(vec)
 
 
 
-## R tools
+## Datetime functions
+
+### Find the current month number relative to a starting date
+
+``` r
+# These are the same thing.
+
+consecutive_month("2015-01-01", "2016-02-04")
+consecutive_month(2015,         "2016-02-04")
+#> [1] 14
+
+consecutive_month("2015-02-01", "2016-02-04")
+#> [1] 13
+```
+
+
+
+## Plotting functions
+
+### Plot colours as tiles
+
+``` r
+show_colours(colours(distinct = TRUE))
+```
+
+![](images/base_colours.png)
+
+### Manipulate a list of hex colours
+
+`build_palette()` is a function that takes a vector of hex colours and lets you randomise and return subsets of those colours. All of the other `palette_...()` functions documented below use pre-compiled lists of hex colours (i.e. the `col_list` argument is already provided). All functions work identically and return the same kind of data.
+
+``` r
+# To see all of the colours (ordered left-to-right and top-to-bottom):
+show_colours(palette_builtin())
+
+# See the plots below.
+
+# To get the first 4 colours:
+palette_builtin(4)
+
+#>     white     aliceblue  antiquewhite    antiquewhite1
+#> "#FFFFFF"     "#F0F8FF"     "#FAEBD7"        "#FFEFDB"
+
+# To pick 4 colours randomly:
+palette_builtin(4, random = TRUE)
+
+#>    gray52       coral4    darkorchid2      orchid4
+#> "#858585"    "#8B3E2F"      "#B23AEE"    "#8B4789"
+
+# To pick 4 colours distributed evenly throughout the colour list:
+palette_builtin(4, spaced = TRUE)
+
+#>     white        gray32    mediumpurple3       yellow4
+#> "#FFFFFF"     "#525252"        "#8968CD"     "#8B8B00"
+
+# To make the colours 75 percent opaque (note that all args can work together):
+palette_builtin(4, random = TRUE, spaced = TRUE, alpha = 0.75)
+
+#>      gray35          gray7          plum2     peachpuff3
+#> "#595959BF"    "#121212BF"    "#EEAEEEBF"    "#CDAF95BF"
+
+# ------------
+
+# To use your own colour list, use build_palette():
+build_palette(c("#000000", "#FFFF00", "#1CE6FF", "#FF34FF", "#FF4A46"), alpha = 0.5)
+
+#> [1] "#00000080" "#FFFF0080" "#1CE6FF80" "#FF34FF80" "#FF4A4680"
+```
+
+
+#### A palette of R's 502 distinct built-in colours
+
+``` r
+show_colours(palette_builtin())
+```
+
+![](images/palette_builtin.png)
+
+
+#### A palette of 1,022 visually-distinct colours
+
+Many of these are not colorblind safe, and many of them have low contrast or are very similar (but should still be different enough to discriminate when they are side-by-side).
+
+``` r
+show_colours(palette_distinct())
+```
+
+![](images/palette_distinct.png)
+
+
+#### A palette of Adam Morse's 16 web-safe colours
+
+This is a palette by Adam Morse, sourced from <https://clrs.cc/>.
+
+``` r
+show_colours(palette_mrmrs())
+```
+
+![](images/palette_mrmrs.png)
+
+
+#### A palette of 14 hand-picked distinct colours
+
+The palette created by `desiderata::palette_distinct()` has a lot of colours that are either so dark or so light that it's difficult to differentiate them next to each other. In addition, many of the colours are affected by adjacency effects where they can be differentiated when they're next to each other, but not when they're next to a closely-related colour.
+
+I went through the preview plots manually, randomising the order of the colours each time and deleting any colours that were visually similar until I ended up with a list of colours that were easy to differentiate.
+
+``` r
+show_colours(palette_picked())
+```
+
+![](images/palette_picked.png)
+
+### Arrange base R plots on a grid
+
+This is similar to `gridExtra::grid.arrange()`, but it works on base R plots instead of ggplot objects.
+
+``` r
+plot_arrange(plot(Sepal.Length ~ Sepal.Width,  data = iris),
+             plot(Petal.Length ~ Petal.Width,  data = iris),
+             plot(Petal.Length ~ Sepal.Length, data = iris),
+             plot(Petal.Width  ~ Sepal.Width,  data = iris),
+             nrow = 2, ncol = 2)
+```
+
+![](images/plot.arrange.png)
+
+### Convert R's built-in named colours to hex codes
+
+``` r
+rcols_as_hex(c("tomato", "steelblue"))
+#>    tomato steelblue
+#> "#FF6347" "#4682B4"
+
+rcols_as_hex()
+#>     white    aliceblue    antiquewhite    ... for all colours in colours()
+#> "#FFFFFF"    "#F0F8FF"    "#FAEBD7"       ... for all colours in colours()
+
+rcols_as_hex(distinct = TRUE)
+#>     white    aliceblue    antiquewhite    ... for all in colours(distinct = TRUE)
+#> "#FFFFFF"    "#F0F8FF"    "#FAEBD7"       ... for all in colours(distinct = TRUE)
+
+rcols_as_hex(c("snow", "snow1"))
+#>      snow     snow1
+#> "#FFFAFA" "#FFFAFA"
+
+rcols_as_hex(c("snow", "snow1"), distinct = TRUE)
+#>      snow
+#> "#FFFAFA"
+```
+
+### Fit and plot a two-term linear model quickly
+
+``` r
+quick_lm(Petal.Length ~ Sepal.Length, iris)
+```
+
+![](images/quick_lm.png)
+
+### Desi's `ggplot2` minimal base theme
+
+``` r
+ggplot(iris, aes(x = Petal.Length, y = Sepal.Length)) + geom_point() + theme_desi_base()
+```
+
+![](images/theme_desi_base.png)
+
+### Horizontally align ggplot2 title and subtitle
+
+``` r 
+library(ggplot2)
+
+ggplot(mpg, aes(manufacturer, cty)) + geom_boxplot() +
+    labs(title = "This is a title", subtitle = "This is a subtitle") +
+    align_titles(align = 0.5)
+```
+
+![](images/align_title.png)
+
+### Rotate and align ggplot2 axis tick labels
+
+``` r 
+library(ggplot2)
+
+ggplot(mpg, aes(manufacturer, cty)) + 
+    geom_boxplot() +
+    rotate_x_text() +
+    rotate_y_text()
+```
+
+![](images/rotate_axis_labels.png)
+
+### Rotate and align ggplot2 facet labels
+
+``` r
+plot <- ggplot(mpg, aes(cty, hwy)) + geom_point() + facet_grid(year ~ fl)
+
+plot +
+   rotate_x_facet_text(angle = 45, align = 0.5) +
+   rotate_y_facet_text(angle = 0, valign = 0.5)
+```
+
+![](images/rotate_facet_text.png)
+
+
+
+## File system functions
+
+### Load an RDS file and announce when it was created
+
+``` r
+data <- loadRDS("path", "to", "data.rds")
+
+#> Loading data.rds
+#> It was compiled on 2018-05-16 11:36:05.
+```
+
+### Build a path, creating subfolders if needed
+
+``` r
+make_path("path", "to", "subfolder")
+
+#> [1] "path/to/subfolder"
+
+# And the path/to/subfolder/ folders were also created in the working directory.
+
+saveRDS(iris, make_path("subfolders/to/compiled/data/iris.rds"))
+
+# Writes iris.rds, creating the folders leading to it if they don't already exist.
+```
+
+### Apply a function to every file in a folder that matches a regex pattern
+
+``` r
+rain <- apply_to_files(path = "Raw data/Rainfall", pattern = "csv", 
+                       func = readr::read_csv, col_types = "Tiic", 
+                       recursive = FALSE, ignorecase = TRUE, 
+                       method = "row_bind")
+
+dplyr::sample_n(rain, 5)
+
+#> # A tibble: 5 x 5
+#> 
+#>   orig_source_file       Time                 Tips    mV Event 
+#>   <chr>                  <dttm>              <int> <int> <chr> 
+#> 1 BOW-BM-2016-01-15.csv  2015-12-17 03:58:00     0  4047 Normal
+#> 2 BOW-BM-2016-01-15.csv  2016-01-03 00:27:00     2  3962 Normal
+#> 3 BOW-BM-2016-01-15.csv  2015-11-27 12:06:00     0  4262 Normal
+#> 4 BIL-BPA-2018-01-24.csv 2015-11-15 10:00:00     0  4378 Normal
+#> 5 BOW-BM-2016-08-05.csv  2016-04-13 19:00:00     0  4447 Normal
+```
+
+
+## R functions
 
 ### Suppress all console printing (`cat`, `print`, `warning`, `message`)
 
@@ -1118,28 +1190,6 @@ shush(loud_mean(1:100))
 shush(loud_mean(1:100) %>% sqrt())
 
 #> [1] 7.106335
-```
-
-### Flag vector elements that are not in another vector (inverse of `%in%`)
-
-In base R, you find the opposite of `%in%` by negating it like `!(x %in% y)`. `%notin%` is simply `!(x %in% y)` in a more readable form.
-
-``` r
-c(1, 4, 21, 7, -3) %in% 0:10
-#> [1]  TRUE  TRUE FALSE  TRUE FALSE
-
-c(1, 4, 21, 7, -3) %notin% 0:10
-#> [1] FALSE FALSE  TRUE FALSE  TRUE
-```
-
-### Percentage of matching elements between two vectors
-
-``` r
-c(1, 4, 21, 7, -3) %in% 0:10
-#> [1]  TRUE  TRUE FALSE  TRUE FALSE
-
-c(1, 4, 21, 7, -3) %pctin% 0:10
-#> [1] 0.6
 ```
 
 ### Print to console, wrapping the text to a specific line width
@@ -1201,6 +1251,17 @@ coinflip(5)
 # [1] TRUE TRUE FALSE TRUE FALSE
 ```
 
+### Convert dots to a character vector or a string
+
+``` r
+dots_char(return, this, as, a, vector)
+
+#> [1] "return" "this" "as" "a" "vector" 
+
+dots_char(return, this, as, a, single, string, collapse = "_")
+
+#> [1] "return_this_as_a_single_string"
+```
 
 ### Generate random seeds to preview their effects
 
@@ -1220,34 +1281,12 @@ try.seed(runif(5),
 #> [1] 0.2582169 0.9739978 0.4126912 0.1326866 0.1336819
 ```
 
-
-### Convert dots to a character vector or a string
-
-``` r
-dots_char(return, this, as, a, vector)
-
-#> [1] "return" "this" "as" "a" "vector" 
-
-dots_char(return, this, as, a, single, string, collapse = "_")
-
-#> [1] "return_this_as_a_single_string"
-```
-
-
-### Remove NAs from vectors, lists, matrices, and dataframes
+### Seed the random number generator with a character string (or any object)
 
 ``` r
-na_rm(c("a", NA, "b", NA, "c", "d"))
+set_seed_any("Snake... Do you think love can bloom, even on a battlefield?")
 
-#> [1] "a" "b" "c" "d"
-
-
-na_rm(data.frame(col1 = 1:5, col2 = c("a", NA, "c", "d", NA)))
-
-#>   col1 col2
-#> 1    1    a
-#> 3    3    c
-#> 4    4    d
+set_seed_any(iris)
 ```
 
 

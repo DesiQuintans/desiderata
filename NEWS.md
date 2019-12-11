@@ -1,3 +1,12 @@
+# desiderata 0.35.0 (2019-12-11)
+
+- ADD - `IQR_outliers()` marks elements of a vector that are outliers according to the 1.5 * IQR rule.
+- ADD - `encode_signif()` turns p-values into significance codes (e.g. 0.05 → *).
+- ADD - `unique_n()` keeps the first `n` unique elements in a vector.
+- MOD - Rearranged the README.
+
+
+
 # desiderata 0.34.1 (2019-11-05)
 
 - MOD - `percentile()` argument `cuts` has two new default levels (0.025 and 0.9975) for easy observation of possible 95 % CI cut-offs.

@@ -24,8 +24,8 @@ the degree-day value for that day.
 }
 \description{
 "In a nutshell: heating degree days are a measure of how much (in degrees), and for
-how long (in days), the air temperature was below a certain level."
---- Martin Bromley, \url{http://www.degreedays.net/introduction}
+how long (in days), the air temperature was below a certain level." --- Martin
+Bromley, \url{http://www.degreedays.net/introduction}
 }
 \details{
 This function exposes two calculation methods that were taken from
@@ -39,8 +39,7 @@ http://cues.cfans.umn.edu/old/IPM-Tactics/IPM-tactics.html.
 "If the maximum temperature for the day never rises above the base temperature, then
 no development occurs, and zero degree-days accumulate (we don't calculate negative
 degree-day values since the development of organisms does not reverse when it is
-cold)."
---- Daniel A. Herms
+cold)." --- Daniel A. Herms
 
 \strong{Modified Average (\code{modavg})}
 
@@ -48,8 +47,7 @@ cold)."
 does frequently in the spring), the Average Method can underestimate the number of
 degree-days actually experienced by a plant or insect. In this situation, the Modified
 Average Method will calculate a higher number of degree-days, and thus can be more
-accurate for predicting pest activity than the Average Method."
---- Daniel A. Herms
+accurate for predicting pest activity than the Average Method." --- Daniel A. Herms
 }
 \section{Authors}{
 

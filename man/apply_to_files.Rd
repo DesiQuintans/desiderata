@@ -4,8 +4,15 @@
 \alias{apply_to_files}
 \title{Apply a function to every file in a folder that matches a regex pattern}
 \usage{
-apply_to_files(path, pattern, func, ..., recursive = FALSE,
-  ignorecase = TRUE, method = "full_join")
+apply_to_files(
+  path,
+  pattern,
+  func,
+  ...,
+  recursive = FALSE,
+  ignorecase = TRUE,
+  method = "full_join"
+)
 }
 \arguments{
 \item{path}{(Character) The path to the folder.}
@@ -31,7 +38,7 @@ contain different columns.}
 }
 \value{
 Invisibly returns a single dataframe with all of the input files merged
-together. If \code{method = "row_bind",} then a new column, \code{orig_source_file}, contains
+together. If \verb{method = "row_bind",} then a new column, \code{orig_source_file}, contains
 the source file's name. The "join" methods do not have this column because the values
 are mixed together.
 }
