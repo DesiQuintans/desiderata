@@ -63,6 +63,8 @@ abide by its terms.
     - `encode_signif()`     --- Replace p-values with significance codes.                       [example](#replace-p-values-with-significance-codes)
     - `mark_longest_run()`  --- Find and mark the longest run of `TRUE`s in a boolean vector.   [example](#find-and-mark-the-longest-run-of-trues-in-a-boolean-vector)
     - `mark_last_peak()`    --- Mark the location of the last maximum value (peak) in a vector. [example](#mark-the-location-of-the-last-maximum-value-peak-in-a-vector)
+    - `triangle_num()`      --- nth Triangle Number, like factorial but with addition.
+[example](#nth-triangle-number-like-factorial-but-with-addition)
     
     
 - **String functions**
@@ -104,6 +106,8 @@ abide by its terms.
 - **R functions**
     - `shush()`        --- Suppress all console printing (`cat`, `print`, `warning`, `message`).      [example](#suppress-all-console-printing-cat-print-warning-message)
     - `cat_wrap()`     --- Print to console, wrapping the text to a specific line width.              [example](#print-to-console-wrapping-the-text-to-a-specific-line-width)
+    - `Show()`         --- Pipeline- and knit-friendly `View()`.
+[example](#pipeline-and-knit-friendly-view)
     - `clippy()`       --- Copy a dataframe, vector, or the result of an expression to the clipboard. [example](#copy-a-dataframe-vector-or-the-result-of-an-expression-to-the-clipboard)
     - `coinflip()`     --- Randomly return `TRUE` or `FALSE`.                                         [example](#randomly-return-true-or-false)
     - `dots_char()`    --- Convert dots to a character vector or a string.                            [example](#convert-dots-to-a-character-vector-or-string)
@@ -756,6 +760,14 @@ mark_last_peak(input, threshold = 4)
 #> [1] FALSE FALSE FALSE FALSE FALSE
 ```
 
+### nth Triangle Number, like factorial but with addition
+
+``` r
+triangle_num(1:10)
+
+## [1]  1  3  6 10 15 21 28 36 45 55
+```
+
 
 
 ## String functions
@@ -1208,6 +1220,14 @@ cat_wrap(vec, width = 25)
 #> This is also another
 #> quite long chunk of
 #> text.
+```
+
+### Pipeline- and knit-friendly `View()`
+
+Only calls `View()` if R is running in an interactive session. Invisibly returns its original argument so that it can be used inside pipelines.
+
+``` r
+Show(iris)
 ```
 
 ### Copy a dataframe, vector, or the result of an expression to the clipboard

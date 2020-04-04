@@ -5,12 +5,23 @@
 \alias{show_colors}
 \title{Preview a list of colours as a grid}
 \usage{
-show_colours(col_list, pad = "#FFFFFF", asp = NA, main = NULL)
+show_colours(
+  col_list,
+  arrange = "rect",
+  pad = "#FFFFFF",
+  asp = NA,
+  main = NULL
+)
 
-show_colors(col_list, pad = "#FFFFFF", asp = NA, main = NULL)
+show_colors(col_list, arrange = "rect", pad = "#FFFFFF", asp = NA, main = NULL)
 }
 \arguments{
 \item{col_list}{(Character) A vector of colours in RGB Hex or RGBA Hex format.}
+
+\item{arrange}{(Character: \code{"rect"}, \code{"rows"}, or \code{"cols"}) By default (\code{"rect"}),
+colours are displayed in a rectangular panel. \code{"rows"} arranges them as
+horizontal stripes top-to-bottom, and \code{"cols"} arranges them as vertical
+stripes left-to-right.}
 
 \item{pad}{(Character) If there are too few colours to fill all of the spaces in
 the grid, what colour should be used to pad it out? \code{pad = "last"} repeats the
@@ -31,5 +42,7 @@ Preview a list of colours as a grid
 }
 \examples{
 show_colours(colours(distinct = TRUE))
+
+show_colours(colours(distinct = TRUE), arrange = "cols")
 
 }

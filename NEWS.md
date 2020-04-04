@@ -1,3 +1,15 @@
+# desiderata 0.37.0 (2020-04-04)
+
+- MOD - `show_colours()` argument `arrange`, which lets you arrange the colours as a rectangular panel (by default), or as horizontal or vertical stripes.
+
+
+# desiderata 0.36.0 (2019-12-20)
+
+- ADD - `Show()` is a version of `View()` that can be used inside pipelines and Markdown documents.
+- ADD - `triangle_num()` calculates the _n_th Triangle Number, which is like factorials but with addition. For example: T3 = 1 + 2 + 3 = 6.
+
+
+
 # desiderata 0.35.0 (2019-12-11)
 
 - ADD - `IQR_outliers()` marks elements of a vector that are outliers according to the 1.5 * IQR rule.

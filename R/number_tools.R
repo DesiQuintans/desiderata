@@ -601,3 +601,36 @@ mark_last_peak <- function(vec, threshold = NULL) {
     
     return(boolVec)
 }
+
+
+
+#' nth Triangle Number (like factorial but with addition)
+#'
+#' @param nums (Numeric) A vector of numbers.
+#' @param coerce (Name/Symbol) The name of a function that will be used to coerce
+#'    `nums` into integers, e.g. `round` or `ceiling` or `floor`.
+#' @param ... (dots) Extra arguments sent to the function named in `coerce`.
+#' 
+#'
+#' @return A Numeric vector where each element is the nth triangle number of the 
+#'    original element.
+#'    
+#' @export
+#'
+#' @examples
+#' triangle_num(1:10)
+#' 
+#' #>  [1]  1  3  6 10 15 21 28 36 45 55
+#'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#' 
+#' @section Source:
+#' <https://math.stackexchange.com/a/60581>
+#' 
+#' @md
+triangle_num <- function(nums, coerce = round, ...) {
+    ints <- do.call(coerce, list(nums, ...))
+    
+    (ints^2 + ints) / 2
+}

@@ -137,6 +137,10 @@ col2hsv <- function(hexcol, which = "hsv") {
 #' @aliases show_colors
 #' 
 #' @param col_list (Character) A vector of colours in RGB Hex or RGBA Hex format.
+#' @param arrange (Character: `"rect"`, `"rows"`, or `"cols"`) By default (`"rect"`),
+#'    colours are displayed in a rectangular panel. `"rows"` arranges them as 
+#'    horizontal stripes top-to-bottom, and `"cols"` arranges them as vertical 
+#'    stripes left-to-right.
 #' @param pad (Character) If there are too few colours to fill all of the spaces in
 #'    the grid, what colour should be used to pad it out? `pad = "last"` repeats the
 #'    last colour in the colour list. A hex colour can be provided too. Otherwise,
@@ -151,37 +155,47 @@ col2hsv <- function(hexcol, which = "hsv") {
 #'
 #' @examples
 #' show_colours(colours(distinct = TRUE))
+#' 
+#' show_colours(colours(distinct = TRUE), arrange = "cols")
 #'
 #' @md
-show_colours <- function(col_list, pad = "#FFFFFF", asp = NA, main = NULL) {
+show_colours <- function(col_list, arrange = "rect", 
+                         pad = "#FFFFFF", asp = NA, main = NULL) {
     list_name   <- deparse(substitute(col_list))
-    
-    # image() must a rectangular matrix, so the colour list needs to be padded
-    # to a length that allows it to be split evenly between rows and columns.
     orig_length <- length(col_list)
-    
-    if (orig_length < 4) {
-        # Vectors < 4 can't be rectangular, so make them 2 x 2.
-        grid <- find_dims(1:4)
-    } else {
-        grid <- find_dims(col_list)
-    }
-    
-    new_length <- grid["x"] * grid["y"]
-
-    # Pad the colour list to the necessary number of cells. Necessary because
-    # the matrix function will raise an error if the dims are not multiples of
-    # the vector's length.
-    pad_string <- ifelse(pad == "last", col_list[orig_length], pad)
-
-    col_list <- append(col_list, rep(pad_string, abs(new_length - orig_length)))
 
     # Build the matrix that is used by image(). image() rotates the matrix 90 degrees
     # anti-clockwise during filling, so the colours end up being placed in the wrong
     # order.
 
-    m <- matrix(1:new_length, ncol = grid["x"], nrow = grid["y"], byrow = FALSE)
-    m <- mirror_matrix(m)
+    if (arrange == "cols") {
+        m <- matrix(1:orig_length, ncol = 1, nrow = orig_length, byrow = FALSE)
+    } else if (arrange == "rows") {
+        m <- matrix(orig_length:1, ncol = orig_length, nrow = 1, byrow = FALSE)
+    } else {
+        # image() must a rectangular matrix, so the colour list needs to be padded
+        # to a length that allows it to be split evenly between rows and columns.
+        
+        if (orig_length < 4) {
+            # Vectors < 4 can't be rectangular, so make them 2 x 2.
+            grid <- find_dims(1:4)
+        } else {
+            grid <- find_dims(col_list)
+        }
+        
+        new_length <- grid["x"] * grid["y"]
+        
+        # Pad the colour list to the necessary number of cells. Necessary because
+        # the matrix function will raise an error if the dims are not multiples of
+        # the vector's length.
+        pad_string <- ifelse(pad == "last", col_list[orig_length], pad)
+        
+        col_list <- append(col_list, rep(pad_string, abs(new_length - orig_length)))
+        
+        m <- matrix(1:new_length, ncol = grid["x"], nrow = grid["y"], byrow = FALSE)
+        m <- mirror_matrix(m)
+    }
+    
 
     # Make a plot title, if requested
     if (is.null(main) == TRUE) {
@@ -196,6 +210,8 @@ show_colours <- function(col_list, pad = "#FFFFFF", asp = NA, main = NULL) {
                     main = plot_title
     )
 }
+
+
 
 #' @rdname show_colours
 #' @export

@@ -33,6 +33,7 @@ Add a 'group size' column to a dataframe
 }
 
 \examples{
+
 sw_subset <- dplyr::select(dplyr::starwars, -(films:starships))
 
 test <- add_group_size(sw_subset, species, homeworld, 
