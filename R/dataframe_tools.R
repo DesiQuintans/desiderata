@@ -563,7 +563,7 @@ add_group_size <- function(df, ..., .id = NA, na.rm = FALSE) {
 rows_with_na <- function(df) {
     na_count <- 
         df %>% 
-        dplyr::mutate_all(~ desiderata::if_na(., 1, 0)) %>% 
+        dplyr::mutate_all(~ if_na(., 1, 0)) %>% 
         rowSums()
     
     df %>% 
