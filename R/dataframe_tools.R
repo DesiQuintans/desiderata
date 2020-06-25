@@ -522,3 +522,52 @@ add_group_size <- function(df, ..., .id = NA, na.rm = FALSE) {
 
     return(res)
 }
+
+
+
+#' Only keep rows that contain NA
+#' 
+#' It is sometimes useful to look at rows of a dataframe where a value is 
+#' missing. For example, you may want to see why a function returns NA in some 
+#' rows and not others.
+#'
+#' @param df (Dataframe) The dataframe
+#'
+#' @return A dataframe with the same number of columns as `df`, but the only
+#'     rows it has are rows that have at least 1 `NA` value.
+#' @export
+#'
+#' @examples
+#' 
+#' na_starwars <- rows_with_na(dplyr::starwars)
+#' dplyr::glimpse(na_starwars)
+#' 
+#' #> Observations: 58
+#' #> Variables: 13
+#' #> $ name       <chr> "C-3PO", "R2-D2", "R5-D4", "Wilhuff Tarkin", "Greedo",...
+#' #> $ height     <int> 167, 96, 97, 180, 173, 175, 180, 66, 200, 150, NA, 160...
+#' #> $ mass       <dbl> 75, 32, 32, NA, 74, 1358, 110, 17, 140, NA, NA, 68, 89...
+#' #> $ hair_color <chr> NA, NA, NA, "auburn, grey", NA, NA, "brown", "white", ...
+#' #> $ skin_color <chr> "gold", "white, blue", "white, red", "fair", "green", ...
+#' #> $ eye_color  <chr> "yellow", "red", "red", "blue", "black", "orange", "bl...
+#' #> $ birth_year <dbl> 112, 33, NA, 64, 44, 600, NA, 896, 15, 48, NA, NA, 92,...
+#' #> $ gender     <chr> NA, NA, NA, "male", "male", "hermaphrodite", "male", "...
+#' #> $ homeworld  <chr> "Tatooine", "Naboo", "Tatooine", "Eriadu", "Rodia", "N...
+#' #> $ species    <chr> "Droid", "Droid", "Droid", "Human", "Rodian", "Hutt", ...
+#' #> $ films      <list> [<"Attack of the Clones", "The Phantom Menace", "Reve...
+#' #> $ vehicles   <list> [<>, <>, <>, <>, <>, <>, <>, <>, <>, <>, <>, <>, "Tri...
+#' #> $ starships  <list> [<>, <>, <>, <>, <>, <>, "X-wing", <>, <>, <>, "A-win...
+#' 
+#' @section Authors: - Desi Quintans (<http://www.desiquintans.com>)
+#' @md
+rows_with_na <- function(df) {
+    na_count <- 
+        df %>% 
+        dplyr::mutate_all(~ desiderata::if_na(., 1, 0)) %>% 
+        rowSums()
+    
+    df %>% 
+        dplyr::mutate(na_count_per_row = na_count) %>% 
+        dplyr::filter(na_count_per_row > 0) %>% 
+        dplyr::select(-na_count_per_row)
+}

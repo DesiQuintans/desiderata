@@ -1,3 +1,8 @@
+# desiderata 0.38.0 (2020-06-25)
+
+- ADD - `rows_with_na()` only keeps rows of a dataframe that contain at least 1 `NA`.
+
+
 # desiderata 0.37.0 (2020-04-04)
 
 - MOD - `show_colours()` argument `arrange`, which lets you arrange the colours as a rectangular panel (by default), or as horizontal or vertical stripes.
