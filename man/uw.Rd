@@ -2,9 +2,12 @@
 % Please edit documentation in R/string_tools.R
 \name{uw}
 \alias{uw}
+\alias{uw0}
 \title{'Unwrap' strings by ignoring hard-wrapping from the source code}
 \usage{
 uw(..., collapse = " ", join = " ")
+
+uw0(...)
 }
 \arguments{
 \item{...}{(Character) Vectors that you want to collapse into a single string.
@@ -34,6 +37,9 @@ and replace it with a single space (or whatever string you specify in the \code{
 argument). This means that \strong{if you want to insert a linebreak \verb{\\\\n} manually,
 then it should not have any spaces after it}. A \verb{\\\\n} that is at the very end
 of a line will be kept.
+
+If you want to unwrap without adding spaces at all, use \code{uw0()}, which is a
+shortcut for \code{uw(..., collapse = "", join = "")}.
 
 Also note that since \code{uw()} uses the presence of indenting spaces to decide
 whether a piece of text is hard-wrapped, text that merely goes to the 0th column
@@ -83,4 +89,17 @@ cat(.Last.value)
 #> Here's some##multi-line text.
 #> ##This is on a new line.
 
+long_url <- "http://www.long-api-query.com/ask?
+             q=question&
+             n=200&
+             pg=3"
+
+cat(long_url)
+#> http://www.long-api-query.com/ask?
+#>     q=question&
+#>     n=200&
+#>     pg=3
+
+uw0(long_url)
+#> [1] "http://www.long-api-query.com/ask?q=question&n=200&pg=3"
 }

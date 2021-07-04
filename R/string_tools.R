@@ -84,6 +84,9 @@ collapse_vec <- function(..., wrap = "'", collapse = ", ", unique = TRUE) {
 #'   argument). This means that **if you want to insert a linebreak `\\n` manually,
 #'   then it should not have any spaces after it**. A `\\n` that is at the very end
 #'   of a line will be kept.
+#'   
+#'   If you want to unwrap without adding spaces at all, use `uw0()`, which is a
+#'   shortcut for `uw(..., collapse = "", join = "")`.
 #'
 #'   Also note that since `uw()` uses the presence of indenting spaces to decide
 #'   whether a piece of text is hard-wrapped, text that merely goes to the 0th column
@@ -155,6 +158,27 @@ uw <- function(..., collapse = " ", join = " ") {
              perl = TRUE)
 
     return(no_space_after_n)
+}
+
+
+#' @rdname uw
+#' @examples
+#' long_url <- "http://www.long-api-query.com/ask?
+#'              q=question&
+#'              n=200&
+#'              pg=3"
+#' 
+#' cat(long_url)
+#' #> http://www.long-api-query.com/ask?
+#' #>     q=question&
+#' #>     n=200&
+#' #>     pg=3
+#' 
+#' uw0(long_url)
+#' #> [1] "http://www.long-api-query.com/ask?q=question&n=200&pg=3"
+#' @export
+uw0 <- function(...) {
+    uw(..., collapse = "", join = "")
 }
 
 

@@ -872,6 +872,24 @@ cat(.Last.value)
 #> ##This is on a new line.
 ```
 
+Or you can use the shortcut `uw0()`, which is like `paste0()`.
+
+```
+long_url <- "http://www.long-api-query.com/ask?
+             q=question&
+             n=200&
+             pg=3"
+
+cat(long_url)
+#> http://www.long-api-query.com/ask?
+#>     q=question&
+#>     n=200&
+#>     pg=3
+
+uw0(long_url)
+#> [1] "http://www.long-api-query.com/ask?q=question&n=200&pg=3"
+```
+
 
 ### Return the stem that is common to a set of strings
 

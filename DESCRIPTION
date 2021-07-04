@@ -1,8 +1,8 @@
 Package: desiderata
 Type: Package
 Title: Assorted utility functions
-Version: 0.38.0
-Date: 2020-06-25
+Version: 0.39.0
+Date: 2021-07-05
 License: GPL-3
 Author: Desi Quintans
 Maintainer: Desi Quintans <science@desiquintans.com>
@@ -31,4 +31,4 @@ Imports:
 Suggests:
     digest (>= 0.6.15),
     usethis (>= 1.5.0)
-RoxygenNote: 7.0.1
+RoxygenNote: 7.1.1

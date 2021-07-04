@@ -1,3 +1,8 @@
+# desiderata 0.39.0 (2021-07-05)
+
+- ADD - `uw0()` unwraps hard-wrapped lines without introducing spaces between the lines. This is a shortcut for `uw(..., collapse = "", join = "")`.
+
+
 # desiderata 0.38.0 (2020-06-25)
 
 - ADD - `rows_with_na()` only keeps rows of a dataframe that contain at least 1 `NA`.
