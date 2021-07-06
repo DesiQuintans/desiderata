@@ -1,3 +1,8 @@
+# desiderata 0.39.1 (2021-07-06)
+
+- FIX - `drop_invar_cols()` now recognises all column types, including logical columns and list columns.
+
+
 # desiderata 0.39.0 (2021-07-05)
 
 - ADD - `uw0()` unwraps hard-wrapped lines without introducing spaces between the lines. This is a shortcut for `uw(..., collapse = "", join = "")`.

@@ -371,15 +371,15 @@ drop_invar_cols <- function(df, from = 1, to = NULL, cols = NULL,
 
     base::Filter(
         function(x) {
-            if (is.character(x) | is.factor(x)) {
-                # Use exact matching
-                if (howmany(x) == 1) return(FALSE)
-            } else if (is.numeric(x)) {
+            if (is.numeric(x)) {
                 # Use fuzzy (rounded) matching
                 if (is.null(nearest)) nearest = mean(x, na.rm = TRUE)
 
                 rounded <- round_to_nearest(x, to = nearest, dir = dir)
                 if (howmany(rounded) == 1) return(FALSE)
+            } else {
+                # Use exact matching
+                if (howmany(x) == 1) return(FALSE)
             }
 
             return(TRUE)
