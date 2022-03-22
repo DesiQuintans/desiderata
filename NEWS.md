@@ -1,6 +1,9 @@
 # desiderata 0.39.2 (2022-03-22)
 
 - ADD - `ensure()` is for quickly testing your code, returning an Error if a test evaluates `FALSE`. For more extensive testing needs, look at the `assertr` package.
+- ADD - `assign_groups()` assigns groups to elements of a vector, with good handling for duplicates.
+- REM - `split_n()` is deprecated because its output was not intuitive when it came to unsorted or duplicated input. Use `assign_groups()` instead.
+
 
 
 # desiderata 0.39.1 (2021-07-06)

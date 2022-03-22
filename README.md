@@ -32,7 +32,8 @@ abide by its terms.
     - `howmany()`      --- Count the number of unique elements (dataframe, table, vector).          [example](#count-the-number-of-unique-elements)
     - `count_unique()` --- Count how many times each unique element in a vector is repeated.        [example](#count-how-many-times-each-unique-element-in-a-vector-is-repeated)
     - `unique_n()`     --- Keep the first `n` unique elements in a vector.                          [example](#keep-the-first-n-unique-elements-in-a-vector)
-    - `split_n`        --- Divide a vector into groups.                                             [example](#divide-a-vector-into-groups)
+    - `assign_groups()` --- Assign elements in a vector to groups.
+[example](#assign-elements-in-a-vector-to-groups)
     - `%notin%`        --- Flag vector elements that are not in another vector (inverse of `%in%`). [example](#flag-vector-elements-that-are-not-in-another-vector-inverse-of-in)
     - `%pctin%`        --- Percentage of matching elements between two vectors.                     [example](#percentage-of-matching-elements-between-two-vectors)
 
@@ -115,6 +116,8 @@ abide by its terms.
     - `dots_char()`    --- Convert dots to a character vector or a string.                            [example](#convert-dots-to-a-character-vector-or-string)
     - `try.seed()`     --- Generate random seeds to preview their effects.                            [example](#generate-random-seeds-to-preview-their-effects)
     - `set_seed_any()` --- Seed the random number generator with a character string (or any object).  [example](#seed-the-random-number-generator-with-a-character-string-or-any-object)
+
+
 
 
 ## Data included
@@ -260,25 +263,22 @@ unique_n(1:5, 20)  # Asking for 20 elements, but there are only 5 uniques.
 ## [1] 1 2 3 4 5
 ```
 
-### Divide a vector into groups
+### Assign elements in a vector to groups
 
 ``` r
-testvec <- c(0.7685, 0.4116, 0.1416, 0.8450, 0.9021, 0.4965, 0.8341, 0.0438)
+testvec <- c(4, 7, 8, 2, 2, 2, 5, 1, 6, 3)
 
-order(testvec)
-#> [1] 8 3 2 6 1 7 4 5
+# 10 values assigned to 4 balanced groups.
+assign_groups(testvec, 4, balance = TRUE, dedupe = FALSE)
+#> [1] 1 1 1 2 2 2 3 3 3 4
 
-split_n(testvec, 4)
-#> [1] 4 2 1 3 1 4 2 3
+# 10 values assigned to 4 unbalanced groups.
+assign_groups(testvec, 4, balance = FALSE, dedupe = FALSE)
+#> [1] 1 1 1 1 2 2 3 3 4 4
 
-split_n(testvec, 7, balance = TRUE)  # The range of groups is limited
-#> [1] 4 2 1 3 1 4 2 3
-
-split_n(testvec, 7, balance = FALSE)  # Try to use the whole range
-#> [1] 7 2 1 5 1 6 3 4
-
-split_n(testvec, 3)  # Sometimes unbalanced groups are inevitable
-#> [1] 3 1 1 2 1 3 2 2
+# 8 values (plus 2 duplicates) assigned to 4 groups.
+assign_groups(testvec, 4, balance = TRUE, dedupe = TRUE)
+#> [1] 1 1 2 2 2 2 3 3 4 4
 ```
 
 ### Flag vector elements that are not in another vector (inverse of `%in%`)

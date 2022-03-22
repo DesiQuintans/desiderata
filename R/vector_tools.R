@@ -160,45 +160,67 @@ count_unique <- function(..., sort = FALSE, useNA = "ifany") {
 
 
 
-#' Split a vector into n groups
+#' Assign elements in a vector to groups
 #'
-#' @param vec (Numeric or Character) A vector. It will be sorted with `sort()` for grouping,
-#'    but returned in the original order.
-#' @param g (Integer) The maximum number of groups to split `vec` into (for some group
-#'    sizes, the maximum will not be used).
-#' @param balance (Logical) If `TRUE`, try to have equal numbers of observations per group.
+#' @param vec (Numeric or Character) A vector. No sorting is done to the vector
+#'    so if you want to group based on some kind of ordering, you need to do it
+#'    beforehand.
+#' @param g (Integer) The maximum of of groups to split `vec` into (the maximum
+#'    group size may not be reached, e.g. grouping 4 elements into 6 groups).
+#' @param balance (Logical) If `TRUE`, try to have equal numbers of observations 
+#'    per group.
+#' @param dedupe (Logical) If `TRUE`, duplicate values in `vec` will be ignored 
+#'    when generating the groups, ensuring that identical values go into the 
+#'    same group. This can unbalance the groups even if `balance = TRUE`.
 #'
-#' @return A vector of integers.
+#' @return An integer vector of the same length as `vec`.
 #' @export
 #'
 #' @examples
-#' testvec <- c(0.7685, 0.4116, 0.1416, 0.8450, 0.9021, 0.4965, 0.8341, 0.0438)
-#'
-#' order(testvec)
-#' #> [1] 8 3 2 6 1 7 4 5
-#'
-#' split_n(testvec, 4)
-#' #> [1] 4 2 1 3 1 4 2 3
-#'
-#' split_n(testvec, 7, balance = TRUE)  # The range of groups is limited
-#' #> [1] 4 2 1 3 1 4 2 3
-#'
-#' split_n(testvec, 7, balance = FALSE)  # Try to use the whole range
-#' #> [1] 7 2 1 5 1 6 3 4
-#'
-#' split_n(testvec, 3)  # Sometimes unbalanced groups are inevitable
-#' #> [1] 3 1 1 2 1 3 2 2
-#'
-#' @md
-split_n <- function(vec, g, balance = TRUE) {
-    n <- length(vec)
+#' testvec <- c(4, 7, 8, 2, 2, 2, 5, 1, 6, 3)
+#' 
+#' # 10 values assigned to 4 balanced groups.
+#' assign_groups(testvec, 4, balance = TRUE, dedupe = FALSE)
+#' #> [1] 1 1 1 2 2 2 3 3 3 4
+#' 
+#' # 10 values assigned to 4 unbalanced groups.
+#' assign_groups(testvec, 4, balance = FALSE, dedupe = FALSE)
+#' #> [1] 1 1 1 1 2 2 3 3 4 4
+#' 
+#' # 8 values (plus 2 duplicates) assigned to 4 groups.
+#' assign_groups(testvec, 4, balance = TRUE, dedupe = TRUE)
+#' #> [1] 1 1 2 2 2 2 3 3 4 4
+#' 
+assign_groups <- function(vec, g, balance = TRUE, dedupe = TRUE) {
+    # Original data. Will be used for the output.
+    input <- dplyr::tibble(vec = vec)
+    
+    # Working data, used for generating the groups.
+    if (dedupe == TRUE) {
+        work <- dplyr::distinct(input, vec)
+    } else {
+        work <- input
+    }
+    
+    # Make the groups.
+    n <- nrow(work)
     
     num_repeats <- ifelse(balance == TRUE, ceiling(n/g), round(n/g))
     
-    splits <- rep(1:g, each = num_repeats, length.out = n)
+    # I sort the reps to avoid situations where the groups start repeating, and
+    # data from later in the dataframe gets assigned to groups that occurred 
+    # earlier, e.g. c(1, 1, 2, 2, 3, 3, 1, 1). This way, early data gets put into
+    # early groups even if the groups are unbalanced.
+    work <- dplyr::mutate(work, 
+                          group = sort(rep(1:g, each = num_repeats, length.out = n)))
     
-    # https://stackoverflow.com/a/1569203/5578429
-    return(sort(splits)[order(vec)])
+    if (dedupe == TRUE) {
+        input <- dplyr::left_join(input, work, by = "vec")
+    } else {
+        input <- work
+    }
+    
+    return(dplyr::pull(input, group))
 }
 
 
