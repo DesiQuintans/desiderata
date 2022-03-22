@@ -1,3 +1,8 @@
+# desiderata 0.39.2 (2022-03-22)
+
+- ADD - `ensure()` is for quickly testing your code, returning an Error if a test evaluates `FALSE`. For more extensive testing needs, look at the `assertr` package.
+
+
 # desiderata 0.39.1 (2021-07-06)
 
 - FIX - `drop_invar_cols()` now recognises all column types, including logical columns and list columns.

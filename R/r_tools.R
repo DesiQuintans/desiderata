@@ -468,3 +468,36 @@ set_seed_any <- function(seed) {
     intval <- utils::type.convert(hexval) %% .Machine$integer.max
     set.seed(intval)
 }
+
+#' Quick assertion function for sanity checking your code
+#'
+#' This function can be used to do quick checks on your code, especially in 
+#' RMarkdown analysis documents. For example, making sure that the number of 
+#' rows in a dataframe hasn't changed after a left-join operation. For more 
+#' than a handful of tests, look for a fuller testing package like `assertr`.
+#'
+#' @param desc (Character) Human-readable description of the expression 
+#'     being evaluated.
+#' @param expr (Expression) The expression being tested. It should evaluate to
+#'     `TRUE` when the test passes, and `FALSE` when the test fails.
+#' 
+#'
+#' @return An Error if the test fails, or a Message if the test passes.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' letters
+#' length(letters)
+#' 
+#' ensure("There should be 26 letters", length(letters) == 26)
+#' }
+#' 
+#' @md
+ensure <- function(desc, expr) {
+    if (eval(expr) == FALSE) {
+        stop('"', desc, '"', " fails QA check (FALSE).")
+    } else {
+        message('"', desc, '"', " passes QA check (TRUE).")
+    }
+}
