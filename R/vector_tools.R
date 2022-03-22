@@ -191,6 +191,7 @@ count_unique <- function(..., sort = FALSE, useNA = "ifany") {
 #' assign_groups(testvec, 4, balance = TRUE, dedupe = TRUE)
 #' #> [1] 1 1 2 2 2 2 3 3 4 4
 #' 
+#' @md
 assign_groups <- function(vec, g, balance = TRUE, dedupe = TRUE) {
     # Original data. Will be used for the output.
     input <- dplyr::tibble(vec = vec)

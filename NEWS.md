@@ -1,4 +1,4 @@
-# desiderata 0.39.2 (2022-03-22)
+# desiderata 0.40.0 (2022-03-22)
 
 - ADD - `ensure()` is for quickly testing your code, returning an Error if a test evaluates `FALSE`. For more extensive testing needs, look at the `assertr` package.
 - ADD - `assign_groups()` assigns groups to elements of a vector, with good handling for duplicates.

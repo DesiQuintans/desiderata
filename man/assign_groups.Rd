@@ -11,18 +11,18 @@ assign_groups(vec, g, balance = TRUE, dedupe = TRUE)
 so if you want to group based on some kind of ordering, you need to do it
 beforehand.}
 
-\item{g}{(Integer) The maximum of of groups to split `vec` into (the maximum
+\item{g}{(Integer) The maximum of of groups to split \code{vec} into (the maximum
 group size may not be reached, e.g. grouping 4 elements into 6 groups).}
 
-\item{balance}{(Logical) If `TRUE`, try to have equal numbers of observations 
+\item{balance}{(Logical) If \code{TRUE}, try to have equal numbers of observations
 per group.}
 
-\item{dedupe}{(Logical) If `TRUE`, duplicate values in `vec` will be ignored 
-when generating the groups, ensuring that identical values go into the 
-same group. This can unbalance the groups even if `balance = TRUE`.}
+\item{dedupe}{(Logical) If \code{TRUE}, duplicate values in \code{vec} will be ignored
+when generating the groups, ensuring that identical values go into the
+same group. This can unbalance the groups even if \code{balance = TRUE}.}
 }
 \value{
-An integer vector of the same length as `vec`.
+An integer vector of the same length as \code{vec}.
 }
 \description{
 Assign elements in a vector to groups
