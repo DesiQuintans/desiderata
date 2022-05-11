@@ -281,6 +281,35 @@ assign_groups(testvec, 4, balance = TRUE, dedupe = TRUE)
 #> [1] 1 1 2 2 2 2 3 3 4 4
 ```
 
+### Split a vector into chunks of size `n`
+
+In contrast to `desiderata::assign_groups()` which splits a vector into `n`
+chunks (possibly with a different number of entries per chunk),
+`desiderata::split_size()` splits a vector into an arbitrary number of chunks
+as long as each chunk has `n` or fewer entries inside it.
+
+``` r
+split_size(letters, 5)
+
+#> $`1`
+#> [1] "a" "b" "c" "d" "e"
+#> 
+#> $`2`
+#> [1] "f" "g" "h" "i" "j"
+#> 
+#> $`3`
+#> [1] "k" "l" "m" "n" "o"
+#> 
+#> $`4`
+#> [1] "p" "q" "r" "s" "t"
+#> 
+#> $`5`
+#> [1] "u" "v" "w" "x" "y"
+#> 
+#> $`6`
+#> [1] "z"
+```
+
 ### Flag vector elements that are not in another vector (inverse of `%in%`)
 
 In base R, you find the opposite of `%in%` by negating it like `!(x %in% y)`. `%notin%` is simply `!(x %in% y)` in a more readable form.

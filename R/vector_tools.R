@@ -338,3 +338,52 @@ unique_n <- function(vec, n, sort = "no") {
     
     deduped[1:ifelse(n > len, len, n)]
 }
+
+
+
+#' Split a vector into chunks of size `n`
+#'
+#' In contrast to `desiderata::assign_groups()` which splits a vector into `n` 
+#' chunks (possibly with a different number of entries per chunk), 
+#' `desiderata::split_size()` splits a vector into an arbitrary number of chunks
+#' as long as each chunk has `n` or fewer entries inside it.
+#'
+#' @param vec (Vector) Any vector.
+#' @param size (Integer) The number of entries per chunk.
+#'
+#' @return A list of dynamic length, where each entry is a chunk from `vec` of 
+#'     length 1 up to `size`.
+#' @export
+#'
+#' @examples
+#' split_size(letters, 5)
+#' 
+#' ## $`1`
+#' ## [1] "a" "b" "c" "d" "e"
+#' ## 
+#' ## $`2`
+#' ## [1] "f" "g" "h" "i" "j"
+#' ## 
+#' ## $`3`
+#' ## [1] "k" "l" "m" "n" "o"
+#' ## 
+#' ## $`4`
+#' ## [1] "p" "q" "r" "s" "t"
+#' ## 
+#' ## $`5`
+#' ## [1] "u" "v" "w" "x" "y"
+#' ## 
+#' ## $`6`
+#' ## [1] "z"
+#' 
+#' @section Authors:
+#' - Harlan (<https://stackoverflow.com/users/135944/harlan>)
+#' - dfrankow (<https://stackoverflow.com/users/34935/dfrankow>)
+#'
+#' @section Source:
+#' <https://stackoverflow.com/a/3321659/5578429>
+#' 
+#' @md
+split_size <- function(vec, size) {
+    split(vec, ceiling(seq_along(vec) / size))
+}

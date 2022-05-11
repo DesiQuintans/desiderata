@@ -1,3 +1,9 @@
+# desiderata 0.41.0 (2022-05-11)
+
+- ADD - `split_size()` to split a vector into chunks of known size (or smaller).
+
+
+
 # desiderata 0.40.0 (2022-03-22)
 
 - ADD - `ensure()` is for quickly testing your code, returning an Error if a test evaluates `FALSE`. For more extensive testing needs, look at the `assertr` package.
