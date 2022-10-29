@@ -468,11 +468,18 @@ not.nan <- function(vec) {
 #' elements, "--k" to keep every third element, or "k-k--" to keep every 1st 
 #' and 3rd element for every 5 entries. Use `k`, `y`, or `t` to keep an element, 
 #' and any other character to remove it. 
+#' 
+#' You can also pass other vector types into `key`, and they will be coerced into
+#' a logical vector where `TRUE` keeps elements and `FALSE` or `NA` removes them.
 #'
 #' @param vec (Vector) Any vector.
-#' @param key (Character) A string that controls which elements to keep (with 
-#'     `k` or `y` or `t`) and which elements to omit (any other character). This
-#'     string can be arbitrarily long; it is recycled along the length of `vec`.
+#' @param key (Character or Other) A string that controls which elements to keep 
+#'     (with `k` or `y` or `t`) and which elements to omit (any other character). 
+#'     This string can be arbitrarily long; it is recycled along the length 
+#'     of `vec`. If you pass a different kind of vector to `key` (e.g. a numeric
+#'     vector or a logical vector), then its elements will be coerced with 
+#'     `as.logical()` and `TRUE` values will keep elements, and `FALSE` or `NA` 
+#'     values will remove them.
 #'
 #' @return A vector of the same type as `vec`, but shortened according to `key`.
 #' 
@@ -496,14 +503,24 @@ not.nan <- function(vec) {
 #' 
 #' ## [1] "a" "c" "d" "f" "g" "i" "j" "l" "m" "o" "p" "r" "s" "u" "v" "x" "y"
 #' 
+#' # Pass in a vector to use it as a coerced logical vector
+#' keep_every(letters, c(1, 0, 0, 2))
+#' [1] "a" "d" "e" "h" "i" "l" "m" "p" "q" "t" "u" "x" "y"
+#' 
 #' @section Authors:
 #' - Desi Quintans (<http://www.desiquintans.com>)
 #' - Sven Hohenstein (https://stackoverflow.com/a/13462110)
 #' 
 #' @md
 keep_every <- function(vec, key = "k-") {
-    key_chars <- strsplit(key, split = "")[[1]]
-    keep_order <- grepl("(k|y|t)", key_chars, ignore.case = TRUE)
+    if (is.character(key) & length(key) == 1) {
+        key_chars <- strsplit(key, split = "")[[1]]
+        keep_order <- grepl("(k|y|t)", key_chars, ignore.case = TRUE)
+    } else {
+        keep_order <- as.logical(key)
+        keep_order[is.na(keep_order)] <- FALSE
+    }
+    
     
     return(vec[keep_order])
 }

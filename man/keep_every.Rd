@@ -9,9 +9,13 @@ keep_every(vec, key = "k-")
 \arguments{
 \item{vec}{(Vector) Any vector.}
 
-\item{key}{(Character) A string that controls which elements to keep (with
-\code{k} or \code{y} or \code{t}) and which elements to omit (any other character). This
-string can be arbitrarily long; it is recycled along the length of \code{vec}.}
+\item{key}{(Character or Other) A string that controls which elements to keep
+(with \code{k} or \code{y} or \code{t}) and which elements to omit (any other character).
+This string can be arbitrarily long; it is recycled along the length
+of \code{vec}. If you pass a different kind of vector to \code{key} (e.g. a numeric
+vector or a logical vector), then its elements will be coerced with
+\code{as.logical()} and \code{TRUE} values will keep elements, and \code{FALSE} or \code{NA}
+values will remove them.}
 }
 \value{
 A vector of the same type as \code{vec}, but shortened according to \code{key}.
@@ -21,6 +25,10 @@ Use a string to keep every nth element of a vector, e.g. "k-" to keep odd
 elements, "--k" to keep every third element, or "k-k--" to keep every 1st
 and 3rd element for every 5 entries. Use \code{k}, \code{y}, or \code{t} to keep an element,
 and any other character to remove it.
+}
+\details{
+You can also pass other vector types into \code{key}, and they will be coerced into
+a logical vector where \code{TRUE} keeps elements and \code{FALSE} or \code{NA} removes them.
 }
 \section{Authors}{
 
@@ -47,5 +55,9 @@ keep_every(letters, "-k")
 keep_every(letters, "yny")
 
 ## [1] "a" "c" "d" "f" "g" "i" "j" "l" "m" "o" "p" "r" "s" "u" "v" "x" "y"
+
+# Pass in a vector to use it as a coerced logical vector
+keep_every(letters, c(1, 0, 0, 2))
+[1] "a" "d" "e" "h" "i" "l" "m" "p" "q" "t" "u" "x" "y"
 
 }
