@@ -11,8 +11,8 @@ round_to_nearest(num, to, dir = NULL)
 
 \item{to}{(Numeric) What interval should \code{num} be rounded to?}
 
-\item{dir}{(Optional Char: \code{"up"} or \code{"down"} or omitted) Controls the rounding
-function used. If omitted, the \code{round()} function is used. If \code{"up"}, \code{ceiling()} is
+\item{dir}{(Optional Char: \code{"up"}, \code{"down"}, \code{"both"}, or omitted) Controls the rounding
+function used. If omitted or \code{"both"}, the \code{round()} function is used. If \code{"up"}, \code{ceiling()} is
 used. If \code{"down"}, \code{floor()} is used.}
 }
 \value{

@@ -162,6 +162,12 @@ count_unique <- function(..., sort = FALSE, useNA = "ifany") {
 
 #' Assign elements in a vector to groups
 #'
+#' In contrast to `desiderata::split_size()` which splits a vector into an 
+#' arbitrary number of chunks as long as each chunk has `n` or fewer entries 
+#' inside it, `desiderata::assign_groups()` splits the vector into `n` 
+#' chunks, possibly with a different number of entries per chunk.
+#' 
+#'
 #' @param vec (Numeric or Character) A vector. No sorting is done to the vector
 #'    so if you want to group based on some kind of ordering, you need to do it
 #'    beforehand.
@@ -386,4 +392,118 @@ unique_n <- function(vec, n, sort = "no") {
 #' @md
 split_size <- function(vec, size) {
     split(vec, ceiling(seq_along(vec) / size))
+}
+
+
+
+#' Opposite of `is.na()`
+#'
+#' Checks that vector elements are not `NA`. This is more readable and noticeable
+#' than `!is.na(vec)`, and more compact than `is.na(vec) == FALSE`.
+#'
+#' @param vec (Vector) Any vector.
+#'
+#' @return A logical vector of the same length as `vec`, with elements either 
+#' `TRUE` when the element isn't `NA`, or `FALSE` when it is `NA`.
+#' 
+#' @export
+#'
+#' @examples
+#' x <- c(1, NA, 2, 3, 4)
+#' 
+#' is.na(x)
+#' 
+#' ## [1] FALSE  TRUE FALSE FALSE FALSE
+#' 
+#' not.na(x)
+#' 
+#' ## [1]  TRUE FALSE  TRUE  TRUE  TRUE
+#' 
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#' 
+#' @md
+not.na <- function(vec) {
+    !is.na(vec)
+}
+
+
+
+#' Opposite of `is.nan()`
+#'
+#' Checks that vector elements are not `NaN`. This is more readable and noticeable
+#' than `!is.nan(vec)`, and more compact than `is.nan(vec) == FALSE`.
+#'
+#' @param vec (Vector) Any vector.
+#'
+#' @return A logical vector of the same length as `vec`, with elements either 
+#' `TRUE` when the element isn't `NaN`, or `FALSE` when it is `NaN`.
+#' 
+#' @export
+#'
+#' @examples
+#' x <- c(1, NaN, 2, 3, 4)
+#' 
+#' is.nan(x)
+#' 
+#' ## [1] FALSE  TRUE FALSE FALSE FALSE
+#' 
+#' not.nan(x)
+#' 
+#' ## [1]  TRUE FALSE  TRUE  TRUE  TRUE
+#' 
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#' 
+#' @md
+not.nan <- function(vec) {
+    !is.nan(vec)
+}
+
+
+
+#' Keep every other element of a vector, flexibly
+#'
+#' Use a string to keep every nth element of a vector, e.g. "k-" to keep odd 
+#' elements, "--k" to keep every third element, or "k-k--" to keep every 1st 
+#' and 3rd element for every 5 entries. Use `k`, `y`, or `t` to keep an element, 
+#' and any other character to remove it. 
+#'
+#' @param vec (Vector) Any vector.
+#' @param key (Character) A string that controls which elements to keep (with 
+#'     `k` or `y` or `t`) and which elements to omit (any other character). This
+#'     string can be arbitrarily long; it is recycled along the length of `vec`.
+#'
+#' @return A vector of the same type as `vec`, but shortened according to `key`.
+#' 
+#' @export
+#'
+#' @examples
+#' 
+#' # By default, keeps every odd element (1st, 3rd, etc.) using "k-".
+#' keep_every(letters)
+#' 
+#' ## [1] "a" "c" "e" "g" "i" "k" "m" "o" "q" "s" "u" "w" "y"
+#' 
+#' # Keep every even element
+#' keep_every(letters, "-k")
+#'
+#' ## [1] "b" "d" "f" "h" "j" "l" "n" "p" "r" "t" "v" "x" "z"
+#' 
+#' # Use k/y/t to keep an element, any other character to remove it.
+#' # For every 3 elements, keep the 1st and 3rd
+#' keep_every(letters, "yny")
+#' 
+#' ## [1] "a" "c" "d" "f" "g" "i" "j" "l" "m" "o" "p" "r" "s" "u" "v" "x" "y"
+#' 
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#' - Sven Hohenstein (https://stackoverflow.com/a/13462110)
+#' 
+#' @md
+keep_every <- function(vec, key = "k-") {
+    key_chars <- strsplit(key, split = "")[[1]]
+    keep_order <- grepl("(k|y|t)", key_chars, ignore.case = TRUE)
+    
+    return(vec[keep_order])
 }

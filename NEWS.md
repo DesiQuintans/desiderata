@@ -1,3 +1,21 @@
+# desiderata 0.42.0 (2022-10-29)
+
+- ADD - `keep_every()`, which uses a string to control which elements of a vector are kept or removed. For example, `"k-"` keeps odd elements, `"-k"` keeps even elements, and `"-kk--"` keeps the 2nd and 3rd element out of every 5.
+- ADD - `round_to_duration()`, which _roughly_ converts a time duration (e.g. 37 days) into a different unit of time (e.g. 1.215606 months), with optional rounding to a nearest value (e.g. 1.25 months).
+- ADD - `consecutive_week()`, which counts the number of 7-day weeks between two dates **OR** the number of calendar weeks starting on Mondays (AKA isoweeks) between two dates.
+- ADD - `not.na()`, a more noticeable equivalent of `!is.na()`.
+- ADD - `not.nan()`, a more noticeable equivalent of `!is.nan()`.
+- ADD - `write_df()`, which writes a dataframe to a .csv and .rds in one shot.
+- ADD - `save_a4()`, which saves a ggplot to a .png, with defaults suitable for a full A4 page in landscape.
+- MOD - The X axis limits of `percentile()`'s plots are no longer hard-coded to 0-100 %.
+- MOD - `round_to_nearest()` now accepts `dir = "both"` to be more similar to other functions with a `dir` argument, whose names I can't remember right now.
+- FIX - `desi_base_theme()` removes the grid lines now, as the description always said.
+- MOD - `desi_base_theme()` now has a `...` argument for sending further arguments to `ggplot2::theme()`.
+- FIX - `make_path()` now condenses multiple directory separators (`/`) into one, and also respects file extensions (i.e. `make_path("dir", "file", ".rds")` will output `dir/file.rds` and **not** `dir/file/.rds`).
+- MOD - Added `glue` and `readr` to dependencies.
+
+
+
 # desiderata 0.41.0 (2022-05-11)
 
 - ADD - `split_size()` to split a vector into chunks of known size (or smaller).

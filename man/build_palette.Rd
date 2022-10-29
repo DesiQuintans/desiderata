@@ -54,21 +54,21 @@ identically and return the same kind of data.
 }
 \section{Functions}{
 \itemize{
-\item \code{palette_builtin}: R's 502 built-in distinct named colours in hex form (the
+\item \code{palette_builtin()}: R's 502 built-in distinct named colours in hex form (the
 same ones that would be output by \code{colours(distinct = TRUE)}. The biggest
 advantage of accessing R's colours with this function is that you can add
 transparency to them.
 
-\item \code{palette_distinct}: Tatarize's 1,022 visually-distinct colours
+\item \code{palette_distinct()}: Tatarize's 1,022 visually-distinct colours
 (\url{https://stackoverflow.com/a/12224359/5578429}). Many of these are not
 colorblind safe, and many of them have low contrast or are very similar (but should
 still be different enough to discriminate when they are side-by-side).
 
-\item \code{palette_mrmrs}: Adam Morse's 16 web-safe colours (\url{https://clrs.cc}). Nicer
+\item \code{palette_mrmrs()}: Adam Morse's 16 web-safe colours (\url{https://clrs.cc}). Nicer
 replacements for the standard browser colours, with good contrast and readability
 even when overplotted.
 
-\item \code{palette_picked}: Desi's 14 hand-picked colours from the \code{palette_distinct()}
+\item \code{palette_picked()}: Desi's 14 hand-picked colours from the \code{palette_distinct()}
 range. The palette created by \code{desiderata::palette_distinct()} has a lot of colours
 that are either so dark or so light that it's difficult to differentiate them next
 to each other. In addition, many of the colours are affected by adjacency effects
@@ -77,13 +77,13 @@ through the preview plots manually, randomising the order of colours and deletin
 colours that were visually similar until I ended up with a list of colours that were
 easy to differentiate.
 
-\item \code{palette_distant}: 48 distant colours from all palettes. This palette
+\item \code{palette_distant()}: 48 distant colours from all palettes. This palette
 is made by converting the hex colours from the other palettes to RGB and
 HSV, rounding those values to the same range (e.g. rounding RGB values to
 the nearest 50), and then keeping the unique values only. This is the same
 way that \code{colours(distinct = TRUE)} defines its distinct colours.
-}}
 
+}}
 \section{Authors}{
 
 \itemize{

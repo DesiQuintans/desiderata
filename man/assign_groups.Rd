@@ -25,7 +25,10 @@ same group. This can unbalance the groups even if \code{balance = TRUE}.}
 An integer vector of the same length as \code{vec}.
 }
 \description{
-Assign elements in a vector to groups
+In contrast to \code{desiderata::split_size()} which splits a vector into an
+arbitrary number of chunks as long as each chunk has \code{n} or fewer entries
+inside it, \code{desiderata::assign_groups()} splits the vector into \code{n}
+chunks, possibly with a different number of entries per chunk.
 }
 \examples{
 testvec <- c(4, 7, 8, 2, 2, 2, 5, 1, 6, 3)

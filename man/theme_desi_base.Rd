@@ -4,13 +4,16 @@
 \alias{theme_desi_base}
 \title{My personally-preferred minimal base plot theme}
 \usage{
-theme_desi_base()
+theme_desi_base(...)
+}
+\arguments{
+\item{...}{(Character) Arguments to send to \code{ggplot2::theme()}.}
 }
 \value{
 \code{ggplot2} theme objects.
 }
 \description{
-\code{theme_bw()} with no grid and no borders.
+\code{theme_bw()} with no grid, no borders, legend at the top, and no legend title.
 }
 \section{Authors}{
 

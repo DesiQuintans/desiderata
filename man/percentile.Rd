@@ -9,6 +9,7 @@ percentile(
   cuts = c(0, 0.025, 0.1, 0.2, 0.25, 0.33, 0.5, 0.66, 0.75, 0.8, 0.85, 0.9, 0.95, 0.99,
     0.9975, 1),
   na.rm = FALSE,
+  cld = FALSE,
   plot = FALSE,
   ...
 )
@@ -20,6 +21,11 @@ percentile(
 
 \item{na.rm}{(Logical) If \code{TRUE}, \code{NA}s will be ignored.}
 
+\item{cld}{(\code{glue::glue()} specification) A \strong{C}ompact \strong{L}ine \strong{D}isplay
+of your results, in \code{glue()} format. Access each of the cut results as
+\code{{p1}}, \code{{p2}}, \code{{p3}}, etc. See examples for more. Incompatible
+with \code{plot = TRUE}.}
+
 \item{plot}{(Logical) If \code{FALSE} (default), returns a named numeric vector of
 percentiles and their values. If \code{TRUE}, returns a scatter plot of the percentiles
 along X and their values along Y.}
@@ -27,13 +33,17 @@ along X and their values along Y.}
 \item{...}{Extra parameters that are passed to plot() if \code{plot = TRUE}.}
 }
 \value{
-If \code{plot = FALSE} (default), returns a named numeric vector of percentiles and
-their values. If \code{plot = TRUE}, returns a scatter plot of the percentiles along X
+By default, returns a named numeric vector of percentiles and their
+values. \cr
+If \code{cld} has a \code{Character} string in it, then returns a
+glue/Character vector. \cr
+If \code{plot = TRUE}, returns a scatter plot of the percentiles along X
 and their values along Y.
 }
 \description{
 Break down a vector into useful percentiles. If the 25th percentile is 10.5, for
-example, then 25 \\% of the observations are < 10.5.
+example, then 25 \\% of the observations are < 10.5. Gives you results as a
+named numeric vector, a Compact Line Display, or a percentile plot.
 }
 \section{Authors}{
 
@@ -62,6 +72,12 @@ percentile(vec, 0.66)
 
 #>   66\%
 #> 22.54
+
+# You can get a _C_ompact _L_ine _D_isplay of your results. Access each element
+# of your results as `{p1}`, `{p2}`, `{p3}`, etc.
+percentile(vec, c(0.05, 0.5, 0.95), cld = "{p1} ({p2}) {p3}")
+
+#> 3 (19.5) 28
 
 \dontrun{
 percentile(vec, plot = TRUE)

@@ -69,6 +69,8 @@ loadRDS <- function(...) {
 #' @md
 make_path <- function(...) {
     path <- file.path(...)
+    path <- stringr::str_replace_all(path, "/+", "/")
+    path <- stringr::str_replace_all(path, stringr::fixed("/."), ".")
 
     if (grepl("\\.", basename(path)) == TRUE) {
         pathToBuild <- file.path(dirname(path), "/")
@@ -91,6 +93,9 @@ make_path <- function(...) {
 
     return(path)
 }
+
+
+
 
 #' Apply a function to every file in a folder that matches a regex pattern
 #'
@@ -167,4 +172,114 @@ apply_to_files <- function(path, pattern, func, ..., recursive = FALSE, ignoreca
                   "row_bind"   = dplyr::bind_rows(df_list, .id = "orig_source_file"))
 
     return(invisible(out))
+}
+
+
+
+#' Write a dataframe to a CSV and RDS
+#'
+#' @param df (Dataframe) A dataframe. 
+#' @param path (Character) The output folder. It will be created if it does not 
+#'    exist. Two sub-directories (`/csv/` and `/rds/`) will also be created if 
+#'    they don't exist.
+#' @param basename (Character) The name of the resulting files, without a 
+#'    path or extension. 
+#'
+#' @return Returns `TRUE` invisibly on success.
+#' @export
+#'
+#' @examples
+#' # write_csv_rds(iris, "_output", "my_iris")
+#' 
+#' #> Wrote 'iris' to '_output/csv/my_iris.csv'.
+#' #> Wrote 'iris' to '_output/rds/my_iris.rds'.
+#' 
+#' @md
+write_df <- function(df, path, basename) {
+    df_name <- substitute(df)
+    
+    if (is.data.frame(df) == FALSE) {
+        stop("is.data.frame(", df_name, ") is not TRUE.")
+    }
+    
+    csv_file <- make_path(path, "/csv/", basename, ".csv")
+    rds_file <- make_path(path, "/rds/", basename, ".rds")
+    
+    readr::write_csv(df, csv_file)
+    readr::write_rds(df, rds_file)
+    
+    csv_exists <- file.exists(csv_file)
+    rds_exists <- file.exists(rds_file)
+    
+    if (csv_exists & rds_exists) {
+        message("Wrote '", df_name, "' to '", csv_file, "'.")
+        message("Wrote '", df_name, "' to '", rds_file, "'.")
+        
+        return(invisible(TRUE))
+    } else {
+        csv_error <- ifelse(csv_exists == FALSE, 
+                            paste0("'", csv_file, "'"),
+                            character(0))
+        
+        rds_error <- ifelse(rds_exists == FALSE, 
+                            paste0("'", rds_file, "'"), 
+                            character(0))
+        
+        bad_files <- paste0(c(csv_error, rds_error), collapse = " and ")
+        
+        stop("Failed to write ", bad_files, ".")
+    }
+}
+
+
+
+#' Save a ggplot as an A4 image
+#' 
+#' The dimensions are for the pixel size of an A4 page at 300 DPI.
+#' This is appropriate for inserting into Word without much detail loss, and 
+#' with appropriate text and element sizes.
+#'
+#' @param path (Character) The output folder. It will be created if it does not 
+#'    exist. One sub-directory (`/png/`) will also be created if it doesn't exist.
+#' @param basename (Character) Basename of the image, without path or extension. 
+#'    Always saved as a `.png`.
+#' @param plot (ggplot) The plot object to save. By default, saves the most 
+#'    recent ggplot.
+#' @param portrait (Logical) `FALSE` by default, which outputs in landscape. 
+#'    If `TRUE`, flips the page dimensions to output in portrait.
+#'
+#' @return Returns `TRUE` invisibly if successful.
+#' @export
+#' 
+#' @examples
+#' # qplot(mpg, wt, data = mtcars)
+#' # save_a4("_test", "x_mpg y_wt")
+#' 
+#' #> Wrote 'ggplot2::last_plot' to '_test/png/x_mpg y_wt.png'.
+#' 
+#' @md
+save_a4 <- function(path, basename, plot = ggplot2::last_plot(), portrait = FALSE) {
+    png_path <- make_path(path, "/png/", basename, ".png")
+    png_path <- stringr::str_replace(png_path, 
+                                     stringr::fixed(".png.png"),
+                                     ".png")
+    
+    if (portrait) {
+        h <- 3508
+        w <- 2481
+    } else {
+        h <- 2481
+        w <- 3508
+    }
+    
+    ggplot2::ggsave(png_path, plot = plot,
+           height = h, width = w, units = "px", dpi = 300)
+    
+    if (file.exists(png_path)) {
+        message("Wrote '", substitute(plot), "' to '", png_path, "'.")
+        
+        return(invisible(TRUE))
+    } else {
+        stop("Failed to write '", png_path, "'.")
+    }
 }

@@ -17,6 +17,10 @@ Sometimes developers leave debugging messages in their packages or, infuriatingl
 choose to output messages by using print() or cat() instead of message() or warning()
 like they're supposed to. This function suppresses them to remove that clutter.
 }
+\details{
+If you want to catch errors easily, I recommend \code{possibly()} or \code{safely()} or
+\code{quietly()} in the \code{purrr} package.
+}
 \section{Authors}{
 
 \itemize{

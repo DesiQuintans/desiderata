@@ -76,8 +76,8 @@ se_mean <- function(vec, na.rm = FALSE) {
 #'
 #' @param num (Numeric) A vector of numbers.
 #' @param to (Numeric) What interval should `num` be rounded to?
-#' @param dir (Optional Char: `"up"` or `"down"` or omitted) Controls the rounding
-#'   function used. If omitted, the `round()` function is used. If `"up"`, `ceiling()` is
+#' @param dir (Optional Char: `"up"`, `"down"`, `"both"`, or omitted) Controls the rounding
+#'   function used. If omitted or `"both"`, the `round()` function is used. If `"up"`, `ceiling()` is
 #'   used. If `"down"`, `floor()` is used.
 #'
 #' @return A numeric vector.
@@ -99,11 +99,36 @@ round_to_nearest <- function(num, to, dir = NULL) {
     # Useful for formatting graph scales by rounding to a specified "pretty" value.
     # http://stackoverflow.com/questions/8664976/r-round-to-nearest-5-or-1
 
-    if (is.null(dir)) return(round(num / to) * to)
+    if (is.null(dir) || dir == "both") return(round(num / to) * to)
 
     if (dir == "up") return(ceiling(num / to) * to)
 
     if (dir == "down") return(floor(num / to) * to)
+}
+
+
+#' Round numbers to a fixed number of decimal places
+#'
+#' @param x (Numeric) A vector of numbers.
+#' @param digits (Numeric) Number of decimal places to keep.
+#'
+#' @return A numeric vector.
+#' @export
+#'
+#' @examples
+#' vec <- c(1.739006, 2, -1.4, 1.05, 1.90, 3.826)
+#' round_to(vec, digits = 3)
+#' #> [1] "1.739"  "2.000"  "-1.400" "1.050"  "1.900"  "3.826" 
+#'
+#' @section Authors:
+#' - Jeromy Anglim (<https://stackoverflow.com/users/180892/jeromy-anglim>)
+#'
+#' @section Source:
+#' <https://stackoverflow.com/a/12135122>
+#'
+#' @md
+round_to <- function(x, digits = 2, ...) {
+    trimws(format(round(x, digits = digits), nsmall = digits))
 }
 
 
@@ -335,18 +360,26 @@ concat_nums <- function(...) {
 #' Quick percentile overview
 #'
 #' Break down a vector into useful percentiles. If the 25th percentile is 10.5, for
-#' example, then 25 \% of the observations are < 10.5.
+#' example, then 25 \% of the observations are < 10.5. Gives you results as a 
+#' named numeric vector, a Compact Line Display, or a percentile plot.
 #'
 #' @param num (Numeric) A vector.
 #' @param cuts (Numeric) A vector of percentiles to calculate.
 #' @param na.rm (Logical) If `TRUE`, `NA`s will be ignored.
+#' @param cld (`glue::glue()` specification) A **C**ompact **L**ine **D**isplay 
+#'    of your results, in `glue()` format. Access each of the cut results as 
+#'    `{p1}`, `{p2}`, `{p3}`, etc. See examples for more. Incompatible 
+#'    with `plot = TRUE`.
 #' @param plot (Logical) If `FALSE` (default), returns a named numeric vector of
 #'    percentiles and their values. If `TRUE`, returns a scatter plot of the percentiles
 #'    along X and their values along Y.
 #' @param ... Extra parameters that are passed to plot() if `plot = TRUE`.
 #'
-#' @return If `plot = FALSE` (default), returns a named numeric vector of percentiles and
-#'    their values. If `plot = TRUE`, returns a scatter plot of the percentiles along X
+#' @return By default, returns a named numeric vector of percentiles and their 
+#'    values. \cr
+#'    If `cld` has a `Character` string in it, then returns a 
+#'    glue/Character vector. \cr
+#'    If `plot = TRUE`, returns a scatter plot of the percentiles along X
 #'    and their values along Y.
 #' @export
 #'
@@ -371,6 +404,12 @@ concat_nums <- function(...) {
 #' #>   66%
 #' #> 22.54
 #'
+#' # You can get a _C_ompact _L_ine _D_isplay of your results. Access each element
+#' # of your results as `{p1}`, `{p2}`, `{p3}`, etc.
+#' percentile(vec, c(0.05, 0.5, 0.95), cld = "{p1} ({p2}) {p3}")
+#' 
+#' #> 3 (19.5) 28
+#'
 #' \dontrun{
 #' percentile(vec, plot = TRUE)
 #' }
@@ -382,16 +421,20 @@ concat_nums <- function(...) {
 #' - Desi Quintans (<http://www.desiquintans.com>)
 #'
 #' @md
-percentile <- function(num, cuts = c(0, 0.025, 0.10, 0.20, 0.25, 0.33, 0.50, 0.66, 0.75, 0.80, 0.85, 0.90, 0.95, 0.99, 0.9975, 1.0), na.rm = FALSE, plot = FALSE, ...) {
+percentile <- function(num, cuts = c(0, 0.025, 0.10, 0.20, 0.25, 0.33, 0.50, 0.66, 0.75, 0.80, 0.85, 0.90, 0.95, 0.99, 0.9975, 1.0), na.rm = FALSE, cld = FALSE, plot = FALSE, ...) {
     results <- stats::quantile(num, cuts, na.rm = na.rm)
 
-    if (plot == FALSE) {
+    if (typeof(cld) == "character") {
+        names(results) <- paste0("p", seq_along(results))
+        results <- signif(results, digits = 2)
+        return(glue::glue_data(results, cld))
+    } else if (plot == FALSE) {
         return(results)
     } else {
-        graphics::plot(results ~ cuts, xaxt = "n", xlim = c(0, 1), type = "c", lty = 2,
+        graphics::plot(results ~ cuts, xaxt = "n", type = "c", lty = 2,
              xlab = "Percentile", ylab = "Value", col = "gray", ...)
         graphics::axis(1, at = cuts, labels = names(results))
-        graphics::text(x = cuts, y = results, labels = format(results, digits = 1), adj = c(0.5, 0.5),
+        graphics::text(x = cuts, y = results, labels = format(results, digits = 3), adj = c(0.5, 0.5),
                        col = "black", font = 2, cex = 0.75)
     }
 }

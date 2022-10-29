@@ -2,7 +2,9 @@
 
 #' My personally-preferred minimal base plot theme
 #'
-#' `theme_bw()` with no grid and no borders.
+#' `theme_bw()` with no grid, no borders, legend at the top, and no legend title.
+#'
+#' @param ... (Character) Arguments to send to `ggplot2::theme()`.
 #'
 #' @return `ggplot2` theme objects.
 #' @export
@@ -16,13 +18,18 @@
 #' - Desi Quintans (<http://www.desiquintans.com>)
 #'
 #' @md
-theme_desi_base <- function() {
+theme_desi_base <- function(...) {
     return(
         ggplot2::theme_bw() +
-        ggplot2::theme(panel.border    = ggplot2::element_blank(),          # No border around plot
-                       legend.position = "top",                             # Legend at the top
-                       legend.title    = ggplot2::element_blank()           # No legend title
-                      )
+        ggplot2::theme(panel.border    = ggplot2::element_blank(),  # No border around plot
+                       legend.position = "top",                     # Legend at the top
+                       legend.title    = ggplot2::element_blank(),  # No legend title
+                       panel.grid      = element_blank()           # No grid lines
+                      ) +
+        # Other args to theme(). They're in a second theme() call so that they 
+        # can overwrite previously-used values instead of producing an "already 
+        # used" message.
+        ggplot2::theme(...) 
     )
 }
 

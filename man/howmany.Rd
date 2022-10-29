@@ -25,14 +25,14 @@ Count the number of unique values
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{default}: Returns the number of unique values in \code{x}.
+\item \code{howmany(default)}: Returns the number of unique values in \code{x}.
 
-\item \code{data.frame}: Returns a dataframe showing the number of unique values in
+\item \code{howmany(data.frame)}: Returns a dataframe showing the number of unique values in
 each column of \code{x}.
 
-\item \code{table}: Coerces \code{x} to \code{data.frame} and passes it to \code{data.frame} method.
-}}
+\item \code{howmany(table)}: Coerces \code{x} to \code{data.frame} and passes it to \code{data.frame} method.
 
+}}
 \section{Authors}{
 
 \itemize{

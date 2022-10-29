@@ -5,6 +5,9 @@
 #' Sometimes developers leave debugging messages in their packages or, infuriatingly,
 #' choose to output messages by using print() or cat() instead of message() or warning()
 #' like they're supposed to. This function suppresses them to remove that clutter.
+#' 
+#' If you want to catch errors easily, I recommend `possibly()` or `safely()` or
+#' `quietly()` in the `purrr` package. 
 #'
 #' @param x (Expression) An expression, usually a call to a function.
 #'

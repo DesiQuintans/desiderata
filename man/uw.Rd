@@ -43,12 +43,14 @@ shortcut for \code{uw(..., collapse = "", join = "")}.
 
 Also note that since \code{uw()} uses the presence of indenting spaces to decide
 whether a piece of text is hard-wrapped, text that merely goes to the 0th column
-is not unwrapped. Compare:\preformatted{text <- "This will be
+is not unwrapped. Compare:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{text <- "This will be
         unwrapped by uw()."
 
 text <- "This will NOT
 be unwrapped by uw()."
-}
+}\if{html}{\out{</div>}}
 }
 \section{Authors}{
 
