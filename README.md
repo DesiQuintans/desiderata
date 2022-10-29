@@ -32,6 +32,7 @@ abide by its terms.
     + [Count the number of unique elements](#count-the-number-of-unique-elements)
     + [Count how many times each unique element in a vector is repeated](#count-how-many-times-each-unique-element-in-a-vector-is-repeated)
     + [Keep the first `n` unique elements in a vector](#keep-the-first--n--unique-elements-in-a-vector)
+    + [Keep every other element of a vector, flexibly](#keep-every-other-element-of-a-vector-flexibly)
     + [Assign elements in a vector to groups](#assign-elements-in-a-vector-to-groups)
     + [Split a vector into chunks of size `n`](#split-a-vector-into-chunks-of-size--n-)
     + [Flag vector elements that are not in another vector (inverse of `%in%`)](#flag-vector-elements-that-are-not-in-another-vector--inverse-of---in---)
