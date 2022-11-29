@@ -609,6 +609,7 @@ rows_with_na <- function(df) {
 #' @section Authors: 
 #' - Desi Quintans (<http://www.desiquintans.com>)
 #' @md
+#' @importFrom magrittr %>%
 sift <- function(df, query, dist = 0.1) {
     get_label <- function(item) {
         result <- attr(item, "label")
@@ -620,24 +621,72 @@ sift <- function(df, query, dist = 0.1) {
         }
     }
     
+    # 2 Decimal Places
+    dp2 <- function(num, fun) {
+        signif(num, 2)
+    }
+    
+    # Collapse
+    fold <- function(vec) {
+        if (length(vec) == 1) {
+            return(vec)
+        }
+        
+        if (length(vec) == 2) {
+            return(paste(vec[1], ",", vec[2]))
+        }
+        
+        return(paste(vec[1], "and", length(vec) - 1, "others"))
+    }
+    
     attr_name  <- stringr::str_trim(colnames(df))
     attr_label <- sapply(df, get_label, USE.NAMES = FALSE)
     names(attr_label) <- NULL
     
+    # This is what gets searched to find matching columns
     attr_joined <- stringr::str_trim(paste(attr_name, attr_label))
 
     out <- agrep(query, attr_joined, ignore.case = TRUE, value = FALSE, fixed = FALSE, 
                  max.distance = dist)
     
-    purrr::pwalk(list(attr_name[out], attr_label[out]),
-                 function(colname, lab) {
+    purrr::pwalk(list(attr_name[out], attr_label[out], df[out]),
+                 function(colname, lab, vec) {
+                     
+                     
                      cli::cli({
-                         cli::cli_text(cli::col_br_cyan(cli::style_bold(colname)))
+                         cli::cli_text(colname, 
+                                       cli::col_silver(
+                                           glue::glue(
+                                               "",
+                                               "type: {fold(class(vec))}",
+                                               "Uniq: {howmany(vec)}",
+                                               "NA %: {dp2(sum(is.na(vec))/length(vec)*100)}",
+                                               .sep = " | "
+                                               )
+                                           )
+                                       )
+                         
+                         cli::cli_div(class = "tmp", 
+                                      theme = list(.tmp = list("margin-left" = 4,
+                                                               "margin-right" = 4)))
                          if (lab != "") {
-                             cli::cli_div(class = "tmp", 
-                                          theme = list(.tmp = list("margin-left" = 4,
-                                                                   "margin-right" = 4)))
-                             cli::cli_text(lab) 
+                             cli::cli_text(cli::col_silver(lab))
+                         }
+                         
+                         if (is.numeric(vec)) {
+                             cli::cli_text(cli::col_silver(
+                                 glue::glue("range: {paste(dp2(range(vec, na.rm = TRUE)), collapse = '-')}",
+                                            "mode: {Mode(vec, 'NA', na.rm = TRUE)}",
+                                            "median: {dp2(median(vec, na.rm = TRUE))}",
+                                            .sep = " | "
+                                 )
+                             ))
+                         } else {
+                             cli::cli_text(cli::col_silver(
+                                 glue::glue("mode: {fold(Mode(vec, na.rm = TRUE))}",
+                                            .sep = " | "
+                                 )
+                             ))
                          }
                      })
                  }
