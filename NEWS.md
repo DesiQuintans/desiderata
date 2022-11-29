@@ -1,3 +1,9 @@
+# desiderata 0.43.0 (2022-11-28)
+
+- ADD - `sift()`, which lets you fuzzily search a dataframe's column names and labels (the `attr()` named `"label"`) for a match. Very useful for finding a column in a dataframe that has hundreds of columns.
+
+
+
 # desiderata 0.42.0 (2022-10-29)
 
 - ADD - `keep_every()`, which uses a string to control which elements of a vector are kept or removed. For example, `"k-"` keeps odd elements, `"-k"` keeps even elements, and `"-kk--"` keeps the 2nd and 3rd element out of every 5.

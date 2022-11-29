@@ -1,8 +1,8 @@
 Package: desiderata
 Type: Package
 Title: Assorted utility functions
-Version: 0.42.0
-Date: 2022-10-29
+Version: 0.43.0
+Date: 2022-11-28
 License: GPL-3
 Author: Desi Quintans
 Maintainer: Desi Quintans <science@desiquintans.com>
@@ -12,6 +12,7 @@ Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.4.0)
 Imports:
+    cli (>= 3.4.0),
     devtools (>= 1.13.5),
     dplyr (>= 0.7.4),
     ggplot2 (>= 2.2.1),
@@ -23,6 +24,7 @@ Imports:
     magrittr (>= 1.5),
     methods (>= 3.4.0),
     plyr (>= 1.8.4),
+    purrr (>= 0.3.0),
     readr (>= 2.1.0),
     rlang(>= 0.4.0),
     rmarkdown (>= 1.0),
@@ -33,4 +35,4 @@ Imports:
 Suggests:
     digest (>= 0.6.15),
     usethis (>= 1.5.0)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.2

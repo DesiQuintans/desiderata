@@ -58,6 +58,6 @@ keep_every(letters, "yny")
 
 # Pass in a vector to use it as a coerced logical vector
 keep_every(letters, c(1, 0, 0, 2))
-[1] "a" "d" "e" "h" "i" "l" "m" "p" "q" "t" "u" "x" "y"
+## [1] "a" "d" "e" "h" "i" "l" "m" "p" "q" "t" "u" "x" "y"
 
 }

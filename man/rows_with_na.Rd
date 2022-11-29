@@ -19,7 +19,10 @@ missing. For example, you may want to see why a function returns NA in some
 rows and not others.
 }
 \section{Authors}{
- - Desi Quintans (\url{http://www.desiquintans.com})
+
+\itemize{
+\item Desi Quintans (\url{http://www.desiquintans.com})
+}
 }
 
 \examples{

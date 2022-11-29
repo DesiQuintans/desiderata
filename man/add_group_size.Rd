@@ -29,7 +29,10 @@ groups in \code{...} (see examples).
 Add a 'group size' column to a dataframe
 }
 \section{Authors}{
- - Desi Quintans (\url{http://www.desiquintans.com})
+
+\itemize{
+\item Desi Quintans (\url{http://www.desiquintans.com})
+}
 }
 
 \examples{

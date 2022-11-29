@@ -493,7 +493,8 @@ top_tail <- function(df, top = 3, tail = 3) {
 #' #> $ grpsize_eye_color_homeworld <int> 5, 1, 3, 5, 5, 2, 1, 5, 1, 2, 1, 1, 1...
 #'
 #'
-#' @section Authors: - Desi Quintans (<http://www.desiquintans.com>)
+#' @section Authors: 
+#' - Desi Quintans (<http://www.desiquintans.com>)
 #'
 #' @importFrom rlang :=
 #' @md
@@ -558,8 +559,10 @@ add_group_size <- function(df, ..., .id = NA, na.rm = FALSE) {
 #' #> $ vehicles   <list> [<>, <>, <>, <>, <>, <>, <>, <>, <>, <>, <>, <>, "Tri...
 #' #> $ starships  <list> [<>, <>, <>, <>, <>, <>, "X-wing", <>, <>, <>, "A-win...
 #' 
-#' @section Authors: - Desi Quintans (<http://www.desiquintans.com>)
+#' @section Authors: 
+#' - Desi Quintans (<http://www.desiquintans.com>)
 #' @md
+#' @importFrom magrittr %>%
 rows_with_na <- function(df) {
     na_count <- 
         df %>% 
@@ -570,4 +573,76 @@ rows_with_na <- function(df) {
         dplyr::mutate(na_count_per_row = na_count) %>% 
         dplyr::filter(na_count_per_row > 0) %>% 
         dplyr::select(-na_count_per_row)
+}
+
+
+
+#' Fuzzily search dataframe columns and labels with regex
+#' 
+#' When working with dataframes hundreds of columns wide, it can be hard to find which
+#' variable contains a particular measurement. This function lets you fuzzily search a 
+#' dataframe's column names and labels (the `attr()` named `"label"`) for a match.
+#'
+#' @param df (Dataframe) The dataframe
+#' @param query (Character) A string (or regular expression) to search for.
+#' @param dist (Numeric) Maximum string distance. Either an integer or a double; see 
+#'     `max.distance` in `base::agrep()`. Set to `0` to force an exact match.
+#'
+#' @return Prints out matching name & label combinations, and invisibly returns the same.
+#' @export
+#'
+#' @examples
+#' 
+#' sift(dplyr::starwars, "col")
+#' 
+#' #> eye_color
+#' #> hair_color
+#' #> skin_color
+#' #> vehicles
+#' 
+#' sift(dplyr::starwars, "col", dist = 0)
+#' 
+#' #> eye_color
+#' #> hair_color
+#' #> skin_color
+#' 
+#' @section Authors: 
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#' @md
+sift <- function(df, query, dist = 0.1) {
+    get_label <- function(item) {
+        result <- attr(item, "label")
+        
+        if (is.null(result)) {
+            return("")
+        } else {
+            return(stringr::str_trim(result))
+        }
+    }
+    
+    attr_name  <- stringr::str_trim(colnames(df))
+    attr_label <- sapply(df, get_label, USE.NAMES = FALSE)
+    names(attr_label) <- NULL
+    
+    attr_joined <- stringr::str_trim(paste(attr_name, attr_label))
+
+    out <- agrep(query, attr_joined, ignore.case = TRUE, value = FALSE, fixed = FALSE, 
+                 max.distance = dist)
+    
+    purrr::pwalk(list(attr_name[out], attr_label[out]),
+                 function(colname, lab) {
+                     cli::cli({
+                         cli::cli_text(cli::col_br_cyan(cli::style_bold(colname)))
+                         if (lab != "") {
+                             cli::cli_div(class = "tmp", 
+                                          theme = list(.tmp = list("margin-left" = 4,
+                                                                   "margin-right" = 4)))
+                             cli::cli_text(lab) 
+                         }
+                     })
+                 }
+    )
+    
+    return(invisible(list(cols = attr_name[out], 
+                          labels = attr_label[out])))
 }
