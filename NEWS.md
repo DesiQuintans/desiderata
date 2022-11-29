@@ -1,6 +1,5 @@
 # desiderata 0.43.0 (2022-11-28)
 
-- ADD - `sift()`, which lets you fuzzily search a dataframe's column names and labels (the `attr()` named `"label"`) for a match. Very useful for finding a column in a dataframe that has hundreds of columns.
 
 
 

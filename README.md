@@ -40,7 +40,6 @@ abide by its terms.
     + [Opposite of `is.na()`](#opposite-of--isna---)
     + [Opposite of `is.nan()`](#opposite-of--isnan---)
   * [Dataframe functions](#dataframe-functions)
-    + [Fuzzily search dataframe columns and labels with regex](#fuzzily-search-dataframe-columns-and-labels-with-regex)
     + [Replace all matching values in a dataframe with something else](#replace-all-matching-values-in-a-dataframe-with-something-else)
     + [Drop 'empty' columns in a dataframe](#drop--empty--columns-in-a-dataframe)
     + [Drop 'empty' rows in a dataframe](#drop--empty--rows-in-a-dataframe)
@@ -380,21 +379,6 @@ not.nan(x)
 
 
 ## Dataframe functions
-
-### Fuzzily search dataframe columns and labels with regex
-
-When working with dataframes hundreds of columns wide, it can be hard to find which
-variable contains a particular measurement. This function lets you fuzzily search a 
-dataframe's column names and labels (the `attr()` named `"label"`) for a match.
-
-``` r
-sift(dplyr::starwars, "col")
-
-## eye_color
-## hair_color
-## skin_color
-## vehicles
-```
 
 ### Replace all matching values in a dataframe with something else
 
