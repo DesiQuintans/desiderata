@@ -17,14 +17,6 @@ format_ci <- function(str) {
     sprintf("\\textsubscript{%s} %s \\textsubscript{%s}", ci$lower, ci$estim, ci$upper)
 }
 
-encode_signif <- function(vec) {
-    case_when(vec <= 0.0001 ~ "****",
-              vec <= 0.001  ~ "***",
-              vec <= 0.01   ~ "**",
-              vec <= 0.05   ~ "*",
-              TRUE   ~ "ns")
-}
-
 # Is this useful?
 `%has%` <- function(x, y) {
     grepl(y, x)

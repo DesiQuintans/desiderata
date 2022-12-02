@@ -26,6 +26,7 @@ Replace element with NA if it is less than the elements before and after it
 tree_height_per_month <- c(1, 2, 3, 2, 4, 7, 7, 8)
 
 omit_dips(tree_height_per_month)
+
 #> [1]  1  2  3 NA  4  7  7  8
 
 }

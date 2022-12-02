@@ -701,6 +701,7 @@ triangle_num <- function(nums, coerce = round, ...) {
 #' tree_height_per_month <- c(1, 2, 3, 2, 4, 7, 7, 8)
 #' 
 #' omit_dips(tree_height_per_month)
+#' 
 #' #> [1]  1  2  3 NA  4  7  7  8
 #'
 #' @section Authors:
@@ -737,19 +738,21 @@ omit_dips <- function(vec) {
 #' test_vec <- c(1, NA, 2, NA, 3, 4, NA, 5)
 #' 
 #' is_flanked(test_vec, items = c(NA), edges_as_na = TRUE)
+#' 
 #' # The edges are regarded as flanked by `NA` because `edges_as_na == TRUE` adds `NA` to
 #' # the start and end of `vec`.
 #' #> [1]  TRUE FALSE  TRUE FALSE FALSE FALSE FALSE  TRUE
 #' 
 #' 
 #' is_flanked(test_vec, items = c(NA), edges_as_na = FALSE)
+#' 
 #' #> [1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE
 #'
 #' @section Authors:
 #' - Desi Quintans (<http://www.desiquintans.com>)
 #' 
 #' @md
-is_flanked <- function(vec, items, edges_as_na = TRUE) {
+is.flanked <- function(vec, items, edges_as_na = TRUE) {
     if (edges_as_na == TRUE) {
         lag_vec <- c(NA, vec[1:length(vec)-1])
         lead_vec <- c(vec[2:length(vec)], NA)

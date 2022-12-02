@@ -2,7 +2,7 @@
 % Please edit documentation in R/datetime_tools.R
 \name{round_to_duration}
 \alias{round_to_duration}
-\title{Round time durations to other units}
+\title{Round a duration of days to other units}
 \usage{
 round_to_duration(num, from, to, nearest = NULL, dir = NULL)
 }

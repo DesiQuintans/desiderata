@@ -121,7 +121,7 @@ consecutive_week <- function(from, to, tz = NULL, iso = FALSE) {
 
 
 
-#' Round time durations to other units
+#' Round a duration of days to other units
 #'
 #' Convert a duration of days into approximate months or years, rounding it to a 
 #' nearest value if desired. Note that time durations larger than the week 

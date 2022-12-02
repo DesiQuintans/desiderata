@@ -524,3 +524,38 @@ keep_every <- function(vec, key = "k-") {
     
     return(vec[keep_order])
 }
+
+
+
+#' Return a value or expression if something is NA
+#'
+#' This is just shorthand for `ifelse(is.na(x), TRUE, FALSE)` because I like using
+#' that pattern in my `dplyr` pipelines.
+#'
+#' @param x (Vector) A vector to test.
+#' @param yes (Any) The value to return if `x` is `NA`.
+#' @param no (Any) The value to return if `x` is **not** `NA`.
+#'    Set this to `NULL` (its default setting) to return `x`.
+#'
+#' @return The object in `yes` or `no`, depending on the outcome.
+#' @export
+#'
+#' @examples
+#' vec <- c("hello", NA, "hi")
+#'
+#' if_na(vec, "REPLACED")
+#' #> [1] "hello"    "REPLACED" "hi"
+#'
+#' if_na(vec, "Was NA", "Was not NA")
+#' #> [1] "Was not NA" "Was NA"     "Was not NA"
+#'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#'
+#' @md
+if_na <- function(x, yes = TRUE, no = NULL) {
+    # Keeping x by default means this can work like a simple tidyr::replace_na().
+    if (is.null(no)) no <- x
+    
+    ifelse(is.na(x), yes, no)
+}

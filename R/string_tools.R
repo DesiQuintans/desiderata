@@ -354,6 +354,9 @@ rev_sentence <- function(vec, split = " |_", join = " ") {
 #' 
 #' ## [1] "h-e-l-l-o" "h-e-y" 
 #' 
+#' interleave(c("hello", "hey"), insert = "|_|", split = "el")
+#' ## [1] "h|_|lo" "hey"  
+#' 
 #' interleave(c(1234, 9876), "-")
 #' 
 #' ## [1] "1-2-3-4" "9-8-7-6"
@@ -362,4 +365,5 @@ rev_sentence <- function(vec, split = " |_", join = " ") {
 interleave <- function(str, insert = "\n", split = character(0)) {
     sapply(strsplit(as.character(str), as.character(split)), 
            paste, collapse = as.character(insert))
+    
 }
