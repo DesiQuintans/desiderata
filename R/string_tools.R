@@ -298,66 +298,6 @@ str_rev <- function(..., USE.NAMES = FALSE) {
 
 
 
-#' Get the nth word from a vector of strings
-#'
-#' @param vec (Character) A vector of strings. It will be coerced to Character.
-#' @param n (Integer) Which word will be retrieved? Positive integers count from 
-#'    the start of the string, negative integers count from the end.
-#' @param split (Character) A regular expression that matches word boundaries.
-#'    By default, it matches spaces and sentence-ending punctuation. See 
-#'    \link[base]{strsplit}.
-#'
-#' @return A character vector that is the same length as `vec`. For `vec` 
-#'    elements where no word was found (e.g. `NA` or an empty string `""`), `NA`
-#'    will be returned.
-#' @export
-#'
-#' @examples
-#' vec <- c("Lorem ipsum dolor",
-#'          "sit amet, consectetur",
-#'          "adipiscing elit, sed",
-#'          "do eiusmod tempor",
-#'          "incididunt ut labore",
-#'          "et dolore magna",
-#'          "aliqua.")
-#' 
-#' nth_word(vec, n = 1)
-#' 
-#' ## [1] "Lorem"  "sit"  "adipiscing"  "do"  "incididunt"  "et"  "aliqua"
-#' 
-#' nth_word(vec, n = -1)
-#' 
-#' ## [1] "dolor"  "consectetur"  "sed"  "tempor"  "labore"  "magna"  "aliqua" 
-#' 
-#' nth_word("Order_Family_Genus", n = 2, split = "_")  
-#' 
-#' ## [1] "Family"
-#' 
-#' @section Authors:
-#' - Desi Quintans (<http://www.desiquintans.com>)
-#' 
-#' @md
-nth_word <- function(vec, n = 1, split = "(\\.|!|\\?){0,}( |$)") {
-    vec <- as.character(vec)
-    
-    get_word <- function(str, n) {
-        if (n == 0) {
-            stop("'n' should be a positive integer (to get the first words) or 
-                 a negative integer (to get the last words).")
-        }
-        
-        if (n < 0) {
-            n <- (length(str) + 1) + n
-        }
-        
-        str[n]
-    }
-    
-    unlist(lapply(strsplit(vec, split), get_word, n))
-}
-
-
-
 #' Reverse the order of words in a string
 #'
 #' @param vec (Character) The vector to reverse.
