@@ -2,14 +2,8 @@
 
 
 
-# Checks if an element in a vector is isolated, i.e. if it surrounded by a value 
-# that is being omitted.
-isolated_element <- function(vec, omit) {
-    lag_vec <- c(NA, vec[1:length(vec)-1])
-    lead_vec <- c(vec[2:length(vec)], NA)
-    
-    lag_vec %in% omit & vec %notin% omit & lead_vec %in% omit
-}
+
+
 
 # Format CIs as 3 numbers truncated to decent length.
 format_ci <- function(str) {
