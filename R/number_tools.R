@@ -234,6 +234,10 @@ normalize_colwise <- function(mat) {
     sweep(mat, 2, apply(mat, 2, max), "/")
 }
 
+#' @rdname normalize_colwise
+#' @export
+normalise_colwise <- normalize_colwise
+
 
 
 #' Normalise a whole matrix or vector between 0 and 1
@@ -278,6 +282,10 @@ normalize_whole <- function(mat, from_zero = FALSE) {
 
     (mat - baseline) / (max(mat) - baseline)
 }
+
+#' @rdname normalize_whole
+#' @export
+normalise_whole <- normalize_whole
 
 
 

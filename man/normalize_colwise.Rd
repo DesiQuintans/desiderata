@@ -2,9 +2,12 @@
 % Please edit documentation in R/number_tools.R
 \name{normalize_colwise}
 \alias{normalize_colwise}
+\alias{normalise_colwise}
 \title{Normalise a matrix column-wise between 0 and 1}
 \usage{
 normalize_colwise(mat)
+
+normalise_colwise(mat)
 }
 \arguments{
 \item{mat}{(Numeric) A numeric matrix.}
