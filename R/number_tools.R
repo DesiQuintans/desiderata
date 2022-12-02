@@ -677,3 +677,31 @@ triangle_num <- function(nums, coerce = round, ...) {
     
     (ints^2 + ints) / 2
 }
+
+
+
+#' Replace element with NA if it is less than the elements before and after it
+#'
+#' @param vec (Numeric) A vector.
+#' 
+#' @return A Numeric vector.
+#'    
+#' @export
+#'
+#' @examples
+#' tree_height_per_month <- c(1, 2, 3, 2, 4, 7, 7, 8)
+#' 
+#' omit_dips(tree_height_per_month)
+#' #> [1]  1  2  3 NA  4  7  7  8
+#'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#' 
+#' @md
+omit_dips <- function(vec) {
+    # Base R lag and lead
+    before <- function(vec) { c(NA, vec[seq_len(length(vec) - 1)]) }
+    after <- function(vec) { c(vec[-seq_len(1)], NA) }
+    
+    ifelse((!is.na(before(vec) & !is.na(after(vec)))) & 
+               (vec < before(vec) & vec < after(vec)), NA, vec)

@@ -1,15 +1,5 @@
 
 
-# Find elements in a vector that are less than the elements that come before and
-# after it, and replace it with NA.
-omit_dips <- function(vec) {
-    # Base R lag and lead
-    before <- function(vec) { c(NA, vec[seq_len(length(vec) - 1)]) }
-    after <- function(vec) { c(vec[-seq_len(1)], NA) }
-    
-    ifelse((!is.na(before(vec) & !is.na(after(vec)))) & 
-               (vec <= before(vec) & vec <= after(vec)), NA, vec)
-}
 
 
 # Checks if an element in a vector is isolated, i.e. if it surrounded by a value 
