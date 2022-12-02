@@ -61,7 +61,7 @@ round_to_nearest <- function(num, to, dir = NULL) {
 #' <https://stackoverflow.com/a/12135122>
 #'
 #' @md
-round_to <- function(x, digits = 2, ...) {
+round_to <- function(x, digits = 2) {
     nums_as_char <- trimws(format(round(x, digits = digits), nsmall = digits))
     as.numeric(nums_as_char)
 }

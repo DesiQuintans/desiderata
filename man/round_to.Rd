@@ -4,7 +4,7 @@
 \alias{round_to}
 \title{Round numbers to a fixed number of decimal places}
 \usage{
-round_to(x, digits = 2, ...)
+round_to(x, digits = 2)
 }
 \arguments{
 \item{x}{(Numeric) A vector of numbers.}
