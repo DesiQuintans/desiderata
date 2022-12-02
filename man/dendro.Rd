@@ -36,7 +36,7 @@ unambiguous substring can be given.}
 \item{cex}{(Numeric) Size magnification. \code{0.8} is 80 percent of the base value.}
 }
 \value{
-A dendrogram plot.
+An object of class \code{hclust}.
 }
 \description{
 Make a dendrogram

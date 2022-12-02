@@ -793,7 +793,7 @@ rotate_y_facet_text <- function(angle = 45, align = 0, valign = 0.25) {
 #' @param sub (Character) Chart subtitle.
 #' @param cex (Numeric) Size magnification. `0.8` is 80 percent of the base value.
 #'
-#' @return A dendrogram plot.
+#' @return An object of class `hclust`.
 #' @export
 #'
 #' @examples
@@ -811,11 +811,12 @@ rotate_y_facet_text <- function(angle = 45, align = 0, valign = 0.25) {
 dendro <- function(df, clust_method = "ave", dist_method = "euclidean", labels = NULL,
                    main = NULL, sub = NULL, cex = 0.8) {
     hc <- stats::hclust(stats::dist(df, method = dist_method), clust_method)
+    
     graphics::plot(hc,
                    main = main,
                    sub = sub,
                    labels = labels,
                    cex = cex)
 
-    # FIXME: dendro() does not actually produce a dendrogram-class plot.
+    return(hc)
 }
