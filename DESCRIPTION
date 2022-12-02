@@ -20,6 +20,7 @@ Imports:
     glue (>= 1.6.0),
     graphics (>= 3.4.2),
     grDevices (>= 3.4.2),
+    janitor (>= 2.0.0),
     labelled (>= 2.10.0),
     lubridate (>= 1.7.2),
     magrittr (>= 2.0),

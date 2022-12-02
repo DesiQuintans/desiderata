@@ -81,6 +81,7 @@ Please note that this project is released with a [Contributor Code of Conduct](C
         -   `IQR_outliers()` --- Mark outliers in a vector according to the percentile method
         -   `triangle_num()` --- nth Triangle Number, like factorial but with addition
         -   `boot_ci_mean()` --- Bootstrapped confidence interval of the mean
+        -   `instant_runoff_voting()` --- Instant run-off (ranked-choice) voting algorithm
     -   String functions
         -   `vec_to_regex()` --- Collapse vectors into a regex pattern
         -   `str_coll()` --- Collapse a vector into a single string

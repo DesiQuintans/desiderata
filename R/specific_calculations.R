@@ -402,3 +402,93 @@ boot_ci_mean <- function(vec, conf = 0.95, R = 999, type = "perc") {
         ci_upr = cis[[4]][5]
     ))
 }
+
+
+#' Instant run-off voting
+#' 
+#' This is a recursive function and may take some time to run. 
+#' 
+#' It calculates the results
+#' of an instant run-off voting election, the kind that we have in Australia, where each 
+#' voter assigns a rank preference to a candidate (1 == most preferred, 2 == second-most, 
+#' etc.). Everyone's first-preferences are counted, and if no candidate gets >50% of the 
+#' first-preferences, the candidate who got the fewest preferences is removed from the 
+#' dataset and the process begins again.
+#' 
+#' @param df (Dataframe) A dataframe that **must** contain these three columns: 
+#' \describe{
+#'   \item{`voter`}{Unique ID for each `voter`.}
+#'   \item{`rank`}{The rank preference that `voter` assigned to `candidate`.}
+#'   \item{`candidate`}{A candidate they voted for. For rigorous results, `candidate`
+#'       should be an ordered factor, with order randomly assigned to candidates (or just 
+#'       give each candidate a random number and use that as their ID). Without this, if 
+#'       two candidates get the same proportion of preferences, then alphabetical sorting 
+#'       will push the candidate whose name comes later in the alphabet to the bottom of 
+#'       the table, where they will systematically be removed first.}
+#'       }
+#'     
+#' The dataframe should be in long format: each `voter` should have a new row for each 
+#' of their `rank` and `candidate` votes. Each `voter` can have a different number of 
+#' rows if they ranked a different number of candidates. 
+#' 
+#' For an example, see the `nz_boty_2019_head` dataset in this package.
+#'
+#' @return A dataframe showing the winners and the proportion of votes they got.
+#' @export
+#'
+#' @examples
+#' head(nz_boty_2019_head)
+#' 
+#' #> # A tibble: 6 × 3
+#' #>   voter  rank candidate          
+#' #>   <int> <int> <chr>              
+#' #> 1     1     1 Gibson's Albatross 
+#' #> 2     1     2 Tūī                
+#' #> 3     1     3 Kākā               
+#' #> 4     1     4 Kākāpō             
+#' #> 5     1     5 Little Spotted Kiwi
+#' #> 6     2     1 Spotted Shag  
+#' 
+#' instant_runoff_voting(nz_boty_2019_head)
+#' 
+#' #>           candidate      prop
+#' #> Yellow-eyed penguin 0.5009901
+#' #>              Kākāpō 0.4990099
+#' 
+#' 
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#' @md
+#' @importFrom magrittr %>%
+instant_runoff_voting <- function(df) {
+    vote_percentages <- function(df) {
+        df %>% 
+            dplyr::group_by(voter) %>% 
+            dplyr::filter(rank == min(rank)) %>% 
+            dplyr::ungroup() %>% 
+            dplyr::count(candidate) %>% 
+            janitor::adorn_percentages(denominator = "col") %>% 
+            dplyr::arrange(n, candidate) %>% 
+            dplyr::rename(prop = n)
+    }
+    
+    someone_won <- function(result) {
+        any(result$prop > 0.50)
+    }
+    
+    drop_least_votes <- function(initial, result) {
+        least_popular <- result[1,]$candidate
+        
+        initial %>% 
+            dplyr::filter(candidate != least_popular)
+    }
+    
+    vote_result <- vote_percentages(df)
+    
+    if (someone_won(vote_result) == TRUE) {
+        return(dplyr::arrange(vote_result, desc(prop)))
+    } else {
+        drop_least_votes(df, vote_result) %>% 
+            instant_runoff_voting()
+    }
+}
