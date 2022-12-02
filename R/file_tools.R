@@ -195,7 +195,7 @@ apply_to_files <- function(path, pattern, func, ..., recursive = FALSE, ignoreca
 #' #> Wrote 'iris' to '_output/rds/my_iris.rds'.
 #' 
 #' @md
-write_df <- function(df, path, basename) {
+write_csv_rds <- function(df, path, basename) {
     df_name <- substitute(df)
     
     if (is.data.frame(df) == FALSE) {
