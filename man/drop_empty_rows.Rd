@@ -26,10 +26,7 @@ A subset of \code{df} with all empty rows removed.
 }
 \description{
 Deletes rows from a dataframe if they are 'empty'. A row is empty when every single
-cell is \code{NA}, \code{NULL}, \code{""}, or \code{0}. This function is meant for formatting printed data;
-it's often useful to omit uninformative rows to reduce visual clutter when you are
-reading a table. Be careful when using this function to clean or manipulate data
-because zeroes are often informative.
+cell is \code{NA}, \code{NULL}, \code{""}, or matches a regular expression.
 }
 \section{Authors}{
 
@@ -40,55 +37,56 @@ because zeroes are often informative.
 
 \examples{
 data <- data.frame(name = c("Jim", "Jane", "Janice", "Joe", "Jay"),
-                   a = c(0, 0, 1, NA, 0),
+                   a = c(0, "", 1, NA, 0),
                    b = c(1, "", 1, NA, 0),
-                   c = c(1, 0, 2, 0, 0),
-                   d = c(0, 0, 4, 0, 0),
-                   e = c(0, 0, 5, 0, 0),
-                   f = c(3, 0, 0, 0, 3),
+                   c = c(1, NA, 2, 0, 0),
+                   d = c(0, NA, 4, 0, 0),
+                   e = c(0, "", 5, 0, 0),
+                   f = c(3, "", 0, 0, 0),
                    stringsAsFactors = FALSE)
-
+                   
 data
 
-#>           1  2    3 4 5 6 7
-#>
-#>        name  a    b c d e f
-#> 1       Jim  0    1 1 0 0 3
-#> 2      Jane  0      0 0 0 0
-#> 3    Janice  1    1 2 4 5 0
-#> 4       Joe NA <NA> 0 0 0 0
-#> 5       Jay  0    0 0 0 0 3
+#>     name    a    b  c d e f
+#> 1    Jim    0    1  1  0 0 3
+#> 2   Jane           NA NA    
+#> 3 Janice    1    1  2  4 5 0
+#> 4    Joe <NA> <NA>  0  0 0 0
+#> 5    Jay    0    0  0  0 0 0
 
 drop_empty_rows(data)
 
 # Returns the whole dataframe because column 1 ('name') is never empty.
-#>        name  a    b c d e f
-#> 1       Jim  0    1 1 0 0 3
-#> 2      Jane  0      0 0 0 0
-#> 3    Janice  1    1 2 4 5 0
-#> 4       Joe NA <NA> 0 0 0 0
-#> 5       Jay  0    0 0 0 0 3
+#>     name    a    b  c  d e f
+#> 1    Jim    0    1  1  0 0 3
+#> 2   Jane           NA NA    
+#> 3 Janice    1    1  2  4 5 0
+#> 4    Joe <NA> <NA>  0  0 0 0
+#> 5    Jay    0    0  0  0 0 0
 
 drop_empty_rows(data, from = 2)
 
 # We get the desired result when 'name' is omitted.
-#>        name  a  b c d e f
-#> 1       Jim  0  1 1 0 0 3
-#> 3    Janice  1  1 2 4 5 0
-#> 5       Jay  0  0 0 0 0 3
+#>     name    a    b c d e f
+#> 1    Jim    0    1 1 0 0 3
+#> 3 Janice    1    1 2 4 5 0
+#> 4    Joe <NA> <NA> 0 0 0 0
+#> 5    Jay    0    0 0 0 0 0
 
-drop_empty_rows(data, regex = "^J.*?$")
+drop_empty_rows(data, from = 2, regex = "^0$")
 
 # Regex can be used to match cells that should be 'empty'.
-#>        name  a  b c d e f
-#> 1       Jim  0  1 1 0 0 3
-#> 3    Janice  1  1 2 4 5 0
-#> 5       Jay  0  0 0 0 0 3
+#>     name a b c d e f
+#> 1    Jim 0 1 1 0 0 3
+#> 3 Janice 1 1 2 4 5 0
 
-drop_empty_rows(data, cols = c(2, 5, 6))
+drop_empty_rows(data, cols = c(2, 6))
 
 # Non-contiguous columns can be selected with 'cols'.
-#>        name  a  b c d e f
-#> 3    Janice  1  1 2 4 5 0
+#>     name    a    b c d e f
+#> 1    Jim    0    1 1 0 0 3
+#> 3 Janice    1    1 2 4 5 0
+#> 4    Joe <NA> <NA> 0 0 0 0
+#> 5    Jay    0    0 0 0 0 0
 
 }

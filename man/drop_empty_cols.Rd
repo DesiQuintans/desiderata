@@ -25,10 +25,7 @@ A subset of \code{df} with all empty columns removed.
 }
 \description{
 Deletes columns from a dataframe if they are 'empty'. A column is empty when every
-single row is \code{NA}, \code{NULL}, \code{""}, or \code{0}. This function is meant for formatting
-printed data; it's often useful to omit uninformative columns to reduce visual
-clutter when you are reading a table. Be careful when using this function to clean or
-manipulate data because zeroes are often informative.
+single row is \code{NA}, \code{NULL}, \code{""}, or matches a regular expression.
 }
 \section{Authors}{
 
@@ -51,16 +48,16 @@ data <- data.frame(a = c(1, 2, 3),
 
 drop_empty_cols(data)
 
-#> a c    e
-#> 1 1  moo
-#> 2 1  baa
-#> 3 0 woof
+#> a b c   e
+#> 1 0 1 moo
+#> 2 0 1 baa
+#> 3 0 0 woof
 
 drop_empty_cols(data, regex = "moo|baa|woof")
 
-#> a c
-#> 1 1
-#> 2 1
-#> 3 0
+#> a b c
+#> 1 0 1
+#> 2 0 1
+#> 3 0 0
 
 }

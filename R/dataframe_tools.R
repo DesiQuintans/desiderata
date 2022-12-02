@@ -57,10 +57,7 @@ overwrite_df <- function(df, find = "^(NA||\\s+|0|-+|_+)$", replace = "", replac
 #' Drop 'empty' columns in a dataframe
 #'
 #' Deletes columns from a dataframe if they are 'empty'. A column is empty when every
-#' single row is `NA`, `NULL`, `""`, or `0`. This function is meant for formatting
-#' printed data; it's often useful to omit uninformative columns to reduce visual
-#' clutter when you are reading a table. Be careful when using this function to clean or
-#' manipulate data because zeroes are often informative.
+#' single row is `NA`, `NULL`, `""`, or matches a regular expression.
 #'
 #' @param df (Dataframe) A dataframe.
 #' @param from,to (Numeric or `NULL`) The start and end of a continuous range of columns
@@ -89,17 +86,17 @@ overwrite_df <- function(df, find = "^(NA||\\s+|0|-+|_+)$", replace = "", replac
 #'
 #' drop_empty_cols(data)
 #'
-#' #> a c    e
-#' #> 1 1  moo
-#' #> 2 1  baa
-#' #> 3 0 woof
+#' #> a b c   e
+#' #> 1 0 1 moo
+#' #> 2 0 1 baa
+#' #> 3 0 0 woof
 #'
 #' drop_empty_cols(data, regex = "moo|baa|woof")
 #'
-#' #> a c
-#' #> 1 1
-#' #> 2 1
-#' #> 3 0
+#' #> a b c
+#' #> 1 0 1
+#' #> 2 0 1
+#' #> 3 0 0
 #'
 #' @section Authors:
 #' - Desi Quintans (<http://www.desiquintans.com>)
@@ -109,17 +106,14 @@ drop_empty_cols <- function(df, from = 1, to = NULL, cols = NULL, regex = "^$") 
     selected <- construct_cols(df, from = from, to = to, cols = cols)
     sub_df <- df[selected]
 
-    base::Filter(function(x) !all(is.na(x) | is.null(x) | x == "" | x == 0 | grepl(regex, x)), sub_df)
+    base::Filter(function(x) !all(is.na(x) | is.null(x) | x == "" | grepl(regex, x)), sub_df)
 }
 
 
 #' Drop 'empty' rows in a dataframe
 #'
 #' Deletes rows from a dataframe if they are 'empty'. A row is empty when every single
-#' cell is `NA`, `NULL`, `""`, or `0`. This function is meant for formatting printed data;
-#' it's often useful to omit uninformative rows to reduce visual clutter when you are
-#' reading a table. Be careful when using this function to clean or manipulate data
-#' because zeroes are often informative.
+#' cell is `NA`, `NULL`, `""`, or matches a regular expression.
 #'
 #' @param df (Dataframe) A dataframe.
 #' @param from,to (Numeric or `NULL`) The start and end of a continuous range of columns
@@ -137,56 +131,57 @@ drop_empty_cols <- function(df, from = 1, to = NULL, cols = NULL, regex = "^$") 
 #'
 #' @examples
 #' data <- data.frame(name = c("Jim", "Jane", "Janice", "Joe", "Jay"),
-#'                    a = c(0, 0, 1, NA, 0),
+#'                    a = c(0, "", 1, NA, 0),
 #'                    b = c(1, "", 1, NA, 0),
-#'                    c = c(1, 0, 2, 0, 0),
-#'                    d = c(0, 0, 4, 0, 0),
-#'                    e = c(0, 0, 5, 0, 0),
-#'                    f = c(3, 0, 0, 0, 3),
+#'                    c = c(1, NA, 2, 0, 0),
+#'                    d = c(0, NA, 4, 0, 0),
+#'                    e = c(0, "", 5, 0, 0),
+#'                    f = c(3, "", 0, 0, 0),
 #'                    stringsAsFactors = FALSE)
-#'
+#'                    
 #' data
 #'
-#' #>           1  2    3 4 5 6 7
-#' #>
-#' #>        name  a    b c d e f
-#' #> 1       Jim  0    1 1 0 0 3
-#' #> 2      Jane  0      0 0 0 0
-#' #> 3    Janice  1    1 2 4 5 0
-#' #> 4       Joe NA <NA> 0 0 0 0
-#' #> 5       Jay  0    0 0 0 0 3
+#' #>     name    a    b  c d e f
+#' #> 1    Jim    0    1  1  0 0 3
+#' #> 2   Jane           NA NA    
+#' #> 3 Janice    1    1  2  4 5 0
+#' #> 4    Joe <NA> <NA>  0  0 0 0
+#' #> 5    Jay    0    0  0  0 0 0
 #'
 #' drop_empty_rows(data)
 #'
 #' # Returns the whole dataframe because column 1 ('name') is never empty.
-#' #>        name  a    b c d e f
-#' #> 1       Jim  0    1 1 0 0 3
-#' #> 2      Jane  0      0 0 0 0
-#' #> 3    Janice  1    1 2 4 5 0
-#' #> 4       Joe NA <NA> 0 0 0 0
-#' #> 5       Jay  0    0 0 0 0 3
+#' #>     name    a    b  c  d e f
+#' #> 1    Jim    0    1  1  0 0 3
+#' #> 2   Jane           NA NA    
+#' #> 3 Janice    1    1  2  4 5 0
+#' #> 4    Joe <NA> <NA>  0  0 0 0
+#' #> 5    Jay    0    0  0  0 0 0
 #'
 #' drop_empty_rows(data, from = 2)
 #'
 #' # We get the desired result when 'name' is omitted.
-#' #>        name  a  b c d e f
-#' #> 1       Jim  0  1 1 0 0 3
-#' #> 3    Janice  1  1 2 4 5 0
-#' #> 5       Jay  0  0 0 0 0 3
+#' #>     name    a    b c d e f
+#' #> 1    Jim    0    1 1 0 0 3
+#' #> 3 Janice    1    1 2 4 5 0
+#' #> 4    Joe <NA> <NA> 0 0 0 0
+#' #> 5    Jay    0    0 0 0 0 0
 #'
-#' drop_empty_rows(data, regex = "^J.*?$")
+#' drop_empty_rows(data, from = 2, regex = "^0$")
 #'
 #' # Regex can be used to match cells that should be 'empty'.
-#' #>        name  a  b c d e f
-#' #> 1       Jim  0  1 1 0 0 3
-#' #> 3    Janice  1  1 2 4 5 0
-#' #> 5       Jay  0  0 0 0 0 3
+#' #>     name a b c d e f
+#' #> 1    Jim 0 1 1 0 0 3
+#' #> 3 Janice 1 1 2 4 5 0
 #'
-#' drop_empty_rows(data, cols = c(2, 5, 6))
+#' drop_empty_rows(data, cols = c(2, 6))
 #'
 #' # Non-contiguous columns can be selected with 'cols'.
-#' #>        name  a  b c d e f
-#' #> 3    Janice  1  1 2 4 5 0
+#' #>     name    a    b c d e f
+#' #> 1    Jim    0    1 1 0 0 3
+#' #> 3 Janice    1    1 2 4 5 0
+#' #> 4    Joe <NA> <NA> 0 0 0 0
+#' #> 5    Jay    0    0 0 0 0 0
 #'
 #' @section Authors:
 #' - Desi Quintans (<http://www.desiquintans.com>)
@@ -196,25 +191,28 @@ drop_empty_rows <- function(df, from = 1, to = NULL, cols = NULL, regex = "^$") 
     selected <- construct_cols(df, from = from, to = to, cols = cols)
     sub_df <- df[selected]
 
-    # trimws() MUST be kept in the anonymous function below.
     # https://stackoverflow.com/a/15618761/5578429
-    # When apply() is given a dataframe, it coerces it to a matrix with as.matrix(). The
+    # trimws() MUST be kept in the anonymous function below. This is because of how,
+    # when apply() is given a dataframe, it coerces it to a matrix with as.matrix(). The
     # coercion is done using format(), which pads numbers with spaces to the length
     # of the longest string in the column. This means that a df might be coerced as:
     #
     # "NA" "1" "1"
-    # " 0" "0" " "    This row is wrongly kept because " 0" and " " are not 'empty'.
+    # " 0" "0" " "    This row is wrongly kept because " " is not 'empty'.
     # " 1" "1" "2"
     # " 1" "1" "3"
-    is_empty <- apply(sub_df, MARGIN = 1,
+    is_empty <- apply(sub_df, 
+                      MARGIN = 1,  # Along each row...
                       function(x) {
+                          # Remove whitespace from each cell
                           y <- trimws(x, which = "both");
+                          
+                          # If all items in the row are empty, return TRUE.
                           all(nchar(y) == 0 |
                               y == "" |
-                              y == 0 |
                               is.na(y) |
                               is.null(y) |
-                              grepl(regex, y))
+                              grepl(regex, y))  
                           }
                       )
 
