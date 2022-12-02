@@ -55,6 +55,7 @@ Please note that this project is released with a [Contributor Code of Conduct](C
         -   `top_tail()` --- First and last rows of a dataframe
         -   `add_group_size()` --- Add group size as a column
         -   `rows_with_na()` --- Only keep rows that contain `NA`
+        -   `same_cols()` --- Given two dataframes, which columns appear in both of them?
     -   Number functions
         -   `round_to_nearest()` --- Round numbers to the nearest "pretty" value (e.g. nearest `0.1`)
         -   `round_to()` --- Round numbers to a fixed number of decimal places and return them as `Numeric`

@@ -572,3 +572,37 @@ rows_with_na <- function(df) {
         dplyr::filter(na_count_per_row > 0) %>% 
         dplyr::select(-na_count_per_row)
 }
+
+
+
+#' Given two dataframes, which columns appear in both of them?
+#'
+#' @param l (Dataframe) A dataframe whose column names to compare.
+#' @param r (Dataframe) A dataframe whose column names to compare.
+#'
+#' @return A Character vector with the names of the columns that appear
+#'     in both `l` and `r`. The order of `l` and `r` doesn't matter for `same_cols()`, but
+#'     it does for `diff_cols()`.
+#'     
+#' @export
+#'
+#' @examples
+#' iris1 <- iris[, 1:3]
+#' colnames(iris1)
+#' 
+#' #> [1] "Sepal.Length" "Sepal.Width"  "Petal.Length"
+#'
+#' iris2 <- iris[, 2:5]
+#' colnames(iris2)
+#' #> [1]                "Sepal.Width"  "Petal.Length" "Petal.Width"  "Species"
+#'
+#'
+#' same_cols(iris1, iris2)
+#' #> [1] "Sepal.Width"  "Petal.Length"
+#'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#' @md
+same_cols <- function(l, r) {
+    base::intersect(colnames(l), colnames(r))
+}
