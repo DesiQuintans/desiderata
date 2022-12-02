@@ -629,14 +629,14 @@ fold <- function(vec, n = 2) {
 #' @examples
 #' test_vec <- c(1, NA, 2, NA, 3, 4, NA, 5)
 #' 
-#' is_flanked(test_vec, items = c(NA), edges_as_na = TRUE)
+#' is.flanked(test_vec, items = c(NA), edges_as_na = TRUE)
 #' 
 #' # The edges are regarded as flanked by `NA` because `edges_as_na == TRUE` adds `NA` to
 #' # the start and end of `vec`.
 #' #> [1]  TRUE FALSE  TRUE FALSE FALSE FALSE FALSE  TRUE
 #' 
 #' 
-#' is_flanked(test_vec, items = c(NA), edges_as_na = FALSE)
+#' is.flanked(test_vec, items = c(NA), edges_as_na = FALSE)
 #' 
 #' #> [1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE
 #'
