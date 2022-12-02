@@ -573,3 +573,18 @@ make_iris_labelled <- function() {
 #' }
 #' @source R `datasets` package
 "iris_labelled"
+
+
+
+#' The first 1000 voters from the New Zealand Bird of the Year survey, 2019
+#'
+#' @format ## `nz_boty_2019_head`
+#' A data frame with 4,757 rows and 3 columns:
+#' \describe{
+#'   \item{voter}{Unique ID for each `voter`}
+#'   \item{rank}{Rank preference that `voter` assigned to each `candidate`.}
+#'   \item{candidate}{Candidates that `voter` chose.}
+#'   ...
+#' }
+#' @source https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-11-19
+"nz_boty_2019_head"
