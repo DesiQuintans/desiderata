@@ -89,6 +89,7 @@ Please note that this project is released with a [Contributor Code of Conduct](C
         -   `str_rev()` --- Reverse the elements of a vector (e.g. make words go backwards) without changing the order of elements in the vector itself.
         -   `rev_sentence()` --- Reverse the order of words in a string
         -   `interleave()` --- Interleave one string with another
+        -   `match_in_substr()` --- Match strings that have a needle near the start, end, or middle
     -   Datetime functions
         -   `consecutive_month()` --- Find the current month number relative to a starting date
         -   `consecutive_week()` --- Find the number of weeks or isoweeks between two dates

@@ -376,3 +376,97 @@ interleave <- function(str, insert = "\n", split = character(0)) {
            paste, collapse = as.character(insert))
     
 }
+
+
+
+#' Match strings that have a needle near the start, end, or middle
+#'
+#' @param str (Character) The vector to be searched.
+#' @param query (Character) The regular expression to look for. If `length(query) > 1`, 
+#'     will be collapsed into a regular expression as `"(item1|item2|item3...)"`.
+#' @param buffer (Numeric) The length of the substring to search. If given as a whole number, 
+#'     it will be that many characters long. If given as a decimal number, it will be used 
+#'     as a proportion of the length of each element in `str`, e.g. `buffer = 0.20` is 20% 
+#'     of each element's length.
+#' @param from (Character) If `"start"` or `"s"` (default), the search will be done from 
+#'     the start of each string. If `"end"` or `"e"`, it will be from the end. If `"middle"` 
+#'     or `"m"`, the middle of the string will be searched.
+#' @param values (Logical) If `FALSE` (default), returns a Logical vector of whether a match 
+#'     was found in each element of `str`. If `TRUE`, returns a Character vector containing
+#'     only the elements of `str` that matched.
+#'
+#' @return A Logical vector if `values == FALSE` (default), or a Character vector 
+#'     if `values == TRUE`.
+#' @export
+#'
+#' @examples
+#' sentences <- c(
+#'     "The word 'needle' appears at the start of this sentence.",
+#'     "But in this sentence, 'needle' doesn't.",
+#'     "If 'needle' appears several times in a sentence, then we have a lot of needles!",
+#'     "And in here, the word we want to find (needle) is near the middle of the sentence."
+#'     )
+#' 
+#' # Within 20 characters of the Start of the string
+#' match_in_substr(sentences, "needle", 20, "s")
+#' 
+#' #> [1] TRUE FALSE TRUE FALSE
+#' 
+#' # In the last 25% of the string
+#' match_in_substr(sentences, "needle", 0.25, "e")
+#' 
+#' #> [1] FALSE FALSE TRUE FALSE
+#' 
+#' # In the middle 1/3rd of the string
+#' match_in_substr(sentences, "needle", 1/3, "m")
+#' 
+#' #> [1] FALSE FALSE FALSE TRUE
+#' 
+#' match_in_substr(sentences, "needle", 1/3, "m", values = TRUE)
+#' #> [1] "And in here, the word we want to find (needle) is near the middle of the sentence."
+#' 
+#' @md
+#' @importFrom magrittr %>%
+match_in_substr <- function(str, query, buffer = 0.25, from = "s", values = FALSE) {
+    # From ?integer, because is.integer(5) returns FALSE.
+    is.wholenumber <-
+        function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
+    
+    # Build the query
+    needle <- ifelse(length(query) == 1,
+                     paste0("(", query, ")"),
+                     paste0("(", paste(query, collapse = "|"), ")"))
+    
+    df <- 
+        str %>% 
+        # Split str into sentences
+        # stringr::str_split(stringr::boundary("sentence")) %>%
+        # unlist() %>%
+        dplyr::as_tibble() %>% 
+        dplyr::rename(orig = 1) %>% 
+        dplyr::mutate(orig = stringr::str_trim(orig)) %>%
+        # Calculate per-sentence buffer lengths if buffer is a double. An intention like
+        # "Within the first 10% of the sentence" is calculated for every sentence length.
+        dplyr::mutate(sent_len = stringr::str_length(orig),
+                      buffer_len = dplyr::case_when(is.wholenumber(buffer) ~ buffer,
+                                                    TRUE ~ ceiling(buffer * sent_len))) %>%
+        # Truncate each sentence to only keep the search area. I do this so that searches
+        # in the middle of a string work properly for sentences of any length.
+        dplyr::mutate(sent_trunc = dplyr::case_when(
+            grepl("^s|S", from) ~ stringr::str_sub(orig, 1, buffer_len),
+            grepl("^e|E", from) ~ stringr::str_sub(orig, -buffer_len, -1),
+            grepl("^m|M", from) ~ stringr::str_sub(orig, buffer_len, -buffer_len)
+        )) %>%
+        # Do the search
+        dplyr::mutate(found = stringr::str_detect(sent_trunc, needle))
+    
+    # Return the matches
+    if (values == FALSE) {
+        return(df$found)
+    } else {
+        df %>% 
+            dplyr::filter(found == TRUE) %>% 
+            purrr::pluck("orig") %>% 
+            return()
+    }
+}
