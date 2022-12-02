@@ -608,3 +608,50 @@ fold <- function(vec, n = 2) {
         others = ifelse(length(vec) - n > 1, "others", "other")
     ))
 }
+
+
+
+#' Is a vector element surrounded by certain values?
+#'
+#' Checks if an element in a vector is flanked, i.e. if the elements before and after it
+#' are `%in%` a vector of candidates.
+#'
+#' @param vec (Vector) A vector.
+#' @param items (Vector) A vector.
+#' @param edges_as_na (Logical) If `TRUE` (default), the computation will add `NA` to the 
+#'     start and end of `vec` *temporarily*. If `FALSE`, it will reuse the first and last 
+#'     values. See examples.
+#'     
+#' @return A Logical vector of the same length as `vec`.
+#'    
+#' @export
+#'
+#' @examples
+#' test_vec <- c(1, NA, 2, NA, 3, 4, NA, 5)
+#' 
+#' is_flanked(test_vec, items = c(NA), edges_as_na = TRUE)
+#' 
+#' # The edges are regarded as flanked by `NA` because `edges_as_na == TRUE` adds `NA` to
+#' # the start and end of `vec`.
+#' #> [1]  TRUE FALSE  TRUE FALSE FALSE FALSE FALSE  TRUE
+#' 
+#' 
+#' is_flanked(test_vec, items = c(NA), edges_as_na = FALSE)
+#' 
+#' #> [1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE
+#'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#' 
+#' @md
+is.flanked <- function(vec, items, edges_as_na = TRUE) {
+    if (edges_as_na == TRUE) {
+        lag_vec <- c(NA, vec[1:length(vec)-1])
+        lead_vec <- c(vec[2:length(vec)], NA)
+    } else {
+        lag_vec <- c(vec[1], vec[1:length(vec)-1])
+        lead_vec <- c(vec[2:length(vec)], vec[length(vec)])
+    }
+    
+    lag_vec %in% items & vec %notin% items & lead_vec %in% items
+}
