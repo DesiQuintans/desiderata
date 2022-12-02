@@ -83,7 +83,7 @@ Please note that this project is released with a [Contributor Code of Conduct](C
         -   `boot_ci_mean()` --- Bootstrapped confidence interval of the mean
     -   String functions
         -   `vec_to_regex()` --- Collapse vectors into a regex pattern
-        -   `collapse_vec()` --- Collapse a vector into a single string
+        -   `str_coll()` --- Collapse a vector into a single string
         -   `uw()` and `uw0()` --- "Unwrap" hard-wrapped strings into a single line
         -   `common_stem()` --- Return the stem that is common to a set of strings
         -   `str_rev()` --- Reverse the elements of a vector (e.g. make words go backwards) without changing the order of elements in the vector itself.
