@@ -13,11 +13,11 @@ same_cols(l, r)
 }
 \value{
 A Character vector with the names of the columns that appear
-in both \code{l} and \code{r}. The order of \code{l} and \code{r} doesn't matter for \code{same_cols()}, but
-it does for \code{diff_cols()}.
+in both \code{l} and \code{r}.
 }
 \description{
-Given two dataframes, which columns appear in both of them?
+The order of \code{l} and \code{r} doesn't matter for \code{same_cols()}, but
+it does for \code{diff_cols()}.
 }
 \section{Authors}{
 

@@ -577,12 +577,14 @@ rows_with_na <- function(df) {
 
 #' Given two dataframes, which columns appear in both of them?
 #'
+#' The order of `l` and `r` doesn't matter for `same_cols()`, but
+#' it does for `diff_cols()`.
+#'
 #' @param l (Dataframe) A dataframe whose column names to compare.
 #' @param r (Dataframe) A dataframe whose column names to compare.
 #'
 #' @return A Character vector with the names of the columns that appear
-#'     in both `l` and `r`. The order of `l` and `r` doesn't matter for `same_cols()`, but
-#'     it does for `diff_cols()`.
+#'     in both `l` and `r`. 
 #'     
 #' @export
 #'
