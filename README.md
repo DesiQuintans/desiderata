@@ -24,11 +24,12 @@ Please note that this project is released with a [Contributor Code of Conduct](C
 
 -   `desiderata::`
     -   Tools for interactive programming
+        -   `ensure()` --- Quick assertion function for QA checks on code (e.g. checking that a dataframe has the same number of rows before and after a join)
+        -   `sift()` --- Fuzzily search column names and labels and get basic summary statistics about them
         -   `Show()` --- Pipeline- and knit-friendly `View()`
         -   `clippy()` --- Copy a dataframe, vector, or the result of an expression to the clipboard
         -   `try.seed()` --- Generate random seeds to preview their effects
         -   `coinflip()` --- Randomly return `TRUE` or `FALSE`
-        -   `ensure()` --- Quick assertion function for QA checks on code (e.g. checking that a dataframe has the same number of rows before and after a join)
     -   Functions that work on many different types of data
         -   `Mode()` --- Find the mode(s) of a numeric/character/factor vector
         -   `na_rm()` --- Remove `NA` from vectors, lists, matrices, and dataframes
