@@ -655,3 +655,39 @@ is.flanked <- function(vec, items, edges_as_na = TRUE) {
     
     lag_vec %in% items & vec %notin% items & lead_vec %in% items
 }
+
+
+
+#' Alias for `any(!(...))`
+#'
+#' `any_false(...)` returns `TRUE` if anything in `...` is `FALSE`; it's the opposite of
+#' `any(...)`, which returns `TRUE` if anything in `...` is `TRUE`. 
+#'
+#' This function exists to avoid confusion when negating `any()`;
+#' `any(!c(TRUE, FALSE)) == TRUE`, but `!any(c(TRUE, FALSE)) == FALSE`, and the difference
+#' is which part of the expression you negate. In many cases, you want the former because
+#' you are testing whether anything in the vector is `FALSE`, and that's what this
+#' function does.
+#'
+#' @param ... (Vectors) Zero or more logical vectors.
+#' @param na.rm (Logical) If `TRUE`, `NA` values are removed before the result is computed.
+#'
+#' @return Logical vector.
+#' @export
+#'
+#' @examples
+#' anyFalse(c(TRUE, TRUE))
+#' #> [1] FALSE
+#'
+#' anyFalse(c(FALSE, FALSE))
+#' #> [1] TRUE
+#'
+#' anyFalse(c(TRUE, FALSE))
+#' #> [1] TRUE
+#'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#' @md
+anyFalse <- function(..., na.rm = FALSE) {
+    base::any(!(...), na.rm = na.rm)
+}
