@@ -56,25 +56,27 @@ Please note that this project is released with a [Contributor Code of Conduct](C
         -   `add_group_size()` --- Add group size as a column
         -   `rows_with_na()` --- Only keep rows that contain `NA`
     -   Number functions
-        -   `geomean()` --- Geometric mean of a vector
-        -   `se_mean()` --- Standard error of the mean
         -   `round_to_nearest()` --- Round numbers to the nearest "pretty" value (e.g. nearest `0.1`)
         -   `round_to()` --- Round numbers to a fixed number of decimal places and return them as `Numeric`
-        -   `degreedays()` --- Calculate degree-days
         -   `normalize_colwise()` --- Normalise a matrix column-wise between 0 and 1
         -   `normalize_whole()` --- Normalise a whole matrix between 0 and 1
         -   `concat_nums()` --- Concatenate a numeric vector into a single number
-        -   `percentile()` --- Quick percentile overview (plus plotting option)
         -   `mirror_matrix()` --- Mirror a matrix horizontally
         -   `is.prime()` --- Is a number prime?
-        -   `cumpct()` --- Cumulative percentage
-        -   `IQR_outliers()` --- Mark outliers in a vector according to the percentile method
         -   `encode_signif()` --- Replace p-values with significance codes
         -   `mark_longest_run()` --- Find and mark the longest run of TRUEs in a boolean vector
         -   `mark_last_peak()` --- Mark the location of the last maximum value (peak) in a vector
-        -   `triangle_num()` --- nth Triangle Number, like factorial but with addition
         -   `omit_dips()` --- Replace element with `NA` if it is less than the elements before and after it
         -   `is.flanked()` --- Is a vector element surrounded by certain values?
+    -   Specific calculations
+        -   `geomean()` --- Geometric mean of a vector
+        -   `se_mean()` --- Standard error of the mean
+        -   `degreedays()` --- Calculate degree-days
+        -   `percentile()` --- Quick percentile overview (plus plotting option)
+        -   `cumpct()` --- Cumulative percentage
+        -   `IQR_outliers()` --- Mark outliers in a vector according to the percentile method
+        -   `triangle_num()` --- nth Triangle Number, like factorial but with addition
+        -   `boot_ci_mean()` --- Bootstrapped confidence interval of the mean
     -   String functions
         -   `vec_to_regex()` --- Collapse vectors into a regex pattern
         -   `collapse_vec()` --- Collapse a vector into a single string

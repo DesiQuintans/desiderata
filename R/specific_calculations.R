@@ -313,3 +313,92 @@ triangle_num <- function(nums, coerce = round, ...) {
     
     (ints^2 + ints) / 2
 }
+
+
+
+#' Bootstrapped confidence interval of the mean
+#'
+#' Quick confidence interval calculation using bootstrapping, which makes no assumptions
+#' about the distribution of the data.
+#'
+#' By default, this is calculated using the percentile method, but it also supports the
+#' Bias-Corrected and Accelerated (BCA) method (DOI: 10.1080/01621459.1987.10478410), which
+#' is useful if you want to show that the lower and upper bounds of a statistic are
+#' asymmetric around the point estimate.
+#'
+#' @param vec (Numeric) The numeric vector to calculate a CI for.
+#' @param conf (Double) The confidence level, by default `0.95` (95% CI).
+#' @param R (Integer) Number of bootstrap repetitions.
+#' @param type (Character) Either `"perc"` (percentile method, default) or `"bca"`
+#'    (bias-corrected and accelerated method).
+#'
+#' @return A list with three items: `ci_lwr` contains the lower bound, `ci_est` contains
+#'     the point estimate, and `ci_upr` contains the upper bound. If you are using this
+#'     inside a dataframe, look at `dplyr::unnest()` to split this list out into columns.
+#' @export
+#'
+#' @examples
+#' set.seed(12345)
+#' nums <- c(rnorm(10), NA_real_)
+#'
+#' nums
+#'
+#' ## [1]  0.5855288  0.7094660 -0.1093033 -0.4534972  0.6058875 -1.8179560  0.6300986
+#' ## [8] -0.2761841 -0.2841597 -0.9193220         NA
+#'
+#' boot_ci_mean(nums)
+#'
+#' ## $ci_lwr
+#' ## [1] -0.6455236
+#' ##
+#' ## $ci_est
+#' ## [1] -0.1329441
+#' ##
+#' ## $ci_upr
+#' ## [1] 0.3430405
+#'
+#' # Demonstration of unnesting into a dataframe
+#' # library(dplyr)
+#' # library(tidyr)
+#' #
+#' # iris %>%
+#' #     group_by(Species) %>%
+#' #     summarise(mean_boot = boot_ci_mean(Petal.Length)) %>%
+#' #     unnest(mean_boot, names_sep = ".")
+#'
+#' ## # A tibble: 3 × 4
+#' ##   Species    mean_boot.ci_lwr mean_boot.ci_est mean_boot.ci_upr
+#' ##   <fct>                 <dbl>            <dbl>            <dbl>
+#' ## 1 setosa                 1.41             1.46             1.51
+#' ## 2 versicolor             4.13             4.26             4.39
+#' ## 3 virginica              5.40             5.55             5.7
+#'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#' @md
+boot_ci_mean <- function(vec, conf = 0.95, R = 999, type = "perc") {
+    if (length(type) != 1 | sum(type %in% c("bca", "perc")) != 1) {
+        stop('`type` argument must be one of "bca" or "perc".')
+    }
+    
+    boot_mean <- function(v, i) {
+        mean(v[i], na.rm = TRUE)
+    }
+    
+    boot_out <- boot::boot(data = vec, statistic = boot_mean, R = R)
+    cis <- boot::boot.ci(boot_out, conf = conf, type = type)
+    
+    if (is.null(cis)) {
+        return(data.frame(
+            ci_lwr = NA_real_,
+            ci_est = NA_real_,
+            ci_upr = NA_real_
+        ))
+    }
+    
+    return(data.frame(
+        ci_lwr = cis[[4]][4],
+        ci_est = cis$t0,
+        ci_upr = cis[[4]][5]
+    ))
+}
