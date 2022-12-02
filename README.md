@@ -115,6 +115,7 @@ Please note that this project is released with a [Contributor Code of Conduct](C
     -   Data included
         -   `basic_color_names` --- The names of 197 common colours: red, green, cyan, etc.
         -   `random_integers` --- 10,000 random integers between 0 and 100
+        -   `iris_labelled` --- The `iris` dataset with a `label` attribute added, as `Hmisc` and other packages do.
 
 ------------------------------------------------------------------------
 
