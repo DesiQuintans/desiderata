@@ -128,7 +128,8 @@ round_to_nearest <- function(num, to, dir = NULL) {
 #'
 #' @md
 round_to <- function(x, digits = 2, ...) {
-    trimws(format(round(x, digits = digits), nsmall = digits))
+    nums_as_char <- trimws(format(round(x, digits = digits), nsmall = digits))
+    as.numeric(nums_as_char)
 }
 
 
