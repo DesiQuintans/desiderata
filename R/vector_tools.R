@@ -691,3 +691,69 @@ is.flanked <- function(vec, items, edges_as_na = TRUE) {
 anyFalse <- function(..., na.rm = FALSE) {
     base::any(!(...), na.rm = na.rm)
 }
+
+
+
+#' Report pairwise differences between two vectors
+#'
+#' Compares each element of two vectors to each other and reports the number of total
+#' matches and mismatches, as well as a count for each unique mismatch.
+#'
+#' @param l (Vector) Any vector.
+#' @param r (Vector) Any vector.
+#' @param full (Logical) If `TRUE` (default), adds counts of each specific mismatch to the
+#' dataframe output. If `FALSE`, only shows the first two rows of the output (the overall
+#' count of matches and mismatches).
+#'
+#' @return A dataframe.
+#' @export
+#'
+#' @examples
+#' v1 <- c(1, 2, 3, 4, 5, NA, NA)
+#' v2 <- c(1, 2, 5, 4, 3, NA, 7)
+#'
+#' report_diff(v1, v2)
+#'
+#' #>         pairs count
+#' #> 1      l == r     4
+#' #> 2      l != r     3
+#' #> 3  `3` != `5`     1
+#' #> 4  `5` != `3`     1
+#' #> 5 `NA` != `7`     1
+#'
+#' report_diff(v1, v2, full = FALSE)
+#'
+#' #>    pairs count
+#' #> 1 l == r     4
+#' #> 2 l != r     3
+#'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#' @md
+report_diff <- function(l, r, full = TRUE) {
+    v_identical <- Vectorize(identical)
+    
+    # Count how many elements are the same
+    same <- v_identical(l, r)
+    n_same <- sum(same)
+    
+    # Grab the elements that are not the same
+    diff <- !v_identical(l, r)
+    n_diff <- sum(diff)
+    
+    overall <-
+        data.frame(pairs = c("l == r", "l != r"),
+                   count = c(n_same, n_diff))
+    
+    if (full == FALSE) {
+        return(overall)
+    } else {
+        pairs <- paste(paste0("`", l[diff], "`"),
+                       paste0("`", r[diff], "`"),  sep = " != ")
+        result <- as.data.frame(table(pairs), responseName = "count")
+        
+        full_output <- rbind(overall, result)
+        
+        return(full_output)
+    }
+}

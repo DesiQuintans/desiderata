@@ -46,6 +46,7 @@ Please note that this project is released with a [Contributor Code of Conduct](C
         -   `if_na()` --- Alias for `ifelse(is.na(x), yes = TRUE, no = x)`.
         -   `fold()` --- Friendly printing of multi-item vectors, e.g. `"Jan, Feb, and 10 others"`.
         -   `anyFalse()` --- Alias of `any(!(...))` (note: it's different from `!any(...)`)
+        -   `report_diff()` --- Are these two vectors exactly the same? What pairwise elements are mismatched, and how many?
     -   Dataframe functions
         -   `overwrite_df()` --- Replace all matching values in a dataframe with something else
         -   `drop_empty_cols()` --- Drop 'empty' columns in a dataframe (plus regex matching)
