@@ -608,3 +608,54 @@ rows_with_na <- function(df) {
 same_cols <- function(l, r) {
     base::intersect(colnames(l), colnames(r))
 }
+
+
+
+#' Given two dataframes, which columns are present in one but not in the other?
+#' 
+#' Unlike `same_cols()`, the order of `l` and `r` *does* matter for `diff_cols()`.
+#'
+#' @param l (Dataframe) A dataframe whose column names to compare.
+#' @param r (Dataframe) A dataframe whose column names to compare.
+#' @param side (Character) `"both"` or `"b"` (default) finds columns that are missing from
+#'     both dataframes. `"left"` or `"l"` finds cols in `l` that are not in `r`.
+#'     `"right"` or `"r"` finds cols in `r` that are not in `l`.
+#'
+#' @return A Character vector with the names of missing columns.
+#' @export
+#'
+#' @examples
+#' iris1 <- iris[, 1:3]
+#' colnames(iris1)
+#' ## [1] "Sepal.Length" "Sepal.Width"  "Petal.Length"
+#'
+#' iris2 <- iris[, 2:5]
+#' colnames(iris2)
+#' ## [1]                "Sepal.Width"  "Petal.Length" "Petal.Width"  "Species"
+#'
+#' diff_cols(iris1, iris2)
+#' #> [1] "Sepal.Length" "Petal.Width"  "Species"
+#'
+#' diff_cols(iris1, iris2, side = "l")
+#' #> [1] "Sepal.Length"
+#'
+#' diff_cols(iris1, iris2, side = "r")
+#' #> [1] "Petal.Width"  "Species"
+#'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#' @md
+diff_cols <- function(l, r, side = "both") {
+    # Both directions need to be compared.
+    set1 <- base::setdiff(colnames(l), colnames(r))
+    set2 <- base::setdiff(colnames(r), colnames(l))
+    
+    if (grepl("^b", side))
+        return(unique(c(set1, set2)))
+    
+    if (grepl("^l", side))
+        return(set1)
+    
+    if (grepl("^r", side))
+        return(set2)
+}
