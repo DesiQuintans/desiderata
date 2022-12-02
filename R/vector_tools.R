@@ -559,3 +559,52 @@ if_na <- function(x, yes = TRUE, no = NULL) {
     
     ifelse(is.na(x), yes, no)
 }
+
+
+
+#' Friendly printing of a multi-element vector
+#'
+#' Produces a readout like `"January, February, and 10 others"`.
+#'
+#' @param vec (Vector) The vector you want to print.
+#' @param n (Integer) The maximum number of vector elements to show.
+#'
+#' @return A character vector of length 1 containing the readout (or `NA`).
+#' @export
+#'
+#' @examples
+#' month.name
+#' #> [1] "January"   "February"  "March"     "April"     "May"       "June"
+#' #> [7] "July"      "August"    "September" "October"   "November"  "December"
+#'
+#' fold(month.name)
+#' #> January, February, and 10 others
+#'
+#' fold(1:20, n = 5)
+#' #> 1, 2, 3, 4, 5, and 15 others
+#'
+#' fold(character(0), n = 1)
+#' #> [1] NA
+#'
+#' fold(1:10, n = 0)
+#' #> [1] NA
+#'
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#' @md
+fold <- function(vec, n = 2) {
+    if (length(vec) == 0 | n < 1) {
+        return(NA_character_)
+    }
+    
+    if (length(vec) <= n) {
+        return(paste(vec, collapse = ", "))
+    }
+    
+    return(glue::glue(
+        "{items}, and {remaining} {others}",
+        items = paste(vec[1:n], collapse = ", "),
+        remaining = length(vec) - n,
+        others = ifelse(length(vec) - n > 1, "others", "other")
+    ))
+}
