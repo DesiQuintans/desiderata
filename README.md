@@ -59,6 +59,7 @@ Please note that this project is released with a [Contributor Code of Conduct](C
         -   `rows_with_na()` --- Only keep rows that contain `NA`
         -   `same_cols()` --- Given two dataframes, which columns appear in both of them?
         -   `diff_cols()` --- Given two dataframes, which columns are present in one but not in the other?
+        -   `na_in_row()` --- Gives the count/proportion of `NA` for each row of a dataframe, using `dplyr` tidyselectors (`-`, `:`, `starts_with()`, etc.) to choose which columns to look at.
     -   Number functions
         -   `round_to_nearest()` --- Round numbers to the nearest "pretty" value (e.g. nearest `0.1`)
         -   `round_to()` --- Round numbers to a fixed number of decimal places and return them as `Numeric`

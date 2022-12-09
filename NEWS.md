@@ -1,7 +1,8 @@
 # desiderata 0.43.0 (2022-11-28)
 
 - MOD - `drop_empty_cols()` and `drop_empty_rows()` are no longer hard-coded to consider the value `0` as something that counts as 'empty'. This means that columns and rows that are full of `0` are kept, since zeroes can be meaningful. If you want to consider `0` as empty, use the argument `regex = "^0$"` to match it.
-- MOD - `drop_empty_cols()` and `drop_empty_rows()` can now report their changes with the `report` argument.
+- MOD - `drop_empty_cols()` and `drop_empty_rows()` can now report their changes with the `report` argument
+- ADD - `na_in_row()` finds the count and proportion of `NA` for each row of a dataframe, using tidyselectors to choose which columns to look at.
 
 
 # desiderata 0.42.0 (2022-10-29)

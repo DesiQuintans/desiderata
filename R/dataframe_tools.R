@@ -694,3 +694,70 @@ diff_cols <- function(l, r, side = "both") {
     if (grepl("^r", side))
         return(set2)
 }
+
+
+
+#' Count/proportion of `NA`s per dataframe row
+#'
+#' @param df (Dataframe) A dataframe.
+#' @param ... (Tidy-select) `dplyr`-style column selection. 
+#'     See [dplyr::dplyr_tidy_select()]. If empty, defaults to `dplyr::everything()`.
+#'
+#' @return The dataframe `df` with two new columns: `na_in_row_count` and `na_in_row_prop`.
+#' @export
+#'
+#' @examples
+#' df <- data.frame(a = c(1, 2, NA, 4, NA), b = 1:5, c = c(NA, 2, 3, NA, NA))
+#' 
+#' df
+#' 
+#' #>     a b  c
+#' #> 1   1 1 NA
+#' #> 2   2 2  2
+#' #> 3  NA 3  3
+#' #> 4   4 4 NA
+#' #> 5  NA 5 NA
+#' 
+#' # By default, looks for NAs in all columns
+#' na_in_row(df)
+#' 
+#' #>    a b  c na_in_row_count na_in_row_prop
+#' #> 1  1 1 NA               1      0.3333333
+#' #> 2  2 2  2               0      0.0000000
+#' #> 3 NA 3  3               1      0.3333333
+#' #> 4  4 4 NA               1      0.3333333
+#' #> 5 NA 5 NA               2      0.6666667
+#' 
+#' # Or use tidyselectors to choose columns. Here, looking for 
+#' # NAs in all columns except `b`
+#' na_in_row(df, -b)
+#' 
+#' #>    a b  c na_in_row_count na_in_row_prop
+#' #> 1  1 1 NA               1            0.5
+#' #> 2  2 2  2               0            0.0
+#' #> 3 NA 3  3               1            0.5
+#' #> 4  4 4 NA               1            0.5
+#' #> 5 NA 5 NA               2            1.0
+#' 
+#' @section Source:
+#' - <https://stackoverflow.com/a/35444245/5578429>
+#' 
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#' - maloneypatr (<https://stackoverflow.com/users/2124146/maloneypatr>)
+#' 
+#' @md
+na_in_row <- function(df, ...) {
+    if (...length() == 0) {
+        wip <- dplyr::select(df, everything())
+    } else {
+        wip <- dplyr::select(df, ...)
+    }
+    
+    wip <- dplyr::mutate(wip,
+                         na_in_row_count = apply(wip, 1, function(x) sum(is.na(x))),
+                         na_in_row_prop  = na_in_row_count / apply(wip, 1, length))
+    
+    return(dplyr::bind_cols(df, 
+                            dplyr::select(wip, na_in_row_count, na_in_row_prop)))
+}
