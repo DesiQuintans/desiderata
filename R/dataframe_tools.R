@@ -230,14 +230,14 @@ drop_empty_rows <- function(df, from = 1, to = NULL, cols = NULL, regex = "^$",
     # " 0" "0" " "    This row is wrongly kept because " " is not 'empty'.
     # " 1" "1" "2"
     # " 1" "1" "3"
-    is_empty <- apply(sub_df, 
+    not_empty <- apply(sub_df, 
                       MARGIN = 1,  # Along each row...
                       function(x) {
                           # Remove whitespace from each cell
                           y <- trimws(x, which = "both");
                           
-                          # If all items in the row are empty, return TRUE.
-                          all(nchar(y) == 0 |
+                          # Negated so that non-empty rows are TRUE, and will be kept.
+                          !all(nchar(y) == 0 |
                               y == "" |
                               is.na(y) |
                               is.null(y) |
@@ -245,10 +245,14 @@ drop_empty_rows <- function(df, from = 1, to = NULL, cols = NULL, regex = "^$",
                           }
                       )
 
-    out <- df[!is_empty,]
+    # This is dplyr::slice() and not a simpler subset (df[!is_empty,]) because of a strange
+    # quirk where dataframes with labelled variables would lose their labels if they were
+    # subset in base R. dplyr::slice() keeps them.
+    out <- dplyr::slice(df, which(not_empty))
     
     if (report == TRUE) {
-        message("Dropped empty rows: ", nrow(df) - nrow(out), " in total")
+        dropped_row_nums <- paste0(": ", fold(which(!not_empty), n = 50))
+        message("Dropped ", nrow(df) - nrow(out), " empty rows", dropped_row_nums)
     }
     
     return(out)
