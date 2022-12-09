@@ -120,7 +120,7 @@ drop_empty_cols <- function(df, from = 1, to = NULL, cols = NULL, regex = "^$",
     out <- base::Filter(function(x) !all(is.na(x) | is.null(x) | x == "" | grepl(regex, x)), sub_df)
 
     if (report == TRUE) {
-        message("Dropped cols: ", fold(diff_cols(df, out), n = Inf))
+        message("Dropped empty cols: ", fold(diff_cols(df, out), n = Inf))
     }
     
     return(out)
@@ -248,7 +248,7 @@ drop_empty_rows <- function(df, from = 1, to = NULL, cols = NULL, regex = "^$",
     out <- df[!is_empty,]
     
     if (report == TRUE) {
-        message("Dropped rows: ", nrow(df) - nrow(out), " in total")
+        message("Dropped empty rows: ", nrow(df) - nrow(out), " in total")
     }
     
     return(out)
