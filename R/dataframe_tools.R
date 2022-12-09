@@ -142,6 +142,8 @@ drop_empty_cols <- function(df, from = 1, to = NULL, cols = NULL, regex = "^$",
 #'     (not-`NULL`), `from` and `to` will be ignored.
 #' @param regex (Character) A regex pattern that matches a value that should be considered
 #'     'empty'.
+#' @param report (Logical) If `TRUE`, print a Message with the number of empty rows
+#'     that were dropped.
 #'
 #' @return A subset of `df` with all empty rows removed.
 #' @export
@@ -199,12 +201,22 @@ drop_empty_cols <- function(df, from = 1, to = NULL, cols = NULL, regex = "^$",
 #' #> 3 Janice    1    1 2 4 5 0
 #' #> 4    Joe <NA> <NA> 0 0 0 0
 #' #> 5    Jay    0    0 0 0 0 0
+#' 
+#' drop_empty_rows(data, cols = c(2, 6), report = TRUE)
+#'
+#' #> Dropped rows: 1 in total
+#' #>     name    a    b c d e f
+#' #> 1    Jim    0    1 1 0 0 3
+#' #> 3 Janice    1    1 2 4 5 0
+#' #> 4    Joe <NA> <NA> 0 0 0 0
+#' #> 5    Jay    0    0 0 0 0 0
 #'
 #' @section Authors:
 #' - Desi Quintans (<http://www.desiquintans.com>)
 #'
 #' @md
-drop_empty_rows <- function(df, from = 1, to = NULL, cols = NULL, regex = "^$") {
+drop_empty_rows <- function(df, from = 1, to = NULL, cols = NULL, regex = "^$",
+                            report = FALSE) {
     selected <- construct_cols(df, from = from, to = to, cols = cols)
     sub_df <- df[selected]
 
@@ -233,7 +245,13 @@ drop_empty_rows <- function(df, from = 1, to = NULL, cols = NULL, regex = "^$") 
                           }
                       )
 
-    return(df[!is_empty,])
+    out <- df[!is_empty,]
+    
+    if (report == TRUE) {
+        message("Dropped rows: ", nrow(df) - nrow(out), " in total")
+    }
+    
+    return(out)
 }
 
 
