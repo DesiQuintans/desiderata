@@ -11,6 +11,6 @@ Desi Quintans (@eco_desi)
 
 \section{URL}{
 
-\url{https://github.com/DesiQuintans/taxizehelper/}
+\url{https://github.com/DesiQuintans/desiderata/}
 }
 
