@@ -68,6 +68,8 @@ overwrite_df <- function(df, find = "^(NA||\\s+|0|-+|_+)$", replace = "", replac
 #'     (not-`NULL`), `from` and `to` will be ignored.
 #' @param regex (Character) A regex pattern that matches a value that should be considered
 #'     'empty'.
+#' @param report (Logical) If `TRUE`, print a Message with the names of the empty columns
+#'     that were dropped.
 #'
 #' @return A subset of `df` with all empty columns removed.
 #' @export
@@ -97,16 +99,31 @@ overwrite_df <- function(df, find = "^(NA||\\s+|0|-+|_+)$", replace = "", replac
 #' #> 1 0 1
 #' #> 2 0 1
 #' #> 3 0 0
+#' 
+#' drop_empty_cols(data, regex = "moo|baa|woof", report = TRUE)
+#' 
+#' #> Empty cols dropped: d, e
+#' #> a b c
+#' #> 1 0 1
+#' #> 2 0 1
+#' #> 3 0 0
 #'
 #' @section Authors:
 #' - Desi Quintans (<http://www.desiquintans.com>)
 #'
 #' @md
-drop_empty_cols <- function(df, from = 1, to = NULL, cols = NULL, regex = "^$") {
+drop_empty_cols <- function(df, from = 1, to = NULL, cols = NULL, regex = "^$",
+                            report = FALSE) {
     selected <- construct_cols(df, from = from, to = to, cols = cols)
     sub_df <- df[selected]
 
-    base::Filter(function(x) !all(is.na(x) | is.null(x) | x == "" | grepl(regex, x)), sub_df)
+    out <- base::Filter(function(x) !all(is.na(x) | is.null(x) | x == "" | grepl(regex, x)), sub_df)
+
+    if (report == TRUE) {
+        message("Dropped cols: ", fold(diff_cols(df, out), n = Inf))
+    }
+    
+    return(out)
 }
 
 

@@ -4,7 +4,14 @@
 \alias{drop_empty_cols}
 \title{Drop 'empty' columns in a dataframe}
 \usage{
-drop_empty_cols(df, from = 1, to = NULL, cols = NULL, regex = "^$")
+drop_empty_cols(
+  df,
+  from = 1,
+  to = NULL,
+  cols = NULL,
+  regex = "^$",
+  report = FALSE
+)
 }
 \arguments{
 \item{df}{(Dataframe) A dataframe.}
@@ -19,6 +26,9 @@ allows you to select non-contiguous columns. If the \code{cols} argument is bein
 
 \item{regex}{(Character) A regex pattern that matches a value that should be considered
 'empty'.}
+
+\item{report}{(Logical) If \code{TRUE}, print a Message with the names of the empty columns
+that were dropped.}
 }
 \value{
 A subset of \code{df} with all empty columns removed.
@@ -55,6 +65,14 @@ drop_empty_cols(data)
 
 drop_empty_cols(data, regex = "moo|baa|woof")
 
+#> a b c
+#> 1 0 1
+#> 2 0 1
+#> 3 0 0
+
+drop_empty_cols(data, regex = "moo|baa|woof", report = TRUE)
+
+#> Empty cols dropped: d, e
 #> a b c
 #> 1 0 1
 #> 2 0 1
