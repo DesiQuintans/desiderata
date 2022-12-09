@@ -108,15 +108,12 @@ make_path <- function(...) {
 #' @param ...  (...) Optional arguments that will be passed to `func`.
 #' @param recursive (Logical) If `TRUE`, also search inside the subfolders of `path`.
 #' @param ignorecase (Logical) If `TRUE`, `pattern` is case-insensitive.
-#' @param method (Character) The method to use to merge all of the files into on
+#' @param method (Character) The method to use to merge all of the files into one
 #'   dataframe. `"full_join"` (the default) returns all columns and rows. `"left_join"`
 #'   returns all rows from the first file, and all columns from subsequent files.
 #'   `"inner_join"` returns rows from the first file that have matches in subsequent files.
-#'   `"row_bind"` simply appends each file to the end of the last.
-#'
-#'
-#'   appends each new file to last row of the dataframe, but leaves `NA`s when the files
-#'   contain different columns.
+#'   `"row_bind"` simply appends each file to the last row of the dataframe, and leaves 
+#'   `NA`s when the files contain different columns.
 #'
 #' @return Invisibly returns a single dataframe with all of the input files merged
 #'   together. If `method = "row_bind",` then a new column, `orig_source_file`, contains

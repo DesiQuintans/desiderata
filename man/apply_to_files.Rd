@@ -27,14 +27,12 @@ apply_to_files(
 
 \item{ignorecase}{(Logical) If \code{TRUE}, \code{pattern} is case-insensitive.}
 
-\item{method}{(Character) The method to use to merge all of the files into on
+\item{method}{(Character) The method to use to merge all of the files into one
 dataframe. \code{"full_join"} (the default) returns all columns and rows. \code{"left_join"}
 returns all rows from the first file, and all columns from subsequent files.
 \code{"inner_join"} returns rows from the first file that have matches in subsequent files.
-\code{"row_bind"} simply appends each file to the end of the last.
-
-appends each new file to last row of the dataframe, but leaves \code{NA}s when the files
-contain different columns.}
+\code{"row_bind"} simply appends each file to the last row of the dataframe, and leaves
+\code{NA}s when the files contain different columns.}
 }
 \value{
 Invisibly returns a single dataframe with all of the input files merged
