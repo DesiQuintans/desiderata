@@ -123,7 +123,7 @@ drop_empty_cols <- function(df, from = 1, to = NULL, cols = NULL, regex = "^$",
         message("Dropped empty cols: ", fold(diff_cols(df, out), n = Inf))
     }
     
-    return(out)
+    return(dplyr::select(df, any_of(colnames(out))))
 }
 
 
