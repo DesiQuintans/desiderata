@@ -701,13 +701,15 @@ diff_cols <- function(l, r, side = "both") {
 
 
 
-#' Count/proportion of `NA`s per dataframe row
+#' Count/proportion of `NA`s and not-`NA`s per dataframe row
 #'
 #' @param df (Dataframe) A dataframe.
 #' @param ... (Tidy-select) `dplyr`-style column selection. 
 #'     See [dplyr::dplyr_tidy_select()]. If empty, defaults to `dplyr::everything()`.
 #'
-#' @return The dataframe `df` with two new columns: `na_in_row_count` and `na_in_row_prop`.
+#' @return The dataframe `df` with four new columns: `na_in_row_count`, `notna_in_row_count`,
+#'     `na_in_row_prop`, and `notna_in_row_prop`.
+#'     
 #' @export
 #'
 #' @examples
@@ -725,23 +727,23 @@ diff_cols <- function(l, r, side = "both") {
 #' # By default, looks for NAs in all columns
 #' na_in_row(df)
 #' 
-#' #>    a b  c na_in_row_count na_in_row_prop
-#' #> 1  1 1 NA               1      0.3333333
-#' #> 2  2 2  2               0      0.0000000
-#' #> 3 NA 3  3               1      0.3333333
-#' #> 4  4 4 NA               1      0.3333333
-#' #> 5 NA 5 NA               2      0.6666667
+#' #    a b  c na_in_row_count notna_in_row_count na_in_row_prop notna_in_row_prop
+#' # 1  1 1 NA               1                  2      0.3333333         0.6666667
+#' # 2  2 2  2               0                  3      0.0000000         1.0000000
+#' # 3 NA 3  3               1                  2      0.3333333         0.6666667
+#' # 4  4 4 NA               1                  2      0.3333333         0.6666667
+#' # 5 NA 5 NA               2                  1      0.6666667         0.3333333
 #' 
 #' # Or use tidyselectors to choose columns. Here, looking for 
 #' # NAs in all columns except `b`
 #' na_in_row(df, -b)
 #' 
-#' #>    a b  c na_in_row_count na_in_row_prop
-#' #> 1  1 1 NA               1            0.5
-#' #> 2  2 2  2               0            0.0
-#' #> 3 NA 3  3               1            0.5
-#' #> 4  4 4 NA               1            0.5
-#' #> 5 NA 5 NA               2            1.0
+#' #    a b  c na_in_row_count notna_in_row_count na_in_row_prop notna_in_row_prop
+#' # 1  1 1 NA               1                  1            0.5               0.5
+#' # 2  2 2  2               0                  2            0.0               1.0
+#' # 3 NA 3  3               1                  1            0.5               0.5
+#' # 4  4 4 NA               1                  1            0.5               0.5
+#' # 5 NA 5 NA               2                  0            1.0               0.0
 #' 
 #' @section Source:
 #' - <https://stackoverflow.com/a/35444245/5578429>
@@ -759,9 +761,13 @@ na_in_row <- function(df, ...) {
     }
     
     wip <- dplyr::mutate(wip,
-                         na_in_row_count = apply(wip, 1, function(x) sum(is.na(x))),
-                         na_in_row_prop  = na_in_row_count / apply(wip, 1, length))
+                         na_in_row_count    = apply(wip, 1, function(x) sum( is.na(x))),
+                         notna_in_row_count = apply(wip, 1, function(x) sum(!is.na(x))),
+                         na_in_row_prop     = na_in_row_count    / apply(wip, 1, length),
+                         notna_in_row_prop  = notna_in_row_count / apply(wip, 1, length))
     
     return(dplyr::bind_cols(df, 
-                            dplyr::select(wip, na_in_row_count, na_in_row_prop)))
+                            dplyr::select(wip, 
+                                          na_in_row_count, notna_in_row_count, 
+                                          na_in_row_prop,  notna_in_row_prop)))
 }

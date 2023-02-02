@@ -2,7 +2,7 @@
 % Please edit documentation in R/dataframe_tools.R
 \name{na_in_row}
 \alias{na_in_row}
-\title{Count/proportion of \code{NA}s per dataframe row}
+\title{Count/proportion of \code{NA}s and not-\code{NA}s per dataframe row}
 \usage{
 na_in_row(df, ...)
 }
@@ -13,10 +13,11 @@ na_in_row(df, ...)
 See \code{\link[dplyr:dplyr_tidy_select]{dplyr::dplyr_tidy_select()}}. If empty, defaults to \code{dplyr::everything()}.}
 }
 \value{
-The dataframe \code{df} with two new columns: \code{na_in_row_count} and \code{na_in_row_prop}.
+The dataframe \code{df} with four new columns: \code{na_in_row_count}, \code{notna_in_row_count},
+\code{na_in_row_prop}, and \code{notna_in_row_prop}.
 }
 \description{
-Count/proportion of \code{NA}s per dataframe row
+Count/proportion of \code{NA}s and not-\code{NA}s per dataframe row
 }
 \section{Source}{
 
@@ -48,22 +49,22 @@ df
 # By default, looks for NAs in all columns
 na_in_row(df)
 
-#>    a b  c na_in_row_count na_in_row_prop
-#> 1  1 1 NA               1      0.3333333
-#> 2  2 2  2               0      0.0000000
-#> 3 NA 3  3               1      0.3333333
-#> 4  4 4 NA               1      0.3333333
-#> 5 NA 5 NA               2      0.6666667
+#    a b  c na_in_row_count notna_in_row_count na_in_row_prop notna_in_row_prop
+# 1  1 1 NA               1                  2      0.3333333         0.6666667
+# 2  2 2  2               0                  3      0.0000000         1.0000000
+# 3 NA 3  3               1                  2      0.3333333         0.6666667
+# 4  4 4 NA               1                  2      0.3333333         0.6666667
+# 5 NA 5 NA               2                  1      0.6666667         0.3333333
 
 # Or use tidyselectors to choose columns. Here, looking for 
 # NAs in all columns except `b`
 na_in_row(df, -b)
 
-#>    a b  c na_in_row_count na_in_row_prop
-#> 1  1 1 NA               1            0.5
-#> 2  2 2  2               0            0.0
-#> 3 NA 3  3               1            0.5
-#> 4  4 4 NA               1            0.5
-#> 5 NA 5 NA               2            1.0
+#    a b  c na_in_row_count notna_in_row_count na_in_row_prop notna_in_row_prop
+# 1  1 1 NA               1                  1            0.5               0.5
+# 2  2 2  2               0                  2            0.0               1.0
+# 3 NA 3  3               1                  1            0.5               0.5
+# 4  4 4 NA               1                  1            0.5               0.5
+# 5 NA 5 NA               2                  0            1.0               0.0
 
 }
