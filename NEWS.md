@@ -1,7 +1,8 @@
 # Unreleased
 
+- ADD - `chunk_int()`, which tells you how an integer should be divided into `n` chunks (e.g. chunk 1 gets rows 1-10, chunk 2 gets rows 11-20, etc.).
 - MOD - `na_in_row()` produces two new output columns: `notna_in_row_count` and `notna_in_row_prop`.
-- FIX - Removed redundant `eval()`.
+- FIX - Removed redundant `eval()` from `try.seed()`.
 
 
 # desiderata 0.43.0 (2022-11-28)

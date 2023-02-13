@@ -402,3 +402,63 @@ omit_dips <- function(vec) {
     ifelse((!is.na(before(vec) & !is.na(after(vec)))) & 
                (vec < before(vec) & vec < after(vec)), NA, vec)
 }
+
+
+
+#' Cuts for dividing an integer into `n` chunks
+#'
+#' This function is intended for things like dividing large datasets into `n` chunks
+#' with a more-or-less equal number of rows in each chunk. Useful for generating batch
+#' files.
+#'
+#' @param int (Integer) The number to divide.
+#' @param chunks (Integer) The number of chunks to divide it into.
+#'
+#' @return A tibble with four columns: `chunk`, which is the chunk's number, `left`, 
+#'     which is the start of each chunk, `right`, which is its end, and `size`, which 
+#'     is how many items are in the chunk.
+#' @export
+#'
+#' @examples
+#' cut_int(19.4e6, 9)
+#' 
+#' ## A tibble: 9 × 4
+#' ## chunk     left    right    size
+#' ## <int>    <dbl>    <dbl>   <dbl>
+#' ##     1        1  2155557 2155556
+#' ##     2  2155558  4311112 2155554
+#' ##     3  4311113  6466668 2155555
+#' ##     4  6466669  8622223 2155554
+#' ##     5  8622224 10777779 2155555
+#' ##     6 10777780 12933334 2155554
+#' ##     7 12933335 15088890 2155555
+#' ##     8 15088891 17244445 2155554
+#' ##     9 17244446 19400000 2155554
+#' 
+#' 
+#' @section Authors:
+#' - Desi Quintans (<http://www.desiquintans.com>)
+#' @md
+cut_int <- function(int, chunks = NULL) {
+    if (length(int) > 1) {
+        stop("'int' argument must be of length 1 only.")
+    }
+    
+    cuts <- 
+        dplyr::tibble(
+            cut = round(seq(1, int, by = int/(chunks))) 
+            %>% append(int)
+        ) %>% 
+        dplyr::mutate(right = dplyr::lead(cut),
+                      left = ifelse(cut > 1, cut + 1, cut)) %>% 
+        dplyr::select(left, right) %>% 
+        dplyr::filter(!is.na(right)) %>% 
+        dplyr::mutate(size = right - left) %>% 
+        tibble::rowid_to_column("chunk")
+    
+    if (sum(cuts$size) != int) {
+        stop("Something went wrong and not all items are in the planned chunks.")
+    }
+    
+    return(cuts)
+}

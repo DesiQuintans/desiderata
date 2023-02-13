@@ -73,6 +73,7 @@ Please note that this project is released with a [Contributor Code of Conduct](C
         -   `mark_last_peak()` --- Mark the location of the last maximum value (peak) in a vector
         -   `omit_dips()` --- Replace element with `NA` if it is less than the elements before and after it
         -   `is.flanked()` --- Is a vector element surrounded by certain values?
+        -   `cut_int()` --- Cut an integer into `n` exclusive chunks, e.g. chunk 1 gets rows 1-10, chunk 2 gets rows 11-20, and so on.
     -   Specific calculations
         -   `geomean()` --- Geometric mean of a vector
         -   `se_mean()` --- Standard error of the mean
