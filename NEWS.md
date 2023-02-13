@@ -1,6 +1,7 @@
 # Unreleased
 
 - MOD - `na_in_row()` produces two new output columns: `notna_in_row_count` and `notna_in_row_prop`.
+- FIX - Removed redundant `eval()`.
 
 
 # desiderata 0.43.0 (2022-11-28)

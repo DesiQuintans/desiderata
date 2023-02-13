@@ -132,17 +132,17 @@ clippy <- function(x = NULL) {
 
 #' Generate random seeds to preview their effects
 #'
-#' This function will throw an error if you try to generate a new seed non-interactively 
-#' (e.g. in an Rmarkdown document that is being knitted, or an R script that is being 
-#' executed from the command line). This is because `try.seed()` changes the random seed, 
-#' and that could affect the rest of your script in ways that you don't want. It is 
-#' allowed to run non-interactively if you set the `seed` argument to a non-`NULL` number.
-#'
 #' This function picks a random seed, announces what that seed is, and then uses it to
 #' evaluate an expression. For example, if you are creating a network graph whose layout
 #' is calculated from randomly-chosen starting positions, `try.seed()` lets you run that
 #' plotting function over and over with a new seed each time, until you find a layout that
 #' you would like to keep. 
+#' 
+#' This function will throw an error if you try to generate a new seed non-interactively 
+#' (e.g. in an Rmarkdown document that is being knitted, or an R script that is being 
+#' executed from the command line). This is because `try.seed()` changes the random seed, 
+#' and that could affect the rest of your script in ways that you don't want. It is 
+#' allowed to run non-interactively if you set the `seed` argument to a non-`NULL` number.
 #' 
 #' When you find a seed that you want to keep, you should copy it from the console and 
 #' provide it as the `seed` argument.
@@ -186,7 +186,7 @@ try.seed <- function(expr, seed = NULL) {
     
     set.seed(seed)
     
-    eval(expr)
+    expr
 }
 
 
