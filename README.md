@@ -129,6 +129,7 @@ Please note that this project is released with a [Contributor Code of Conduct](C
         -   `random_integers` --- 10,000 random integers between 0 and 100
         -   `iris_labelled` --- The `iris` dataset with a `label` attribute added, as `Hmisc` and other packages do.
         -   `nz_boty_2019_head` --- The first 1000 voters from the New Zealand Bird of the Year survey, 2019.
+        -   `material2014_colblind` --- The Material Design 2014 colour palette, plus simulated colourblind conversions via `khroma:::anomalize()`.
 
 ------------------------------------------------------------------------
 

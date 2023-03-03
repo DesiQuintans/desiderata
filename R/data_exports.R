@@ -588,3 +588,30 @@ make_iris_labelled <- function() {
 #' }
 #' @source https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-11-19
 "nz_boty_2019_head"
+
+
+
+#' Google Material Design 2014 palette, with colour-blind conversions
+#'
+#' These are the colours from Google's Material Design 2014 palette.
+#' Colours are named according to the source website, e.g. `"deep_orange_50"` 
+#' through to `"deep_orange_a700"`. Colours with `"a"` before the number are
+#' accent colours. #' More importantly, I provide simulated 
+#' colour-blind conversions of these colours that were computed with
+#' `khroma:::anomalize()`. NOTE: I have padded this palette so that it displays
+#' nicely with `show_colors(material2014_colblind$normal, n = 14)`. To unpad it, 
+#' remove rows where name is `NA`.
+#'
+#' @format ## `material2014_colblind`
+#' A data frame with 280 rows and 6 columns:
+#' \describe{
+#'   \item{name}{The colour's name.}
+#'   \item{normal}{Normal colour vision representation as hex colour.}
+#'   \item{deutan}{Deuteranopic colour conversion. Sees blues and yellows.}
+#'   \item{protan}{Protanopic conversion. Sees dimmer blues and yellows.}
+#'   \item{tritan}{Tritanopic conversion. Sees Red/pink and cyan.}
+#'   \item{achrom}{Achromatopic conversion. Sees greyscale.}
+#' }
+#' @source https://m2.material.io/design/color/the-color-system.html#tools-for-picking-colors
+#' @md
+"material2014_colblind"
