@@ -10,7 +10,7 @@ Description: This package contains mixed functions for plotting, summarising, fo
     and so on.
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 4.2.0)
+Depends: R (>= 3.6.0)
 Imports:
     boot,
     cli,
