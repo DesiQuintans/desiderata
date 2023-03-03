@@ -4,10 +4,12 @@
 \alias{find_dims}
 \title{Find the nearest rectangle that will fit the number of entries in a vector}
 \usage{
-find_dims(vec)
+find_dims(vec, x = NULL)
 }
 \arguments{
 \item{vec}{(Vector) A vector.}
+
+\item{x}{(Integer) Optionally, the desired width in cells.}
 }
 \value{
 A named numeric vector with 2 entries: \code{x} and \code{y} describing the number of
@@ -19,10 +21,15 @@ to square as possible) that will fit all of the entries in a vector of colours.
 }
 \examples{
 \dontrun{
-find_dims(1:5)
+find_dims(1:12)
 
 #> x y
-#> 2 3
+#> 3 4
+
+find_dims(1:12, 2)
+
+#> x y
+#> 2 6
 }
 
 }
