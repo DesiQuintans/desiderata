@@ -422,19 +422,18 @@ omit_dips <- function(vec) {
 #' @examples
 #' cut_int(19.4e6, 9)
 #' 
-#' ## A tibble: 9 × 4
-#' ## chunk     left    right    size
-#' ## <int>    <dbl>    <dbl>   <dbl>
-#' ##     1        1  2155557 2155556
-#' ##     2  2155558  4311112 2155554
-#' ##     3  4311113  6466668 2155555
-#' ##     4  6466669  8622223 2155554
-#' ##     5  8622224 10777779 2155555
-#' ##     6 10777780 12933334 2155554
-#' ##     7 12933335 15088890 2155555
-#' ##     8 15088891 17244445 2155554
-#' ##     9 17244446 19400000 2155554
-#' 
+#' # # A tibble: 9 × 4
+#' #   chunk     left    right    size
+#' #   <int>    <dbl>    <dbl>   <dbl>
+#' #       1        1  2155557 2155557
+#' #       2  2155558  4311112 2155555
+#' #       3  4311113  6466668 2155556
+#' #       4  6466669  8622223 2155555
+#' #       5  8622224 10777779 2155556
+#' #       6 10777780 12933334 2155555
+#' #       7 12933335 15088890 2155556
+#' #       8 15088891 17244445 2155555
+#' #       9 17244446 19400000 2155555
 #' 
 #' @section Authors:
 #' - Desi Quintans (<http://www.desiquintans.com>)
@@ -445,15 +444,15 @@ cut_int <- function(int, chunks = NULL) {
     }
     
     cuts <- 
-        dplyr::tibble(
-            cut = round(seq(1, int, by = int/(chunks))) 
-            %>% append(int)
-        ) %>% 
+        dplyr::tibble(cut = round(seq(1, int, by = int / chunks)) %>% append(int)) %>% 
         dplyr::mutate(right = dplyr::lead(cut),
                       left = ifelse(cut > 1, cut + 1, cut)) %>% 
         dplyr::select(left, right) %>% 
         dplyr::filter(!is.na(right)) %>% 
-        dplyr::mutate(size = right - left) %>% 
+        # I do (right - left) + 1 because imagine you cut 1:10 into 2 chunks:
+        #   1 2 3 4 5     5 - 1 = 4, but there's 5 items here
+        #   6 7 8 9 10   10 - 6 = 4, again missing an item
+        dplyr::mutate(size = (right - left) + 1) %>% 
         tibble::rowid_to_column("chunk")
     
     if (sum(cuts$size) != int) {
