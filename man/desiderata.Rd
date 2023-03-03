@@ -4,6 +4,9 @@
 \name{desiderata}
 \alias{desiderata}
 \title{desiderata - A pack of personal functions}
+\description{
+This is my personal package!
+}
 \section{Author}{
 
 Desi Quintans (@eco_desi)
