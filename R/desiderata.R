@@ -1,5 +1,7 @@
 #' desiderata - A pack of personal functions
 #'
+#' This is my personal package!
+#'
 #' @section Author:
 #' Desi Quintans (@eco_desi)
 #'
