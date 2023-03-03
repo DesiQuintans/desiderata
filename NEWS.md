@@ -1,7 +1,13 @@
 # Unreleased
 
+- ADD - `material2014_colblind` --- A new datasets containing the Material Design 2014 colour palette, plus simulated colourblind conversions via `khroma:::anomalize()`.
 - ADD - `chunk_int()`, which tells you how an integer should be divided into `n` chunks (e.g. chunk 1 gets rows 1-10, chunk 2 gets rows 11-20, etc.).
+- MOD - Changed R dependency to >= 3.6.0 instead of demanding >= 4.2.0. Not everyone wants to update so often!
+- MOD - Removed all version requirements for dependencies.
 - MOD - `na_in_row()` produces two new output columns: `notna_in_row_count` and `notna_in_row_prop`.
+- MOD - `show_colours()` has new `n` argument to control how many rows the resulting grid will have.
+- MOD - Private function `find_dims()` takes new argument `x` to support the above change in grid sizing.
+- MOD - `show_colours()` now fills the grid by column (top to bottom, then left to right) instead of by row (left to right, then top to bottom). This makes more pleasing colour palette grids IMO.
 - FIX - Removed redundant `eval()` from `try.seed()`.
 
 
