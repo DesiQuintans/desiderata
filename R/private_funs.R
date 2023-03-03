@@ -65,24 +65,33 @@ construct_cols <- function(df, from = 1, to = NULL, cols = NULL) {
 #' to square as possible) that will fit all of the entries in a vector of colours.
 #'
 #' @param vec (Vector) A vector.
+#' @param x (Integer) Optionally, the desired width in cells.
 #'
 #' @return A named numeric vector with 2 entries: `x` and `y` describing the number of
 #'    columns and rows respectively.
 #'
 #' @examples
 #' \dontrun{
-#' find_dims(1:5)
+#' find_dims(1:12)
 #'
 #' #> x y
-#' #> 2 3
+#' #> 3 4
+#' 
+#' find_dims(1:12, 2)
+#' 
+#' #> x y
+#' #> 2 6
 #' }
 #'
 #' @md
-find_dims <- function(vec)  {
+find_dims <- function(vec, x = NULL)  {
     cells <- length(vec)
 
     # I only have a method for building a square right now.
-    x <- floor(sqrt(cells))
+    if (is.null(x)) {
+        x <- floor(sqrt(cells))
+    }
+    
     y <- ceiling(cells / x)
 
     return(c("x" = x, "y" = y))

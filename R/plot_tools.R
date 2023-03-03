@@ -144,16 +144,22 @@ col2hsv <- function(hexcol, which = "hsv") {
 #' @aliases show_colors
 #' 
 #' @param col_list (Character) A vector of colours in RGB Hex or RGBA Hex format.
-#' @param arrange (Character: `"rect"`, `"rows"`, or `"cols"`) By default (`"rect"`),
-#'    colours are displayed in a rectangular panel. `"rows"` arranges them as 
-#'    horizontal stripes top-to-bottom, and `"cols"` arranges them as vertical 
-#'    stripes left-to-right.
+#' @param arrange (Character: `"rect"`, `"rows"`, or `"cols"`) By 
+#'    default (`"rect"`), colours are displayed in a rectangular panel. `"rows"` 
+#'    arranges them as horizontal stripes top-to-bottom, and `"cols"` arranges 
+#'    them as vertical stripes left-to-right.
+#' @param n (Integer) If not `NULL` (default), then controls how tall (in cells) 
+#'    the resulting grid will be. You would typically do this if you were trying
+#'    to show a palette that you have already manually padded to specific 
+#'    dimensions, e.g. for a palette that has 14 tints/shades for each hue, use 
+#'    `n = 14` to arrange all hues into columns of 14 cells.
 #' @param pad (Character) If there are too few colours to fill all of the spaces in
 #'    the grid, what colour should be used to pad it out? `pad = "last"` repeats the
 #'    last colour in the colour list. A hex colour can be provided too. Otherwise,
 #'    this defaults to white (`#FFFFFF``).
-#' @param asp (Numeric or `NA`) The aspect ratio of the image. `asp = 1` produces a square
-#'    plot with square cells. If `NA`, `plot.window`'s default will be used.
+#' @param asp (Numeric or `NA`) The aspect ratio of the image. Tweak this if you
+#'    want to produce a graphic with square cells. If `NA`, `plot.window`'s 
+#'    default will be used.
 #' @param main (Character or `NULL`) Leave this as `NULL` to generate a title. Supply a
 #'    string to define your own title.
 #'
@@ -166,7 +172,7 @@ col2hsv <- function(hexcol, which = "hsv") {
 #' show_colours(colours(distinct = TRUE), arrange = "cols")
 #'
 #' @md
-show_colours <- function(col_list, arrange = "rect", 
+show_colours <- function(col_list, arrange = "rect", n = NULL,
                          pad = "#FFFFFF", asp = NA, main = NULL) {
     list_name   <- deparse(substitute(col_list))
     orig_length <- length(col_list)
@@ -176,18 +182,18 @@ show_colours <- function(col_list, arrange = "rect",
     # order.
 
     if (arrange == "cols") {
-        m <- matrix(1:orig_length, ncol = 1, nrow = orig_length, byrow = FALSE)
+        m <- matrix(1:orig_length, ncol = 1, nrow = orig_length, byrow = TRUE)
     } else if (arrange == "rows") {
-        m <- matrix(orig_length:1, ncol = orig_length, nrow = 1, byrow = FALSE)
+        m <- matrix(orig_length:1, ncol = orig_length, nrow = 1, byrow = TRUE)
     } else {
-        # image() must a rectangular matrix, so the colour list needs to be padded
-        # to a length that allows it to be split evenly between rows and columns.
-        
+        # In order to make a grid (as opposed to lines), image() must a 
+        # rectangular matrix that has more than one cell in each row and column.
+
         if (orig_length < 4) {
             # Vectors < 4 can't be rectangular, so make them 2 x 2.
-            grid <- find_dims(1:4)
+            grid <- find_dims(1:4, n)
         } else {
-            grid <- find_dims(col_list)
+            grid <- find_dims(col_list, n)
         }
         
         new_length <- grid["x"] * grid["y"]
@@ -199,7 +205,7 @@ show_colours <- function(col_list, arrange = "rect",
         
         col_list <- append(col_list, rep(pad_string, abs(new_length - orig_length)))
         
-        m <- matrix(1:new_length, ncol = grid["x"], nrow = grid["y"], byrow = FALSE)
+        m <- matrix(1:new_length, ncol = grid["x"], nrow = grid["y"], byrow = TRUE)
         m <- mirror_matrix(m)
     }
     

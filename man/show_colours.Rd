@@ -8,28 +8,43 @@
 show_colours(
   col_list,
   arrange = "rect",
+  n = NULL,
   pad = "#FFFFFF",
   asp = NA,
   main = NULL
 )
 
-show_colors(col_list, arrange = "rect", pad = "#FFFFFF", asp = NA, main = NULL)
+show_colors(
+  col_list,
+  arrange = "rect",
+  n = NULL,
+  pad = "#FFFFFF",
+  asp = NA,
+  main = NULL
+)
 }
 \arguments{
 \item{col_list}{(Character) A vector of colours in RGB Hex or RGBA Hex format.}
 
-\item{arrange}{(Character: \code{"rect"}, \code{"rows"}, or \code{"cols"}) By default (\code{"rect"}),
-colours are displayed in a rectangular panel. \code{"rows"} arranges them as
-horizontal stripes top-to-bottom, and \code{"cols"} arranges them as vertical
-stripes left-to-right.}
+\item{arrange}{(Character: \code{"rect"}, \code{"rows"}, or \code{"cols"}) By
+default (\code{"rect"}), colours are displayed in a rectangular panel. \code{"rows"}
+arranges them as horizontal stripes top-to-bottom, and \code{"cols"} arranges
+them as vertical stripes left-to-right.}
+
+\item{n}{(Integer) If not \code{NULL} (default), then controls how tall (in cells)
+the resulting grid will be. You would typically do this if you were trying
+to show a palette that you have already manually padded to specific
+dimensions, e.g. for a palette that has 14 tints/shades for each hue, use
+\code{n = 14} to arrange all hues into columns of 14 cells.}
 
 \item{pad}{(Character) If there are too few colours to fill all of the spaces in
 the grid, what colour should be used to pad it out? \code{pad = "last"} repeats the
 last colour in the colour list. A hex colour can be provided too. Otherwise,
 this defaults to white (`#FFFFFF``).}
 
-\item{asp}{(Numeric or \code{NA}) The aspect ratio of the image. \code{asp = 1} produces a square
-plot with square cells. If \code{NA}, \code{plot.window}'s default will be used.}
+\item{asp}{(Numeric or \code{NA}) The aspect ratio of the image. Tweak this if you
+want to produce a graphic with square cells. If \code{NA}, \code{plot.window}'s
+default will be used.}
 
 \item{main}{(Character or \code{NULL}) Leave this as \code{NULL} to generate a title. Supply a
 string to define your own title.}
