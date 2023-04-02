@@ -1,5 +1,6 @@
 # Unreleased
 
+- REM - `sift()` is removed. It is now a completely separate package, <https://github.com/DesiQuintans/sift>.
 - ADD - `material2014_colblind` --- A new datasets containing the Material Design 2014 colour palette, plus simulated colourblind conversions via `khroma:::anomalize()`.
 - ADD - `chunk_int()`, which tells you how an integer should be divided into `n` chunks (e.g. chunk 1 gets rows 1-10, chunk 2 gets rows 11-20, etc.).
 - MOD - Changed R dependency to >= 3.6.0 instead of demanding >= 4.2.0. Not everyone wants to update so often!
